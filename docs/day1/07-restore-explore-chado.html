@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>07 – Restore &amp; Explore the Chado Schema — DB Training 2026</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+       background: #f0f4f8; color: #1a202c; line-height: 1.6; min-height: 100vh; }
+nav { background: #14532d; padding: .7rem 1.5rem; }
+nav a { color: #86efac; text-decoration: none; font-weight: 500; font-size: .9rem; }
+nav a:hover { color: #fff; text-decoration: underline; }
+.page-header { background: linear-gradient(135deg, #14532d 0%, #0f3d1e 100%);
+               color: #fff; padding: 2rem 1.5rem 1.75rem; }
+.badges { display: flex; gap: .5rem; margin-bottom: .85rem; flex-wrap: wrap; align-items: center; }
+.badge { display: inline-block; padding: .2rem .7rem; border-radius: 9999px;
+         font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
+.b-lab { background: #d1fae5; color: #065f46; }
+h1 { font-size: 1.8rem; font-weight: 700; line-height: 1.25; margin-bottom: .6rem; }
+.meta-row { display: flex; gap: 1.75rem; flex-wrap: wrap; font-size: .875rem; color: #86efac; }
+main { max-width: 860px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
+.slide-box { background: #fff; border: 2.5px dashed #94a3b8; border-radius: 1rem;
+             padding: 3.5rem 2rem; text-align: center; margin-bottom: 2rem; }
+.slide-icon { font-size: 3rem; margin-bottom: .75rem; }
+.slide-box h2 { font-size: 1.1rem; color: #475569; margin-bottom: .4rem; }
+.slide-box p { color: #64748b; font-size: .9rem; margin-bottom: .25rem; }
+.instruction { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
+               padding: 1rem 1.25rem; margin-top: 1.5rem; text-align: left;
+               font-size: .83rem; color: #475569; }
+.instruction code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
+                    font-family: 'Courier New', monospace; }
+.card { background: #fff; border-radius: .75rem; border: 1px solid #e2e8f0;
+        padding: 1.5rem; margin-bottom: 1.25rem; }
+.card h2 { font-size: 1rem; font-weight: 600; color: #1e3a5f;
+           border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .75rem; }
+.card p, .card li { color: #475569; font-size: .9rem; line-height: 1.7; }
+.card ul { padding-left: 1.25rem; }
+.script-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
+               border-radius: .4rem; padding: .4rem .9rem; font-size: .85rem;
+               color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
+.script-link:hover { background: #dcfce7; }
+footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
+@media (max-width: 600px) { h1 { font-size: 1.4rem; } .meta-row { gap: .75rem; } }
+</style>
+</head>
+<body>
+
+<nav><a href="../index.html">← Back to Schedule</a></nav>
+
+<div class="page-header">
+  <div class="badges">
+    <span class="badge b-lab">Lab</span>
+    <span>Day 1 &nbsp;·&nbsp; Session 7 of 10</span>
+  </div>
+  <h1>Restore &amp; Explore the Chado Schema</h1>
+  <div class="meta-row">
+    <span>&#128336; 3:15 – 3:45</span>
+    <span>&#127908; Dags</span>
+    <span>&#128337; 30 min</span>
+  </div>
+</div>
+
+<main>
+
+  <div class="slide-box">
+    <div class="slide-icon">&#128295;</div>
+    <h2>Lab Instructions go here</h2>
+    <p>Replace this placeholder with the lab worksheet or step-by-step instructions.</p>
+    <div class="instruction">
+      <strong>How to replace:</strong><br>
+      1. Export lab sheet → <code>07-restore-explore-lab.pdf</code><br>
+      2. Place in <code>/docs/day1/</code><br>
+      3. The <code>setup.sh</code> script in <code>/scripts/</code> automates the restore step
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Session Overview</h2>
+    <p>Hands-on lab: participants restore a PostgreSQL dump of the training Chado database and then explore its structure using <code>psql</code> meta-commands and SQL queries to confirm the schema matches what was described in the lecture.</p>
+  </div>
+
+  <div class="card">
+    <h2>Lab Steps (Placeholder)</h2>
+    <ul>
+      <li>Restore the <code>.dump</code> backup file using <code>pg_restore</code></li>
+      <li>Connect to the restored database with <code>psql</code></li>
+      <li>List schemas and tables: <code>\dn</code>, <code>\dt</code></li>
+      <li>Inspect table columns: <code>\d tablename</code></li>
+      <li>Query key tables: <code>cv</code>, <code>cvterm</code>, <code>organism</code>, <code>stock</code></li>
+      <li>Count rows and spot-check loaded ontology terms</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Related Scripts</h2>
+    <p>The <code>setup.sh</code> script automates environment preparation and the restore:</p>
+    <a class="script-link" href="../scripts/setup.sh" download>&#128196; scripts/setup.sh</a>
+  </div>
+
+</main>
+
+<footer>Database Curation &amp; Loading Training &nbsp;·&nbsp; 1k1RG Project &nbsp;·&nbsp; June 3–4, 2026</footer>
+</body>
+</html>

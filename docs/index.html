@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Database Curation &amp; Loading Training — 1k1RG — June 3–4 2026</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green-dark: #14532d;
+  --green-mid:  #166534;
+  --green-light:#dcfce7;
+  --text:       #1a202c;
+  --muted:      #64748b;
+  --border:     #e2e8f0;
+  --bg:         #f0f4f8;
+  --white:      #ffffff;
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+       background: var(--bg); color: var(--text); font-size: 17px; line-height: 1.6; }
+
+/* ── SITE HEADER ─────────────────────────────────────────── */
+.site-header { background: linear-gradient(135deg, var(--green-dark) 0%, #0f3d1e 100%);
+               color: #fff; padding: 2.25rem 2rem 2rem; text-align: center; }
+.site-header .project-tag { display: inline-block; background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3); border-radius: 9999px;
+  padding: .25rem 1rem; font-size: .78rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; margin-bottom: .9rem; }
+.site-header h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.25; margin-bottom: .5rem; }
+.site-header .subtitle { font-size: 1.05rem; color: #86efac; margin-bottom: .35rem; }
+.site-header .dates { font-size: .9rem; color: #a3e8b4; }
+
+/* ── MAIN CONTENT ────────────────────────────────────────── */
+.container { max-width: 1000px; margin: 0 auto; padding: 0 1.25rem 4rem; }
+
+/* ── DOWNLOAD STRIP ─────────────────────────────────────── */
+.downloads { background: #fff; border: 2px solid var(--green-dark);
+             border-radius: 1rem; padding: 1.5rem 1.75rem; margin: 2rem 0; }
+.downloads h2 { font-size: 1.05rem; font-weight: 700; color: var(--green-dark);
+                text-transform: uppercase; letter-spacing: .05em; margin-bottom: 1rem; }
+.dl-grid { display: flex; flex-wrap: wrap; gap: .75rem; }
+.dl-btn { display: inline-flex; align-items: center; gap: .45rem;
+          padding: .6rem 1.15rem; border-radius: .55rem; font-size: .88rem;
+          font-weight: 600; text-decoration: none; transition: filter .15s; }
+.dl-btn:hover { filter: brightness(.88); }
+.dl-primary { background: var(--green-dark); color: #fff; }
+.dl-secondary { background: var(--green-light); color: var(--green-dark); border: 1.5px solid #86efac; }
+.dl-tertiary { background: #f1f5f9; color: #334155; border: 1.5px solid var(--border); }
+.dl-note { margin-top: 1rem; font-size: .82rem; color: var(--muted);
+           border-top: 1px solid var(--border); padding-top: .85rem; }
+
+/* ── OFFLINE ALERT ──────────────────────────────────────── */
+.offline-note { background: #fefce8; border-left: 4px solid #ca8a04;
+                border-radius: 0 .5rem .5rem 0; padding: .85rem 1.1rem;
+                margin-bottom: 2rem; font-size: .88rem; color: #713f12; }
+.offline-note strong { display: block; margin-bottom: .25rem; }
+
+/* ── DAY SECTION ────────────────────────────────────────── */
+.day-section { margin-bottom: 2.5rem; }
+.day-header { background: var(--green-dark); color: #fff;
+              border-radius: .75rem .75rem 0 0; padding: 1rem 1.5rem;
+              display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+.day-header h2 { font-size: 1.25rem; font-weight: 700; }
+.day-header .day-date { font-size: .88rem; color: #86efac; }
+.day-header .day-hours { font-size: .82rem; color: #a3e8b4; margin-left: auto; }
+
+/* ── SESSION TABLE ──────────────────────────────────────── */
+.session-table { width: 100%; border-collapse: collapse;
+                 background: #fff; border-radius: 0 0 .75rem .75rem;
+                 overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.07); }
+.session-table th { background: #f1f5f9; padding: .7rem 1rem;
+                    font-size: .78rem; font-weight: 700; text-transform: uppercase;
+                    letter-spacing: .06em; color: var(--muted); text-align: left;
+                    border-bottom: 2px solid var(--border); }
+.session-table td { padding: .85rem 1rem; border-bottom: 1px solid var(--border);
+                    vertical-align: middle; }
+.session-table tr:last-child td { border-bottom: none; }
+.session-table tr:hover td { background: #f8fafc; }
+
+.time-cell { white-space: nowrap; font-variant-numeric: tabular-nums;
+             font-size: .88rem; color: var(--muted); font-weight: 600; width: 5.5rem; }
+.title-cell { font-weight: 500; }
+.title-cell a { color: var(--green-dark); text-decoration: none; font-weight: 600; }
+.title-cell a:hover { text-decoration: underline; }
+.speaker-cell { font-size: .85rem; color: var(--muted); width: 7rem; }
+.type-cell { width: 9.5rem; }
+
+/* ── BADGES ─────────────────────────────────────────────── */
+.badge { display: inline-block; padding: .18rem .6rem; border-radius: 9999px;
+         font-size: .68rem; font-weight: 700; text-transform: uppercase;
+         letter-spacing: .07em; white-space: nowrap; }
+.b-lecture  { background: #dbeafe; color: #1e40af; }
+.b-lab      { background: #d1fae5; color: #065f46; }
+.b-leclab   { background: #cffafe; color: #155e75; }
+.b-demo     { background: #ede9fe; color: #5b21b6; }
+.b-admin    { background: #f1f5f9; color: #475569; }
+.b-wrap     { background: #fef3c7; color: #92400e; }
+.b-new      { background: #fee2e2; color: #991b1b; margin-left: .35rem; }
+
+/* ── LEGEND ─────────────────────────────────────────────── */
+.legend { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0 0 1.5rem;
+          font-size: .78rem; color: var(--muted); align-items: center; }
+.legend span { margin-right: .15rem; }
+
+/* ── FOOTER ─────────────────────────────────────────────── */
+footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .8rem; }
+
+/* ── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .site-header h1 { font-size: 1.55rem; }
+  .speaker-cell, th:nth-child(3) { display: none; }
+  .session-table th, .session-table td { padding: .7rem .65rem; }
+  .dl-grid { flex-direction: column; }
+  .dl-btn { justify-content: center; }
+  .day-header .day-hours { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="project-tag">1000-Genomes Rice Genome Project</div>
+  <h1>Database Curation &amp; Loading Training</h1>
+  <p class="subtitle">SNP-Seek / Chado / HDF5 / brAPI — Hands-On Workshop</p>
+  <p class="dates">June 3–4, 2026 &nbsp;·&nbsp; International Rice Research Institute</p>
+</header>
+
+<div class="container">
+
+  <!-- ── DOWNLOADS ─────────────────────────────────────── -->
+  <section class="downloads" id="downloads">
+    <h2>&#8595; Downloads &amp; Materials</h2>
+    <div class="dl-grid">
+      <a class="dl-btn dl-primary"
+         href="https://github.com/[ORG]/trainingDatabase/archive/refs/heads/main.zip"
+         title="Download the entire repository as a ZIP file">
+        &#128230; Download Everything (ZIP)
+      </a>
+      <a class="dl-btn dl-secondary"
+         href="cheatsheets/psql-commands.pdf"
+         download>
+        &#128196; psql Commands Cheat Sheet
+      </a>
+      <a class="dl-btn dl-secondary"
+         href="cheatsheets/linux-survival.pdf"
+         download>
+        &#128196; Linux Survival Cheat Sheet
+      </a>
+      <a class="dl-btn dl-tertiary"
+         href="scripts/setup.sh"
+         download>
+        &#128196; setup.sh
+      </a>
+      <a class="dl-btn dl-tertiary"
+         href="scripts/load_template.sql"
+         download>
+        &#128196; load_template.sql
+      </a>
+      <a class="dl-btn dl-tertiary"
+         href="scripts/pipeline_vcf_to_hdf5.sh"
+         download>
+        &#128196; pipeline_vcf_to_hdf5.sh
+      </a>
+      <a class="dl-btn dl-tertiary"
+         href="data/sample_accessions.csv"
+         download>
+        &#128202; sample_accessions.csv
+      </a>
+    </div>
+    <p class="dl-note">
+      <strong>Note for organizers:</strong> Replace <code>[ORG]</code> in the links above with the actual GitHub organisation/username.
+      Cheat sheet PDF links work locally and from the USB backup; online links point to GitHub raw files.
+      See <a href="https://github.com/[ORG]/trainingDatabase#readme">README</a> for how to publish a tagged ZIP release.
+    </p>
+  </section>
+
+  <!-- ── WIFI FALLBACK NOTE ────────────────────────────── -->
+  <div class="offline-note">
+    <strong>&#128225; If Wi-Fi is unavailable:</strong>
+    All slides, scripts, and data are also on the USB drive distributed at the start of each day.
+    Open <code>index.html</code> from the USB directly in your browser — all links work offline.
+  </div>
+
+  <!-- ── LEGEND ────────────────────────────────────────── -->
+  <div class="legend">
+    <em>Session types:</em>
+    <span><span class="badge b-lecture">Lecture</span></span>
+    <span><span class="badge b-lab">Lab</span></span>
+    <span><span class="badge b-leclab">Lecture+Lab</span></span>
+    <span><span class="badge b-demo">Demo</span></span>
+    <span><span class="badge b-admin">Admin</span></span>
+    <span><span class="badge b-wrap">Wrap-up</span></span>
+    <span><span class="badge b-new">NEW</span> = new session this year</span>
+  </div>
+
+  <!-- ══ DAY 1 ══════════════════════════════════════════ -->
+  <section class="day-section">
+    <div class="day-header">
+      <h2>Day 1 — Wednesday, June 3</h2>
+      <span class="day-date">Full Day</span>
+      <span class="day-hours">9:00 AM – 5:00 PM</span>
+    </div>
+    <table class="session-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Session</th>
+          <th>Speaker</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-cell">9:00</td>
+          <td class="title-cell">
+            <a href="day1/01-orientation.html">Orientation &amp; Environment Check</a>
+          </td>
+          <td class="speaker-cell">Admin</td>
+          <td class="type-cell"><span class="badge b-admin">Admin</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">9:30</td>
+          <td class="title-cell">
+            <a href="day1/02-1k1rg-overview.html">1k1RG Project Overview &amp; Activity 5</a>
+          </td>
+          <td class="speaker-cell">Arian</td>
+          <td class="type-cell"><span class="badge b-lecture">Lecture</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">10:30</td>
+          <td class="title-cell">
+            <a href="day1/03-linux-basics.html">Linux Basics</a>
+            <span class="badge b-new">NEW</span>
+          </td>
+          <td class="speaker-cell">G</td>
+          <td class="type-cell"><span class="badge b-leclab">Lecture+Lab</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">11:00</td>
+          <td class="title-cell">
+            <a href="day1/04-sql-basics.html">SQL Basics</a>
+          </td>
+          <td class="speaker-cell">—</td>
+          <td class="type-cell"><span class="badge b-leclab">Lecture+Lab</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">1:30</td>
+          <td class="title-cell">
+            <a href="day1/05-ontology-concepts.html">Ontology Concepts</a>
+          </td>
+          <td class="speaker-cell">Jeff / Dags</td>
+          <td class="type-cell"><span class="badge b-lecture">Lecture</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">2:15</td>
+          <td class="title-cell">
+            <a href="day1/06-chado-schema-deepdive.html">Chado Schema Deep Dive &amp; Ontology Implementation</a>
+            <span class="badge b-new">NEW</span>
+          </td>
+          <td class="speaker-cell">—</td>
+          <td class="type-cell"><span class="badge b-lecture">Lecture</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">3:15</td>
+          <td class="title-cell">
+            <a href="day1/07-restore-explore-chado.html">Restore &amp; Explore the Chado Schema</a>
+          </td>
+          <td class="speaker-cell">Dags</td>
+          <td class="type-cell"><span class="badge b-lab">Lab</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">3:45</td>
+          <td class="title-cell">
+            <a href="day1/08-bulk-loading-script.html">Bulk Data Loading via Script</a>
+          </td>
+          <td class="speaker-cell">—</td>
+          <td class="type-cell"><span class="badge b-lab">Lab</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">4:30</td>
+          <td class="title-cell">
+            <a href="day1/09-java-swing-loader.html">Java Swing Loader — Show and Tell</a>
+          </td>
+          <td class="speaker-cell">—</td>
+          <td class="type-cell"><span class="badge b-demo">Demo</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">4:50</td>
+          <td class="title-cell">
+            <a href="day1/10-hdf5-intro.html">HDF5 — What It Is and Why SNP-Seek Uses It</a>
+            <span class="badge b-new">NEW</span>
+          </td>
+          <td class="speaker-cell">—</td>
+          <td class="type-cell"><span class="badge b-lecture">Lecture</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══ DAY 2 ══════════════════════════════════════════ -->
+  <section class="day-section">
+    <div class="day-header">
+      <h2>Day 2 — Thursday, June 4</h2>
+      <span class="day-date">Half Day</span>
+      <span class="day-hours">9:00 AM – 12:00 PM</span>
+    </div>
+    <table class="session-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Session</th>
+          <th>Speaker</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="time-cell">9:00</td>
+          <td class="title-cell" colspan="2" style="color:var(--muted);font-style:italic;font-size:.88rem;">
+            Review &amp; Environment Check — Admin (no separate slide deck)
+          </td>
+          <td class="type-cell"><span class="badge b-admin">Admin</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">9:20</td>
+          <td class="title-cell">
+            <a href="day2/11-vcf-two-step-pipeline.html">VCF Format &amp; the Two-Step Pipeline</a>
+          </td>
+          <td class="speaker-cell">Riza</td>
+          <td class="type-cell"><span class="badge b-lecture">Lecture</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">9:50</td>
+          <td class="title-cell">
+            <a href="day2/12-pipeline-run.html">Steps 1 &amp; 2: Full Pipeline Run VCF → HDF5</a>
+          </td>
+          <td class="speaker-cell">—</td>
+          <td class="type-cell"><span class="badge b-lab">Lab</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">10:35</td>
+          <td class="title-cell">
+            <a href="day2/13-bulk-loading-reinforcement.html">Bulk Data Loading via Script (Reinforcement)</a>
+          </td>
+          <td class="speaker-cell">Dags</td>
+          <td class="type-cell"><span class="badge b-lab">Lab</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">11:05</td>
+          <td class="title-cell">
+            <a href="day2/14-brapi-verification.html">brAPI — Verifying Loaded Data via the API</a>
+            <span class="badge b-new">NEW</span>
+          </td>
+          <td class="speaker-cell">—</td>
+          <td class="type-cell"><span class="badge b-leclab">Lecture+Demo</span></td>
+        </tr>
+        <tr>
+          <td class="time-cell">11:35</td>
+          <td class="title-cell">
+            <a href="day2/15-closing-qa.html">Closing, Q&amp;A &amp; Handover</a>
+          </td>
+          <td class="speaker-cell">—</td>
+          <td class="type-cell"><span class="badge b-wrap">Wrap-up</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+</div><!-- /container -->
+
+<footer>
+  Database Curation &amp; Loading Training &nbsp;·&nbsp; 1k1RG Project &nbsp;·&nbsp; June 3–4, 2026 &nbsp;·&nbsp;
+  <a href="https://github.com/[ORG]/trainingDatabase" style="color:#94a3b8;">GitHub Repository</a>
+</footer>
+
+</body>
+</html>

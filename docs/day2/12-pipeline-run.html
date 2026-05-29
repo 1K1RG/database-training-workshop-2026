@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>12 – Full Pipeline Run VCF → HDF5 — DB Training 2026</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+       background: #f0f4f8; color: #1a202c; line-height: 1.6; min-height: 100vh; }
+nav { background: #14532d; padding: .7rem 1.5rem; }
+nav a { color: #86efac; text-decoration: none; font-weight: 500; font-size: .9rem; }
+nav a:hover { color: #fff; text-decoration: underline; }
+.page-header { background: linear-gradient(135deg, #1e3a5f 0%, #0f2745 100%);
+               color: #fff; padding: 2rem 1.5rem 1.75rem; }
+.badges { display: flex; gap: .5rem; margin-bottom: .85rem; flex-wrap: wrap; align-items: center; }
+.badge { display: inline-block; padding: .2rem .7rem; border-radius: 9999px;
+         font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
+.b-lab { background: #d1fae5; color: #065f46; }
+h1 { font-size: 1.8rem; font-weight: 700; line-height: 1.25; margin-bottom: .6rem; }
+.meta-row { display: flex; gap: 1.75rem; flex-wrap: wrap; font-size: .875rem; color: #93c5fd; }
+main { max-width: 860px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
+.slide-box { background: #fff; border: 2.5px dashed #94a3b8; border-radius: 1rem;
+             padding: 3.5rem 2rem; text-align: center; margin-bottom: 2rem; }
+.slide-icon { font-size: 3rem; margin-bottom: .75rem; }
+.slide-box h2 { font-size: 1.1rem; color: #475569; margin-bottom: .4rem; }
+.slide-box p { color: #64748b; font-size: .9rem; margin-bottom: .25rem; }
+.instruction { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
+               padding: 1rem 1.25rem; margin-top: 1.5rem; text-align: left;
+               font-size: .83rem; color: #475569; }
+.instruction code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
+                    font-family: 'Courier New', monospace; }
+.card { background: #fff; border-radius: .75rem; border: 1px solid #e2e8f0;
+        padding: 1.5rem; margin-bottom: 1.25rem; }
+.card h2 { font-size: 1rem; font-weight: 600; color: #1e3a5f;
+           border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .75rem; }
+.card p, .card li { color: #475569; font-size: .9rem; line-height: 1.7; }
+.card ul { padding-left: 1.25rem; }
+.script-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
+               border-radius: .4rem; padding: .4rem .9rem; font-size: .85rem;
+               color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
+.script-link:hover { background: #dcfce7; }
+footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
+@media (max-width: 600px) { h1 { font-size: 1.4rem; } .meta-row { gap: .75rem; } }
+</style>
+</head>
+<body>
+
+<nav><a href="../index.html">← Back to Schedule</a></nav>
+
+<div class="page-header">
+  <div class="badges">
+    <span class="badge b-lab">Lab</span>
+    <span>Day 2 &nbsp;·&nbsp; Session 2 of 5</span>
+  </div>
+  <h1>Steps 1 &amp; 2: Full Pipeline Run VCF → HDF5</h1>
+  <div class="meta-row">
+    <span>&#128336; 9:50 – 10:35</span>
+    <span>&#127908; —</span>
+    <span>&#128337; 45 min</span>
+  </div>
+</div>
+
+<main>
+
+  <div class="slide-box">
+    <div class="slide-icon">&#9881;</div>
+    <h2>Lab Instructions go here</h2>
+    <p>Replace this placeholder with the step-by-step pipeline run lab worksheet.</p>
+    <div class="instruction">
+      <strong>How to replace:</strong><br>
+      1. Export lab worksheet → <code>12-pipeline-run-lab.pdf</code><br>
+      2. Place in <code>/docs/day2/</code><br>
+      3. The main pipeline script is <code>pipeline_vcf_to_hdf5.sh</code> in <code>/scripts/</code>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Session Overview</h2>
+    <p>Hands-on execution of the full VCF-to-HDF5 pipeline on a small training dataset. Participants run both steps end-to-end, monitor progress, inspect intermediate outputs, and verify the resulting HDF5 file and Chado records.</p>
+  </div>
+
+  <div class="card">
+    <h2>Lab Steps (Placeholder)</h2>
+    <ul>
+      <li>Inspect the training VCF file with <code>head</code> and <code>grep</code></li>
+      <li>Run Step 1: validation and normalization (<code>pipeline_vcf_to_hdf5.sh step1</code>)</li>
+      <li>Inspect Step 1 output and logs</li>
+      <li>Run Step 2: HDF5 generation and Chado load (<code>pipeline_vcf_to_hdf5.sh step2</code>)</li>
+      <li>Verify HDF5 output with <code>h5ls</code> and <code>h5dump</code></li>
+      <li>Verify Chado records with SQL queries</li>
+      <li>Common errors and how to diagnose them</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Related Scripts</h2>
+    <a class="script-link" href="../scripts/pipeline_vcf_to_hdf5.sh" download>&#128196; scripts/pipeline_vcf_to_hdf5.sh</a>
+  </div>
+
+</main>
+
+<footer>Database Curation &amp; Loading Training &nbsp;·&nbsp; 1k1RG Project &nbsp;·&nbsp; June 3–4, 2026</footer>
+</body>
+</html>

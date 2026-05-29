@@ -1,0 +1,11 @@
+accession_id,variety_name,country_of_origin,subpopulation,latitude,longitude,ploidy,source_institute
+IRIS_313-15896,Azucena,Philippines,Tropical Japonica,14.5995,120.9842,2,IRRI
+IRIS_313-11536,IR64,Philippines,Indica,14.6760,121.0437,2,IRRI
+IRIS_313-10603,Nipponbare,Japan,Temperate Japonica,35.6895,139.6917,2,NIAS
+IRIS_313-9740,Kasalath,India,Aus,22.5726,88.3639,2,NRRI
+IRIS_313-8325,Dular,Bangladesh,Aus,23.8103,90.4125,2,BRRI
+IRIS_313-7652,DJ 123,Guinea,Glaberrima,11.8659,-15.5977,2,WARDA
+IRIS_313-7436,Moroberekan,Guinea,Tropical Japonica,11.8659,-15.5977,2,WARDA
+IRIS_313-11629,Swarna,India,Indica,22.5726,88.3639,2,NRRI
+IRIS_313-9984,Pusa Basmati 1,India,Aromatic,28.6139,77.2090,2,IARI
+IRIS_313-15578,O. rufipogon acc.,China,Wild,22.3193,114.1694,2,CAAS
