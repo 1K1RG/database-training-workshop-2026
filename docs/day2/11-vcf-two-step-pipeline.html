@@ -61,68 +61,132 @@ footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
 
 <main>
 
-  <div class="day2-banner">&#9728; <strong>Day 2 — June 4.</strong> 9:00–9:20 is an admin review and environment check; slides for that are optional and not in this file.</div>
+  <div class="day2-banner">&#9728; <strong>1k1RG Project: DAY 4: DATA PREPARATION PIPELINE FOR SNP-SEEK</strong></div>
 
-  <div class="slide-box">
-    <div class="slide-icon">&#129516;</div>
-    <h2>Slides go here</h2>
-    <p>Replace this placeholder with the VCF format and pipeline lecture slides.</p>
-    <div class="instruction">
-      <strong>How to replace:</strong><br>
-      1. Export slides → <code>11-vcf-pipeline-slides.pdf</code><br>
-      2. Place in <code>/docs/day2/</code>
-    </div>
+  <div class="card">
+    <p>By Riza May Pasco on October 27th, 2025</p>
+    <p>Explains the workflow for transforming genomic datasets, including the conversion of VCF files into HDF5 formats for integration into the database.</p>
+    <p><em>Note: To follow along this module, make sure to have completed the Day 4 setup guide.</em></p>
   </div>
 
   <div class="card">
-    <h2>Session Overview</h2>
-    <p>Speaker Riza introduces the VCF (Variant Call Format) file format and the two-step pipeline used in the 1k1RG project to transform raw genomic datasets into optimized HDF5 matrices for the SNP-Seek database.</p>
+    <h2>THE TWO-STEP PROCESS</h2>
+    <p>The data preparation involves two main steps:</p>
+    <ol>
+      <li><strong>Convert VCF to text matrix</strong> - Using custom scripts with awk and/or bcftools</li>
+      <li><strong>Convert text matrix to HDF5</strong> - Using a compiled C++ program for optimized storage</li>
+    </ol>
   </div>
 
   <div class="card">
-    <h2>The Two-Step Pipeline</h2>
-    <p>The transformation workflow is split into two distinct stages to maximize efficiency and optimize storage:</p>
-    <ul>
-      <li><strong>Step 1: VCF to Tabular Text Matrix</strong> – Extracts genotypes from raw VCF files using <code>bcftools</code> and <code>awk</code>.</li>
-      <li><strong>Step 2: Text Matrix to HDF5</strong> – Converts the intermediate text matrix into a binary HDF5 format using a high-performance C++ program (<code>loadmatrix_geno</code>).</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Resources & Downloads</h2>
-    <p>Download the scripts and sample datasets used in this session:</p>
-    <ul>
-      <li><a href="../scripts/pipeline_vcf_to_hdf5.sh"><code>pipeline_vcf_to_hdf5.sh</code></a> (Project pipeline script)</li>
-      <li><a href="#"><code>vcftomatrix.sh</code></a> (Step 1 extraction script)</li>
-      <li><a href="#"><code>make_HDF_dataset.sh</code></a> (Step 2 HDF5 conversion script)</li>
-      <li><a href="#"><code>demo.tar.gz</code></a> (Download the demo dataset)</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Technical Pipeline Details</h2>
-    <h3>Stage 1: VCF Processing (vcftomatrix.sh)</h3>
-    <p>This script uses <code>bcftools query</code> to extract <code>%CHROM</code>, <code>%POS</code>, <code>%REF</code>, <code>%ALT</code>, and genotype calls (<code>%TGT</code>). It performs normalization by removing "chr" prefixes and cleaning genotype strings (e.g., converting <code>|</code> characters).</p>
-    <ul>
-      <li><strong>Outputs:</strong> <code>mat_vcf.txt</code>, <code>pos.txt</code>, and <code>sample_list.txt</code>.</li>
-    </ul>
+    <h2>STEP 1: VCF TO TABULAR TEXT MATRIX, SAMPLE LIST, AND SNP POSITIONS</h2>
     
-    <div class="slide-box" style="padding: 1.5rem; margin-top: 1rem; border-style: solid; border-color: #e2e8f0;">
-      <div class="slide-icon" style="font-size: 1.5rem;">&#128247;</div>
-      <p style="font-size: 0.8rem; font-style: italic;">[Screenshot: Verification of mat_vcf.txt, pos.txt, and sample_list.txt structure]</p>
-    </div>
+    <h3>INPUT FILE (VARIANT CALL FORMAT)</h3>
+    <p>A standardized file format used to store genetic variants, including their genomic positions, reference and alternate alleles, quality scores, and sample-specific genotype data. The detailed specifications for the format can be found in the official VCF specification document.</p>
 
-    <br>
-    <h3>Stage 2: HDF5 Conversion (make_HDF_dataset.sh)</h3>
-    <p>The second stage converts the flat text outputs into the HDF5 binary format, which is the primary optimization for reducing storage footprint and increasing access speed.</p>
-    <ul>
-      <li><strong>Optimization:</strong> Automatically generates a transposed version (<code>_transp.h5</code>) to facilitate rapid queries across both samples and SNPs.</li>
-    </ul>
+    <h3>OUTPUT FILES</h3>
+    <ol>
+      <li><strong>Matrix</strong>: This is a matrix with rows corresponding to SNPs. The columns represent the following (from left to right):
+        <ul>
+          <li>CHR: Chromosome number</li>
+          <li>POS: SNP position</li>
+          <li>REF: Reference allele</li>
+          <li>ALT: Alternate allele</li>
+          <li>Sample columns: Diploid genotype calls (Sample1, Sample2, Sample3, etc.)</li>
+        </ul>
+        <p>Note: Missing calls can be encoded by either 00 or .. (two dots)</p>
+      </li>
+      <li><strong>SNP Positions</strong>: Genomic coordinates for SNPs</li>
+      <li><strong>Sample list</strong>: A text file containing sample names (in the same order as in the genotype matrix)</li>
+    </ol>
 
-    <div class="slide-box" style="padding: 1.5rem; margin-top: 1rem; border-style: solid; border-color: #e2e8f0;">
-      <div class="slide-icon" style="font-size: 1.5rem;">&#128247;</div>
-      <p style="font-size: 0.8rem; font-style: italic;">[Screenshot: HDF5 structure verification using h5ls]</p>
-    </div>
+    <h3>PROCESS</h3>
+    <p>* Download the script <code>vcftomatrix.sh</code></p>
+    <pre style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; font-size: 0.8rem; overflow-x: auto;">
+invcf=${1? Input VCF file }   #  Raw_SNP_and_InDel/IRRI_lines_SNP_DP3_QD2_MQ30_QUAL30_FS60.vcf.gz}
+pref=${2? Output dir}
+mkdir -p $pref
+
+bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' $invcf |  tr "|" "/"  | \
+ tr -d "/" | \
+ sed "s:chr0\?::"  | \
+ awk -v OFS="\t" '{$1 = $1 + 0; print $0}'  > ${pref}/mat_vcf.txt
+
+cut -f1-4 $pref/mat_vcf.txt > $pref/pos.txt
+
+bcftools view -o -   -h $invcf  |  grep CHR | tr "\t" "\n"  | tail -n+10 > $pref/sample_list.txt</pre>
+
+    <p>* Usage: <code>./vcftomatrix.sh &lt;input_vcf&gt; &lt;output_prefix&gt;</code></p>
+
+    <p>* Verification: These output files will be used in the next pipeline stage to create an HDF5 file.</p>
+    <ol>
+      <li>mat_vcf.txt</li>
+      <li>pos.txt</li>
+      <li>sample_list.txt</li>
+    </ol>
+
+    <h3>HANDS-ON EXERCISE</h3>
+    <ol>
+      <li>Download the demo dataset here</li>
+      <li>Extract the tar file: <code>tar -xzvf demo.tar.gz</code></li>
+      <li>Go to the demo folder: <code>cd demo</code></li>
+      <li>Run the script VCFtoMatrix.sh: <code>./scripts/vcftomatrix.sh dataset/sample.vcf output</code></li>
+      <li>Verification:
+        <ul>
+          <li>mat_vcf.txt</li>
+          <li>pos.txt</li>
+          <li>sample_list.txt</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>STEP 2: TABULAR MATRIX TO HDF5</h2>
+
+    <h3>PROCESS</h3>
+    <p>* Download the script <code>make_HDF_dataset.sh</code></p>
+    <pre style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; font-size: 0.8rem; overflow-x: auto;">
+indir=${1? Input directory with files pos.txt sample_list.txt and mat_vcf.txt}
+proj=${2? Output (project) prefix, e.g. ricerp }
+
+#loadmatrix=./bin/loadmatrix_geno.v2.hdf1.10    
+loadmatrix=./loadmatrix_geno
+
+n_snp=`wc -l $indir/pos.txt| awk '{print $1}' `
+n_sampl=`wc -l $indir/sample_list.txt| awk '{print $1}' `
+
+m=1000
+n=64
+
+if [[ ! -f "Matrix.txt" ]] ; then
+ln -s $indir/mat_vcf.txt Matrix.txt
+fi
+
+# Transposed version: r=n_snp
+r=$n_snp
+$loadmatrix  -m $m -n $n -r $r \
+-t \
+ -o ${proj}_transp.h5 \
+# -i $indir/mat_vcf.txt</pre>
+
+    <p>* Usage: <code>./make_HDF_dataset.sh &lt;path_text-file-matrix&gt; &lt;output_prefix&gt;</code></p>
+
+    <p>* Verification: Check the HDF5 file structure after creation (*.h5)</p>
+    <p><code>h5ls &lt;output_prefix&gt;_transp.h5</code></p>
+    <p>Expected output: <code>Dataset {SNPs, Samples}</code></p>
+
+    <h3>HANDS-ON EXERCISE</h3>
+    <ol>
+      <li>Run the following command: <code>./scripts/make_HDF_dataset.sh output/ sample</code></li>
+      <li>Verification: <code>h5ls sample_transp.h5</code></li>
+      <li>Output: <code>data Dataset {6920, 3024}</code></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>CHECKPOINT</h2>
+    <p>✅ HDF5 file<br>✅ SNP positions<br>✅ Sample list</p>
   </div>
 
 </main>
