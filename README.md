@@ -96,19 +96,28 @@ To add a speaker note or lab instruction, add them inside a `<div class="card">`
 
 ### CHEAT SHEETS
 
-The cheat sheets are currently `.md` placeholder files (PDF generation was not available
-at repo creation time). Before the training:
+The cheat sheets are currently `.md` placeholder files. The download links have been
+**removed from `docs/index.html`** until the PDFs are ready. To restore them:
 
 1. Design or typeset the cheat sheet in your tool of choice (Word, Canva, InDesign, etc.)
    using the content in `docs/cheatsheets/psql-commands.md` and `docs/cheatsheets/linux-survival.md`.
 2. Export as PDF.
 3. Name the files exactly: `psql-commands.pdf` and `linux-survival.pdf`.
-4. Replace the `.md` placeholder files in `docs/cheatsheets/` with the PDFs.
-5. Commit and push.
-
-The download links in `docs/index.html` already point to `cheatsheets/psql-commands.pdf`
-and `cheatsheets/linux-survival.pdf` (relative from the index), so no link changes are
-needed once the PDFs are in place.
+4. Place the PDFs in `docs/cheatsheets/`.
+5. Add the download links back to the materials grid in `docs/index.html`:
+   ```html
+   <a class="material-item" href="cheatsheets/psql-commands.pdf" download>
+     <div class="material-icon">🐘</div>
+     <h4>psql Commands</h4>
+     <span>Cheat Sheet (PDF)</span>
+   </a>
+   <a class="material-item" href="cheatsheets/linux-survival.pdf" download>
+     <div class="material-icon">💻</div>
+     <h4>Linux Survival</h4>
+     <span>Cheat Sheet (PDF)</span>
+   </a>
+   ```
+6. Commit and push.
 
 **Printing tip:** Print double-sided, landscape, one sheet per participant. Laminate if reusing
 across multiple trainings.
@@ -120,9 +129,16 @@ across multiple trainings.
 Scripts live in `docs/scripts/` and are served directly by GitHub Pages. Each has a header
 comment describing its purpose and `TODO` lines marking what needs to be replaced before use.
 
-1. Edit the script directly: `docs/scripts/setup.sh`, `docs/scripts/load_template.sql`,
-   `docs/scripts/pipeline_vcf_to_hdf5.sh`.
-2. Remove or replace the `TODO` placeholder lines with real commands.
+| File | Purpose |
+|---|---|
+| `setup.sh` | Environment setup for participants |
+| `load_template.sql` | Bulk-loading template (`\COPY` commands) |
+| `pipeline_vcf_to_hdf5.sh` | Full VCF → HDF5 pipeline wrapper |
+| `vcftomatrix.sh` | Extracts genotype matrix from a VCF file |
+| `make_HDF_dataset.sh` | Converts tabular matrix files to HDF5 |
+
+1. Edit each script in `docs/scripts/` as needed.
+2. Remove or replace any `TODO` placeholder lines with real commands.
 3. Test locally before the training (see Pre-Training Checklist).
 4. Commit and push.
 
@@ -131,6 +147,8 @@ comment describing its purpose and `TODO` lines marking what needs to be replace
 https://[ORG].github.io/trainingDatabase/scripts/setup.sh
 https://[ORG].github.io/trainingDatabase/scripts/load_template.sql
 https://[ORG].github.io/trainingDatabase/scripts/pipeline_vcf_to_hdf5.sh
+https://[ORG].github.io/trainingDatabase/scripts/vcftomatrix.sh
+https://[ORG].github.io/trainingDatabase/scripts/make_HDF_dataset.sh
 ```
 
 **Raw GitHub fallback** (works even if Pages is not yet enabled):
@@ -142,15 +160,20 @@ https://raw.githubusercontent.com/[ORG]/trainingDatabase/main/docs/scripts/setup
 
 ### DATA FILES
 
-Sample data lives in `docs/data/` and is served directly by GitHub Pages.
-`sample_accessions.csv` contains 10 placeholder rows with realistic column names.
+Data files live in `docs/data/` and are served directly by GitHub Pages.
 
-To replace with real training data:
+| File | Purpose |
+|---|---|
+| `sample_accessions.csv` | 10 placeholder rows for bulk-loading exercises |
+| `chado_dump.sql` | PostgreSQL Chado database dump (used in lab 07) |
+| `demo.tar.gz` | Hands-on demo archive for pipeline labs |
+| `VCFv4.2.pdf` | Official VCF v4.2 format specification (reference) |
+
+To replace `sample_accessions.csv` with real training data:
 1. Prepare your CSV with the same column headers (or update the SQL template to match).
 2. Overwrite `docs/data/sample_accessions.csv`.
-3. If adding new files, follow the naming pattern: `lowercase_with_underscores.csv`.
-4. Update any references in `docs/scripts/load_template.sql` (`\COPY` path).
-5. Commit and push.
+3. Update any references in `docs/scripts/load_template.sql` (`\COPY` path).
+4. Commit and push.
 
 ---
 
@@ -211,15 +234,14 @@ Run through this 48 hours before the training.
 - [ ] GitHub Pages is enabled and the live URL loads correctly
 - [ ] All 15 session links on the index page open the correct pages
 - [ ] Each session page opens standalone (no broken CSS, no external dependencies)
-- [ ] Download links for cheat sheets return actual PDFs (not 404)
 - [ ] ZIP download link produces a valid archive
 
 ### Content
 - [ ] All slide placeholders have been replaced with real PDFs or HTML exports
 - [ ] Lab worksheets are in place (or embedded in session HTML pages)
-- [ ] `setup.sh`, `load_template.sql`, and `pipeline_vcf_to_hdf5.sh` contain real commands
+- [ ] All scripts in `docs/scripts/` have `TODO` lines replaced with real commands
 - [ ] `sample_accessions.csv` contains the intended training data
-- [ ] Cheat sheet PDFs are in `cheatsheets/` and ready to print
+- [ ] Cheat sheet PDFs added to `docs/cheatsheets/` and download links restored in `index.html`
 
 ### USB backup
 - [ ] Clone or download the full repository as a ZIP
