@@ -36,7 +36,8 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .card h2 { font-size: 1.2rem; font-weight: 600; color: #1e3a5f;
            border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .75rem; }
 .card p, .card li { color: #475569; font-size: 1.05rem; line-height: 1.8; }
-.card ul { padding-left: 1.25rem; }
+.card ul, .card ol { padding-left: 1.25rem; }
+.card h3 { font-size: 1rem; font-weight: 700; color: #1e3a5f; margin: 1.25rem 0 .5rem; }
 .script-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
                border-radius: .4rem; padding: .4rem .9rem; font-size: .85rem;
                color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
@@ -64,33 +65,105 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
 <main>
 
-  <div class="slide-box">
-    <div class="slide-icon">&#128190;</div>
-    <h2>Lab Instructions go here</h2>
-    <p>Replace this placeholder with the bulk-loading lab worksheet or step-by-step guide.</p>
-    <div class="instruction">
-      <strong>How to replace:</strong><br>
-      1. Export lab sheet → <code>08-bulk-loading-lab.pdf</code><br>
-      2. Place in <code>/docs/day1/</code><br>
-      3. Reference scripts: <code>load_template.sql</code> in <code>/scripts/</code><br>
-      4. Sample data: <code>sample_accessions.csv</code> in <code>/data/</code>
-    </div>
-  </div>
-
   <div class="card">
-    <h2>Session Overview</h2>
-    <p>Participants run the bulk-loading pipeline script to load sample rice accession data into the training Chado database. The lab walks through the script structure, the SQL <code>COPY</code> mechanism, and verification queries to confirm successful loading.</p>
-  </div>
+    <h2>3.2 Bulk Loading Script</h2>
+    <p>An alternative to the GUI is a <strong>bulk loading script</strong> that automates data ingestion into the PostgreSQL Chado schema.</p>
 
-  <div class="card">
-    <h2>Lab Steps (Placeholder)</h2>
+    <h3>💡 Features</h3>
     <ul>
-      <li>Review the <code>load_template.sql</code> script structure</li>
-      <li>Inspect the input CSV (<code>sample_accessions.csv</code>) format</li>
-      <li>Run the script against the restored training database</li>
-      <li>Verify loaded records with <code>SELECT COUNT(*)</code> queries</li>
-      <li>Troubleshoot common errors (encoding, null constraints, foreign key violations)</li>
-      <li>Discuss production loading conventions and rollback strategies</li>
+      <li>Validates input files (sample list, SNP positions, HDF5 file)</li>
+      <li>Looks up or inserts CV terms, organism, and dbxref entries</li>
+      <li>Generates CSV files for each table:
+        <ul>
+          <li><code>StockSample.csv</code></li>
+          <li><code>SampleVarietySet.csv</code></li>
+          <li><code>SnpFeature.csv</code></li>
+          <li><code>Variant_variantset.csv</code></li>
+          <li><code>Snp_FeatureLoc.csv</code></li>
+        </ul>
+      </li>
+      <li>Updates sequence values to prevent ID conflicts</li>
+      <li>Performs efficient bulk copy using <code>\copy</code></li>
+    </ul>
+
+    <h3>🔗 Repository</h3>
+    <p>Script repository: <a href="https://github.com/1K1RG/1k1RG-Scripts.git">https://github.com/1K1RG/1k1RG-Scripts.git</a></p>
+
+    <h3>⚙️ Setup Instructions</h3>
+    <pre>git clone https://github.com/1K1RG/1k1RG-Scripts.git
+cd 1k1RG-Scripts/loader
+chmod +x uploadDataset.sh</pre>
+
+    <h3>🧩 Prerequisites</h3>
+    <ul>
+      <li>PostgreSQL client (<code>psql</code>)</li>
+      <li>Database access credentials</li>
+      <li>Input files:
+        <ul>
+          <li>Sample list file</li>
+          <li>SNP positions file</li>
+          <li>HDF5 filename</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>▶️ Usage</h3>
+    <pre>./uploadDataset.sh genodb admin localhost 5432 secret samples.txt positions.txt data.h5</pre>
+    <table style="width:100%;border-collapse:collapse;font-size:.95rem;margin:.75rem 0;">
+      <thead>
+        <tr style="background:#f1f5f9;">
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Parameter</th>
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>DB_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Target database name</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>VARIANT_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Variant set Name</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>SAMPLE_FILE</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Path to list of stock/sample names</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>POS_FILE</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Path to SNP positions file</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>ORGANISM_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Organism</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>H5_FILE_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">HDF5 filename</td></tr>
+      </tbody>
+    </table>
+
+    <h3>✅ Expected Outcome</h3>
+    <p>After successful execution:</p>
+    <ul>
+      <li>Stock, stock_sample, SNP, and variant data are fully inserted.</li>
+      <li>Relationships between samples and SNPs are properly linked.</li>
+      <li>Data is queryable using SQL joins and integrated into SNP-Seek.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Hands-On Exercises</h2>
+
+    <h3>Exercise 1: Do a bulk upload</h3>
+    <p>First, make sure you're in the directory where the CSV file is located, then follow these steps:</p>
+
+    <p><strong>Step 1: Create a new database</strong></p>
+    <pre># Syntax: createdb -h localhost -U &lt;USERNAME&gt; &lt;DB_NAME&gt;
+createdb -h localhost -U &lt;USERNAME&gt; bulkload_demo</pre>
+
+    <p><strong>Step 2: Connect to PostgreSQL and switch to the new database</strong></p>
+    <pre># Syntax: psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt;
+psql -h localhost -U postgres -d bulkload_demo</pre>
+
+    <p><strong>Step 3: Perform the bulk upload</strong></p>
+    <p>Once connected to the database, run the copy command:</p>
+    <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
+
+    <h3>Exercise 2: Try using the script</h3>
+    <p>Make sure the sample list and position files are in the <code>1k1RG-Scripts/loader</code> directory, then run:</p>
+    <pre># add executable to file
+chmod +x uploadDataset.sh
+
+# run upload dataset
+./uploadDataset.sh sampleds sampleds sample_list.txt pos_500_per_chr.txt 'Japonica nipponbare' test_file.h5</pre>
+
+    <h3>Exercise 3: Bulk Loading Practice</h3>
+    <ul>
+      <li>Verify row counts in <code>stock_sample</code>, <code>snp_feature</code>, and <code>variantset</code>.</li>
     </ul>
   </div>
 
