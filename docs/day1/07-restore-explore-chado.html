@@ -35,7 +35,13 @@ main { max-width: 860px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .card h2 { font-size: 1rem; font-weight: 600; color: #1e3a5f;
            border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .75rem; }
 .card p, .card li { color: #475569; font-size: .9rem; line-height: 1.7; }
-.card ul { padding-left: 1.25rem; }
+.card ul, .card ol { padding-left: 1.25rem; }
+.card h3 { font-size: .875rem; font-weight: 600; color: #1e3a5f; margin: .75rem 0 .35rem; }
+.card code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
+             font-family: 'Courier New', monospace; font-size: .85em; }
+.card pre { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
+            padding: 1rem; font-size: .8rem; overflow-x: auto; line-height: 1.5;
+            font-family: 'Courier New', monospace; color: #334155; margin: .5rem 0; }
 .script-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
                border-radius: .4rem; padding: .4rem .9rem; font-size: .85rem;
                color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
@@ -63,33 +69,37 @@ footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
 
 <main>
 
-  <div class="slide-box">
-    <div class="slide-icon">&#128295;</div>
-    <h2>Lab Instructions go here</h2>
-    <p>Replace this placeholder with the lab worksheet or step-by-step instructions.</p>
-    <div class="instruction">
-      <strong>How to replace:</strong><br>
-      1. Export lab sheet → <code>07-restore-explore-lab.pdf</code><br>
-      2. Place in <code>/docs/day1/</code><br>
-      3. The <code>setup.sh</code> script in <code>/scripts/</code> automates the restore step
-    </div>
-  </div>
-
   <div class="card">
     <h2>Session Overview</h2>
     <p>Hands-on lab: participants restore a PostgreSQL dump of the training Chado database and then explore its structure using <code>psql</code> meta-commands and SQL queries to confirm the schema matches what was described in the lecture.</p>
   </div>
 
   <div class="card">
-    <h2>Lab Steps (Placeholder)</h2>
-    <ul>
-      <li>Restore the <code>.dump</code> backup file using <code>pg_restore</code></li>
-      <li>Connect to the restored database with <code>psql</code></li>
-      <li>List schemas and tables: <code>\dn</code>, <code>\dt</code></li>
-      <li>Inspect table columns: <code>\d tablename</code></li>
-      <li>Query key tables: <code>cv</code>, <code>cvterm</code>, <code>organism</code>, <code>stock</code></li>
-      <li>Count rows and spot-check loaded ontology terms</li>
-    </ul>
+    <h2>Exercise: Restoring and Exploring the Chado Schema</h2>
+
+    <h3>Step 1: Create the Database</h3>
+    <pre>createdb -h localhost -U &lt;USERNAME&gt; &lt;DB_NAME&gt;</pre>
+
+    <h3>Step 2: Restore the Chado Schema</h3>
+    <pre>psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt; -f chado_dump.sql</pre>
+
+    <h3>Step 3: Connect to the Database</h3>
+    <pre>psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt;</pre>
+
+    <h3>Step 4: Explore the Schema</h3>
+    <pre>\dt
+\dt *snp*
+\dt *stock*</pre>
+
+    <h3>Step 5: View Table Structure</h3>
+    <pre>\d cvterm
+\d snp_feature
+\d variantset</pre>
+
+    <h3>Step 6: Explore Relationships</h3>
+    <pre>SELECT o.genus, o.species, s.name AS stock_name
+FROM organism o
+JOIN stock s ON s.organism_id = o.organism_id;</pre>
   </div>
 
   <div class="card">
