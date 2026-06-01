@@ -70,6 +70,14 @@ footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
 <main>
 
   <div class="card">
+    <h2>Related Files</h2>
+    <p>The <code>setup.sh</code> script automates environment preparation and the restore:</p>
+    <a class="script-link" href="../scripts/setup.sh" download>&#128196; scripts/setup.sh</a>
+    &nbsp;
+    <a class="script-link" href="../data/chado_dump.sql" download>&#128196; data/chado_dump.sql</a>
+  </div>
+
+  <div class="card">
     <h2>Session Overview</h2>
     <p>Hands-on lab: participants restore a PostgreSQL dump of the training Chado database and then explore its structure using <code>psql</code> meta-commands and SQL queries to confirm the schema matches what was described in the lecture.</p>
   </div>
@@ -100,14 +108,6 @@ footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
     <pre>SELECT o.genus, o.species, s.name AS stock_name
 FROM organism o
 JOIN stock s ON s.organism_id = o.organism_id;</pre>
-  </div>
-
-  <div class="card">
-    <h2>Related Files</h2>
-    <p>The <code>setup.sh</code> script automates environment preparation and the restore:</p>
-    <a class="script-link" href="../scripts/setup.sh" download>&#128196; scripts/setup.sh</a>
-    &nbsp;
-    <a class="script-link" href="../data/chado_dump.sql" download>&#128196; data/chado_dump.sql</a>
   </div>
 
 </main>
