@@ -89,19 +89,40 @@ footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
   </div>
 
   <div class="card">
+    <h2>Resources & Downloads</h2>
+    <p>Download the scripts and sample datasets used in this session:</p>
+    <ul>
+      <li><a href="../scripts/pipeline_vcf_to_hdf5.sh"><code>pipeline_vcf_to_hdf5.sh</code></a> (Project pipeline script)</li>
+      <li><a href="#"><code>vcftomatrix.sh</code></a> (Step 1 extraction script)</li>
+      <li><a href="#"><code>make_HDF_dataset.sh</code></a> (Step 2 HDF5 conversion script)</li>
+      <li><a href="#"><code>demo.tar.gz</code></a> (Download the demo dataset)</li>
+    </ul>
+  </div>
+
+  <div class="card">
     <h2>Technical Pipeline Details</h2>
     <h3>Stage 1: VCF Processing (vcftomatrix.sh)</h3>
     <p>This script uses <code>bcftools query</code> to extract <code>%CHROM</code>, <code>%POS</code>, <code>%REF</code>, <code>%ALT</code>, and genotype calls (<code>%TGT</code>). It performs normalization by removing "chr" prefixes and cleaning genotype strings (e.g., converting <code>|</code> characters).</p>
     <ul>
-      <li><strong>Outputs:</strong> <code>mat_vcf.txt</code> (genotype matrix), <code>pos.txt</code> (SNP coordinates), and <code>sample_list.txt</code>.</li>
+      <li><strong>Outputs:</strong> <code>mat_vcf.txt</code>, <code>pos.txt</code>, and <code>sample_list.txt</code>.</li>
     </ul>
+    
+    <div class="slide-box" style="padding: 1.5rem; margin-top: 1rem; border-style: solid; border-color: #e2e8f0;">
+      <div class="slide-icon" style="font-size: 1.5rem;">&#128247;</div>
+      <p style="font-size: 0.8rem; font-style: italic;">[Screenshot: Verification of mat_vcf.txt, pos.txt, and sample_list.txt structure]</p>
+    </div>
+
     <br>
     <h3>Stage 2: HDF5 Conversion (make_HDF_dataset.sh)</h3>
     <p>The second stage converts the flat text outputs into the HDF5 binary format, which is the primary optimization for reducing storage footprint and increasing access speed.</p>
     <ul>
       <li><strong>Optimization:</strong> Automatically generates a transposed version (<code>_transp.h5</code>) to facilitate rapid queries across both samples and SNPs.</li>
-      <li><strong>Verification:</strong> The process concludes by using <code>h5ls</code> to verify the dimensions and structure of the final dataset.</li>
     </ul>
+
+    <div class="slide-box" style="padding: 1.5rem; margin-top: 1rem; border-style: solid; border-color: #e2e8f0;">
+      <div class="slide-icon" style="font-size: 1.5rem;">&#128247;</div>
+      <p style="font-size: 0.8rem; font-style: italic;">[Screenshot: HDF5 structure verification using h5ls]</p>
+    </div>
   </div>
 
 </main>
