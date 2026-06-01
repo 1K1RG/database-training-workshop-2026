@@ -76,18 +76,31 @@ footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
 
   <div class="card">
     <h2>Session Overview</h2>
-    <p>Speaker Riza introduces the VCF (Variant Call Format) file format and the two-step pipeline that converts VCF files into the HDF5 matrices used by SNP-Seek, and simultaneously loads variant metadata into the Chado database.</p>
+    <p>Speaker Riza introduces the VCF (Variant Call Format) file format and the two-step pipeline used in the 1k1RG project to transform raw genomic datasets into optimized HDF5 matrices for the SNP-Seek database.</p>
   </div>
 
   <div class="card">
-    <h2>Topics Covered (Placeholder)</h2>
+    <h2>The Two-Step Pipeline</h2>
+    <p>The transformation workflow is split into two distinct stages to maximize efficiency and optimize storage:</p>
     <ul>
-      <li>VCF file anatomy: header lines, FORMAT/INFO fields, genotype columns</li>
-      <li>Common VCF pitfalls: missing data, multi-allelic sites, phasing</li>
-      <li>Pipeline overview: Step 1 (VCF validation &amp; normalization) and Step 2 (HDF5 generation + Chado load)</li>
-      <li>Input/output file naming conventions</li>
-      <li>How the pipeline script handles errors and logging</li>
-      <li>Expected run times for training vs. production datasets</li>
+      <li><strong>Step 1: VCF to Tabular Text Matrix</strong> – Extracts genotypes from raw VCF files using <code>bcftools</code> and <code>awk</code>.</li>
+      <li><strong>Step 2: Text Matrix to HDF5</strong> – Converts the intermediate text matrix into a binary HDF5 format using a high-performance C++ program (<code>loadmatrix_geno</code>).</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Technical Pipeline Details</h2>
+    <h3>Stage 1: VCF Processing (vcftomatrix.sh)</h3>
+    <p>This script uses <code>bcftools query</code> to extract <code>%CHROM</code>, <code>%POS</code>, <code>%REF</code>, <code>%ALT</code>, and genotype calls (<code>%TGT</code>). It performs normalization by removing "chr" prefixes and cleaning genotype strings (e.g., converting <code>|</code> characters).</p>
+    <ul>
+      <li><strong>Outputs:</strong> <code>mat_vcf.txt</code> (genotype matrix), <code>pos.txt</code> (SNP coordinates), and <code>sample_list.txt</code>.</li>
+    </ul>
+    <br>
+    <h3>Stage 2: HDF5 Conversion (make_HDF_dataset.sh)</h3>
+    <p>The second stage converts the flat text outputs into the HDF5 binary format, which is the primary optimization for reducing storage footprint and increasing access speed.</p>
+    <ul>
+      <li><strong>Optimization:</strong> Automatically generates a transposed version (<code>_transp.h5</code>) to facilitate rapid queries across both samples and SNPs.</li>
+      <li><strong>Verification:</strong> The process concludes by using <code>h5ls</code> to verify the dimensions and structure of the final dataset.</li>
     </ul>
   </div>
 
