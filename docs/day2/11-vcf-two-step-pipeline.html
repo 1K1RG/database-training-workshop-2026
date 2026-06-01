@@ -35,7 +35,13 @@ main { max-width: 860px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .card h2 { font-size: 1rem; font-weight: 600; color: #1e3a5f;
            border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .75rem; }
 .card p, .card li { color: #475569; font-size: .9rem; line-height: 1.7; }
-.card ul { padding-left: 1.25rem; }
+.card ul, .card ol { padding-left: 1.25rem; }
+.card h3 { font-size: .875rem; font-weight: 600; color: #1e3a5f; margin: .75rem 0 .35rem; }
+.card code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
+             font-family: 'Courier New', monospace; font-size: .85em; }
+.card pre { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
+            padding: 1rem; font-size: .8rem; overflow-x: auto; line-height: 1.5;
+            font-family: 'Courier New', monospace; color: #334155; margin: .5rem 0; }
 .day2-banner { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: .5rem;
                padding: .75rem 1rem; margin-bottom: 1.25rem; font-size: .88rem; color: #1e3a5f; }
 footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
@@ -102,7 +108,7 @@ footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
 
     <h3>PROCESS</h3>
     <p>* Download the script <code>vcftomatrix.sh</code></p>
-    <pre style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; font-size: 0.8rem; overflow-x: auto;">
+    <pre>
 invcf=${1? Input VCF file }   #  Raw_SNP_and_InDel/IRRI_lines_SNP_DP3_QD2_MQ30_QUAL30_FS60.vcf.gz}
 pref=${2? Output dir}
 mkdir -p $pref
@@ -146,7 +152,7 @@ bcftools view -o -   -h $invcf  |  grep CHR | tr "\t" "\n"  | tail -n+10 > $pref
 
     <h3>PROCESS</h3>
     <p>* Download the script <code>make_HDF_dataset.sh</code></p>
-    <pre style="background: #f8fafc; padding: 1rem; border-radius: 0.5rem; font-size: 0.8rem; overflow-x: auto;">
+    <pre>
 indir=${1? Input directory with files pos.txt sample_list.txt and mat_vcf.txt}
 proj=${2? Output (project) prefix, e.g. ricerp }
 
