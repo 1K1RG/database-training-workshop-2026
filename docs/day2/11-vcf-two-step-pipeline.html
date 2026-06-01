@@ -88,8 +88,9 @@ footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
     <h2>STEP 1: VCF TO TABULAR TEXT MATRIX, SAMPLE LIST, AND SNP POSITIONS</h2>
     
     <h3>INPUT FILE (VARIANT CALL FORMAT)</h3>
-    <p>A standardized file format used to store genetic variants, including their genomic positions, reference and alternate alleles, quality scores, and sample-specific genotype data. The detailed specifications for the format can be found in the official VCF specification document.</p>
+    <p>A standardized file format used to store genetic variants, including their genomic positions, reference and alternate alleles, quality scores, and sample-specific genotype data. The detailed specifications for the format can be found in the official VCF <a href="../data/VCFv4.2.pdf">specification document</a>.</p>
 
+    <img src="../images/vcf.png" alt="VCF file example" style="max-width:100%;border-radius:.5rem;margin:.5rem 0;">
     <h3>OUTPUT FILES</h3>
     <ol>
       <li><strong>Matrix</strong>: This is a matrix with rows corresponding to SNPs. The columns represent the following (from left to right):
@@ -102,12 +103,17 @@ footer { text-align: center; padding: 2rem; color: #94a3b8; font-size: .78rem; }
         </ul>
         <p>Note: Missing calls can be encoded by either 00 or .. (two dots)</p>
       </li>
-      <li><strong>SNP Positions</strong>: Genomic coordinates for SNPs</li>
-      <li><strong>Sample list</strong>: A text file containing sample names (in the same order as in the genotype matrix)</li>
+      <img src="../images/matrix.png" alt="Matrix output" style="max-width:100%;border-radius:.5rem;margin:.5rem 0;">
+      <li><strong>SNP Positions</strong>: Genomic coordinates for SNPs
+        <br><img src="../images/snpPositions.png" alt="SNP positions" style="max-width:100%;border-radius:.5rem;margin:.5rem 0;">
+      </li>
+      <li><strong>Sample list</strong>: A text file containing sample names (in the same order as in the genotype matrix)
+        <br><img src="../images/sampleList.png" alt="Sample list" style="max-width:100%;border-radius:.5rem;margin:.5rem 0;">
+      </li>
     </ol>
 
     <h3>PROCESS</h3>
-    <p>* Download the script <code>vcftomatrix.sh</code></p>
+    <p>* Download the script <a href="https://github.com/1K1RG/1K1RG-Documentations/blob/master/resources/vcftomatrix.sh"><code>vcftomatrix.sh</code></a></p>
     <pre>
 invcf=${1? Input VCF file }   #  Raw_SNP_and_InDel/IRRI_lines_SNP_DP3_QD2_MQ30_QUAL30_FS60.vcf.gz}
 pref=${2? Output dir}
@@ -126,9 +132,15 @@ bcftools view -o -   -h $invcf  |  grep CHR | tr "\t" "\n"  | tail -n+10 > $pref
 
     <p>* Verification: These output files will be used in the next pipeline stage to create an HDF5 file.</p>
     <ol>
-      <li>mat_vcf.txt</li>
-      <li>pos.txt</li>
-      <li>sample_list.txt</li>
+      <li>mat_vcf.txt
+        <br><img src="../images/mat_vcf.png" alt="mat_vcf.txt output" style="max-width:100%;border-radius:.5rem;margin:.5rem 0;">
+      </li>
+      <li>pos.txt
+        <br><img src="../images/pos.png" alt="pos.txt output" style="max-width:100%;border-radius:.5rem;margin:.5rem 0;">
+      </li>
+      <li>sample_list.txt
+        <br><img src="../images/sample_List.png" alt="sample_list.txt output" style="max-width:100%;border-radius:.5rem;margin:.5rem 0;">
+      </li>
     </ol>
 
     <h3>HANDS-ON EXERCISE</h3>
@@ -143,6 +155,7 @@ bcftools view -o -   -h $invcf  |  grep CHR | tr "\t" "\n"  | tail -n+10 > $pref
           <li>pos.txt</li>
           <li>sample_list.txt</li>
         </ul>
+        <img src="../images/result.png" alt="Verification result" style="max-width:100%;border-radius:.5rem;margin:.5rem 0;">
       </li>
     </ol>
   </div>
