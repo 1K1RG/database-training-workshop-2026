@@ -38,6 +38,20 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .card p, .card li { color: #475569; font-size: 1.05rem; line-height: 1.8; }
 .card ul, .card ol { padding-left: 1.25rem; }
 .card h3 { font-size: 1rem; font-weight: 700; color: #1e3a5f; margin: 1.25rem 0 .5rem; }
+.card pre { background: #1a1a1a; color: #e2e8f0; border: 1px solid #374151;
+            border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: .9rem;
+            overflow-x: auto; line-height: 1.7; font-family: 'Courier New', monospace;
+            margin: .75rem 0 .75rem; }
+.card pre + pre { margin-top: 0; }
+.terminal-wrap { margin: .75rem 0; }
+.terminal-wrap pre { margin: 0; border-radius: 0 0 .5rem .5rem; }
+.terminal-bar { background: #374151; border-radius: .5rem .5rem 0 0; padding: .35rem .75rem;
+                display: flex; align-items: center; gap: .4rem; }
+.terminal-bar span { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.terminal-bar .dot-red   { background: #ef4444; }
+.terminal-bar .dot-yel   { background: #f59e0b; }
+.terminal-bar .dot-grn   { background: #22c55e; }
+.terminal-bar .term-label { font-size: .75rem; color: #9ca3af; font-family: 'Courier New', monospace; margin-left: .5rem; }
 .script-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
                border-radius: .4rem; padding: .4rem .9rem; font-size: .85rem;
                color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
@@ -90,9 +104,12 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     <p>Script repository: <a href="https://github.com/1K1RG/1k1RG-Scripts.git">https://github.com/1K1RG/1k1RG-Scripts.git</a></p>
 
     <h3>⚙️ Setup Instructions</h3>
-    <pre>git clone https://github.com/1K1RG/1k1RG-Scripts.git
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>git clone https://github.com/1K1RG/1k1RG-Scripts.git
 cd 1k1RG-Scripts/loader
 chmod +x uploadDataset.sh</pre>
+    </div>
 
     <h3>🧩 Prerequisites</h3>
     <ul>
@@ -108,7 +125,10 @@ chmod +x uploadDataset.sh</pre>
     </ul>
 
     <h3>▶️ Usage</h3>
-    <pre>./uploadDataset.sh genodb admin localhost 5432 secret samples.txt positions.txt data.h5</pre>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>./uploadDataset.sh genodb admin localhost 5432 secret samples.txt positions.txt data.h5</pre>
+    </div>
     <table style="width:100%;border-collapse:collapse;font-size:.95rem;margin:.75rem 0;">
       <thead>
         <tr style="background:#f1f5f9;">
@@ -142,24 +162,36 @@ chmod +x uploadDataset.sh</pre>
     <p>First, make sure you're in the directory where the CSV file is located, then follow these steps:</p>
 
     <p><strong>Step 1: Create a new database</strong></p>
-    <pre># Syntax: createdb -h localhost -U &lt;USERNAME&gt; &lt;DB_NAME&gt;
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre># Syntax: createdb -h localhost -U &lt;USERNAME&gt; &lt;DB_NAME&gt;
 createdb -h localhost -U &lt;USERNAME&gt; bulkload_demo</pre>
+    </div>
 
     <p><strong>Step 2: Connect to PostgreSQL and switch to the new database</strong></p>
-    <pre># Syntax: psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt;
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre># Syntax: psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt;
 psql -h localhost -U postgres -d bulkload_demo</pre>
+    </div>
 
     <p><strong>Step 3: Perform the bulk upload</strong></p>
     <p>Once connected to the database, run the copy command:</p>
-    <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
+    </div>
 
     <h3>Exercise 2: Try using the script</h3>
     <p>Make sure the sample list and position files are in the <code>1k1RG-Scripts/loader</code> directory, then run:</p>
-    <pre># add executable to file
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre># add executable to file
 chmod +x uploadDataset.sh
 
 # run upload dataset
 ./uploadDataset.sh sampleds sampleds sample_list.txt pos_500_per_chr.txt 'Japonica nipponbare' test_file.h5</pre>
+    </div>
 
     <h3>Exercise 3: Bulk Loading Practice</h3>
     <ul>
