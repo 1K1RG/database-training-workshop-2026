@@ -40,9 +40,17 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .card h3 { font-size: 1.1rem; font-weight: 700; color: #1e3a5f; margin: 1.5rem 0 .75rem; text-transform: uppercase; letter-spacing: 0.025em; }
 .card code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
              font-family: 'Courier New', monospace; font-size: .9em; }
-.card pre { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
-            padding: 1.25rem; font-size: .9rem; overflow-x: auto; line-height: 1.6;
-            font-family: 'Courier New', monospace; color: #334155; margin: .75rem 0; }
+.card pre { background: #1a1a1a; color: #e2e8f0; border: 1px solid #374151;
+            border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: .9rem;
+            overflow-x: auto; line-height: 1.7; font-family: 'Courier New', monospace; margin: 0; }
+.terminal-wrap { margin: .75rem 0; }
+.terminal-bar { background: #374151; border-radius: .5rem .5rem 0 0; padding: .35rem .75rem;
+                display: flex; align-items: center; gap: .4rem; }
+.terminal-bar span { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.terminal-bar .dot-red { background: #ef4444; }
+.terminal-bar .dot-yel { background: #f59e0b; }
+.terminal-bar .dot-grn { background: #22c55e; }
+.terminal-bar .term-label { font-size: .75rem; color: #9ca3af; font-family: 'Courier New', monospace; margin-left: .5rem; }
 .day2-banner { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: .5rem;
                padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size: 1rem; color: #1e3a5f; }
 footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem; }
@@ -115,7 +123,9 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
     <h3>PROCESS</h3>
     <p>* Download the script <a href="https://github.com/1K1RG/1K1RG-Documentations/blob/master/resources/vcftomatrix.sh"><code>vcftomatrix.sh</code></a></p>
-    <pre>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>
 invcf=${1? Input VCF file }   #  Raw_SNP_and_InDel/IRRI_lines_SNP_DP3_QD2_MQ30_QUAL30_FS60.vcf.gz}
 pref=${2? Output dir}
 mkdir -p $pref
@@ -128,6 +138,7 @@ bcftools query -f '%CHROM\t%POS\t%REF\t%ALT[\t%TGT]\n' $invcf |  tr "|" "/"  | \
 cut -f1-4 $pref/mat_vcf.txt > $pref/pos.txt
 
 bcftools view -o -   -h $invcf  |  grep CHR | tr "\t" "\n"  | tail -n+10 > $pref/sample_list.txt</pre>
+    </div>
 
     <p>* Usage: <code>./vcftomatrix.sh &lt;input_vcf&gt; &lt;output_prefix&gt;</code></p>
 
@@ -166,11 +177,13 @@ bcftools view -o -   -h $invcf  |  grep CHR | tr "\t" "\n"  | tail -n+10 > $pref
 
     <h3>PROCESS</h3>
     <p>* Download the script <code>make_HDF_dataset.sh</code></p>
-    <pre>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>
 indir=${1? Input directory with files pos.txt sample_list.txt and mat_vcf.txt}
 proj=${2? Output (project) prefix, e.g. ricerp }
 
-#loadmatrix=./bin/loadmatrix_geno.v2.hdf1.10    
+#loadmatrix=./bin/loadmatrix_geno.v2.hdf1.10
 loadmatrix=./loadmatrix_geno
 
 n_snp=`wc -l $indir/pos.txt| awk '{print $1}' `
@@ -189,6 +202,7 @@ $loadmatrix  -m $m -n $n -r $r \
 -t \
  -o ${proj}_transp.h5 \
 # -i $indir/mat_vcf.txt</pre>
+    </div>
 
     <p>* Usage: <code>./make_HDF_dataset.sh &lt;path_text-file-matrix&gt; &lt;output_prefix&gt;</code></p>
 
@@ -213,6 +227,4 @@ $loadmatrix  -m $m -n $n -r $r \
 
 <footer>Database Curation &amp; Loading Training &nbsp;·&nbsp; 1k1RG Project &nbsp;·&nbsp; June 3–4, 2026</footer>
 </body>
-</html>
-y>
 </html>

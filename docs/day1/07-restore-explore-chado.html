@@ -40,9 +40,17 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .card h3 { font-size: 1.1rem; font-weight: 700; color: #1e3a5f; margin: 1.5rem 0 .75rem; text-transform: uppercase; letter-spacing: 0.025em; }
 .card code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
              font-family: 'Courier New', monospace; font-size: .9em; }
-.card pre { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
-            padding: 1.25rem; font-size: .9rem; overflow-x: auto; line-height: 1.6;
-            font-family: 'Courier New', monospace; color: #334155; margin: .75rem 0; }
+.card pre { background: #1a1a1a; color: #e2e8f0; border: 1px solid #374151;
+            border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: .9rem;
+            overflow-x: auto; line-height: 1.7; font-family: 'Courier New', monospace; margin: 0; }
+.terminal-wrap { margin: .75rem 0; }
+.terminal-bar { background: #374151; border-radius: .5rem .5rem 0 0; padding: .35rem .75rem;
+                display: flex; align-items: center; gap: .4rem; }
+.terminal-bar span { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.terminal-bar .dot-red { background: #ef4444; }
+.terminal-bar .dot-yel { background: #f59e0b; }
+.terminal-bar .dot-grn { background: #22c55e; }
+.terminal-bar .term-label { font-size: .75rem; color: #9ca3af; font-family: 'Courier New', monospace; margin-left: .5rem; }
 .script-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
                border-radius: .4rem; padding: .4rem .9rem; font-size: .85rem;
                color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
@@ -87,28 +95,46 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     <h2>Exercise: Restoring and Exploring the Chado Schema</h2>
 
     <h3>Step 1: Create the Database</h3>
-    <pre>createdb -h localhost -U &lt;USERNAME&gt; &lt;DB_NAME&gt;</pre>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>createdb -h localhost -U &lt;USERNAME&gt; &lt;DB_NAME&gt;</pre>
+    </div>
 
     <h3>Step 2: Restore the Chado Schema</h3>
-    <pre>psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt; -f chado_dump.sql</pre>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt; -f chado_dump.sql</pre>
+    </div>
 
     <h3>Step 3: Connect to the Database</h3>
-    <pre>psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt;</pre>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt;</pre>
+    </div>
 
     <h3>Step 4: Explore the Schema</h3>
-    <pre>\dt
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>\dt
 \dt *snp*
 \dt *stock*</pre>
+    </div>
 
     <h3>Step 5: View Table Structure</h3>
-    <pre>\d cvterm
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>\d cvterm
 \d snp_feature
 \d variantset</pre>
+    </div>
 
     <h3>Step 6: Explore Relationships</h3>
-    <pre>SELECT o.genus, o.species, s.name AS stock_name
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT o.genus, o.species, s.name AS stock_name
 FROM organism o
 JOIN stock s ON s.organism_id = o.organism_id;</pre>
+    </div>
   </div>
 
 </main>
