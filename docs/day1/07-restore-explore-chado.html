@@ -55,6 +55,33 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
                border-radius: .4rem; padding: .4rem .9rem; font-size: .85rem;
                color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
 .script-link:hover { background: #dcfce7; }
+.card-option-a { border-left-color: #15803d; }
+.card-option-b { border-left-color: #1e40af; }
+.option-label {
+  display: inline-block; padding: .25rem .75rem; border-radius: 9999px;
+  font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+  margin-bottom: .6rem;
+}
+.option-label-a { background: #dcfce7; color: #14532d; }
+.option-label-b { background: #dbeafe; color: #1e3a8a; }
+.choice-banner {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: .75rem;
+  padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+  display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+}
+.choice-banner p { color: #475569; font-size: .95rem; flex: 1 1 200px; }
+.choice-links { display: flex; gap: .75rem; flex-wrap: wrap; }
+.choice-links a {
+  padding: .5rem 1.1rem; border-radius: .5rem; font-size: .9rem; font-weight: 600;
+  text-decoration: none; white-space: nowrap;
+}
+.choice-links .link-a { background: #f0fdf4; border: 1px solid #86efac; color: #14532d; }
+.choice-links .link-b { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a8a; }
+.choice-links a:hover { filter: brightness(.95); }
+.note-box {
+  background: #fefce8; border: 1px solid #fde68a; border-radius: .5rem;
+  padding: .85rem 1.1rem; margin-top: 1rem; font-size: .9rem; color: #78350f;
+}
 footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem; }
 @media (max-width: 600px) { h1 { font-size: 1.6rem; } .meta-row { gap: .75rem; } }
 </style>
@@ -80,7 +107,7 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <div class="card">
     <h2>Related Files</h2>
-    <p>The <code>setup.sh</code> script automates environment preparation and the restore:</p>
+    <p>Download these before starting the lab:</p>
     <a class="script-link" href="../scripts/setup.sh" download>&#128196; scripts/setup.sh</a>
     &nbsp;
     <a class="script-link" href="../data/chado_dump.sql" download>&#128196; data/chado_dump.sql</a>
@@ -91,8 +118,59 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     <p>Hands-on lab: participants restore a PostgreSQL dump of the training Chado database and then explore its structure using <code>psql</code> meta-commands and SQL queries to confirm the schema matches what was described in the lecture.</p>
   </div>
 
-  <div class="card">
-    <h2>Exercise: Restoring and Exploring the Chado Schema</h2>
+  <!-- Choice banner -->
+  <div class="choice-banner">
+    <p><strong>Choose your setup path below.</strong> Both paths result in the same database — pick whichever fits your setup. Once the database is ready, follow the shared <em>Explore the Schema</em> section.</p>
+    <div class="choice-links">
+      <a class="link-a" href="#option-a">&#9654; Option A — Using setup.sh</a>
+      <a class="link-b" href="#option-b">&#9654; Option B — Manual Steps</a>
+    </div>
+  </div>
+
+  <!-- ── OPTION A ─────────────────────────────────────── -->
+  <div class="card card-option-a" id="option-a">
+    <span class="option-label option-label-a">Option A — Automated via setup.sh</span>
+    <h2>Using setup.sh to Restore the Database</h2>
+    <p>The <code>setup.sh</code> script handles database creation and schema restore in one command. Use this if you want a faster, automated setup.</p>
+
+    <h3>Step 1: Place the Files</h3>
+    <p>Make sure both files are in the same working directory:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>ls setup.sh chado_dump.sql</pre>
+    </div>
+
+    <h3>Step 2: Run the Script</h3>
+    <p>Pass your desired database name and the dump file as arguments:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>bash setup.sh chado_training chado_dump.sql</pre>
+    </div>
+    <p style="margin-top:.75rem;">The script will:</p>
+    <ul style="margin-top:.5rem;">
+      <li>Create the database <code>chado_training</code> (skips if it already exists)</li>
+      <li>Restore the Chado schema from <code>chado_dump.sql</code></li>
+      <li>Verify the schema is present</li>
+      <li>Print the <code>psql</code> connect command when done</li>
+    </ul>
+
+    <h3>Step 3: Connect to the Database</h3>
+    <p>Use the connect command printed by the script, or run directly:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>psql -U postgres -d chado_training</pre>
+    </div>
+
+    <div class="note-box">
+      &#9432; Once connected, continue with the <strong>Explore the Schema</strong> section below.
+    </div>
+  </div>
+
+  <!-- ── OPTION B ─────────────────────────────────────── -->
+  <div class="card card-option-b" id="option-b">
+    <span class="option-label option-label-b">Option B — Manual Steps</span>
+    <h2>Manually Restoring the Database</h2>
+    <p>Follow these steps if you prefer to run each command yourself, or if <code>setup.sh</code> is not available in your environment.</p>
 
     <h3>Step 1: Create the Database</h3>
     <div class="terminal-wrap">
@@ -112,7 +190,17 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
       <pre>psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt;</pre>
     </div>
 
-    <h3>Step 4: Explore the Schema</h3>
+    <div class="note-box">
+      &#9432; Once connected, continue with the <strong>Explore the Schema</strong> section below.
+    </div>
+  </div>
+
+  <!-- ── SHARED EXPLORATION ──────────────────────────── -->
+  <div class="card" id="explore">
+    <h2>Explore the Schema</h2>
+    <p>Run these commands inside <code>psql</code> after connecting — they apply whether you used Option A or Option B.</p>
+
+    <h3>Step 1: List Tables</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
       <pre>\dt
@@ -120,7 +208,7 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 \dt *stock*</pre>
     </div>
 
-    <h3>Step 5: View Table Structure</h3>
+    <h3>Step 2: View Table Structure</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
       <pre>\d cvterm
@@ -128,7 +216,7 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 \d variantset</pre>
     </div>
 
-    <h3>Step 6: Explore Relationships</h3>
+    <h3>Step 3: Explore Relationships</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
       <pre>SELECT o.genus, o.species, s.name AS stock_name
