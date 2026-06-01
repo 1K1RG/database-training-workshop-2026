@@ -56,6 +56,33 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
                border-radius: .4rem; padding: .4rem .9rem; font-size: .85rem;
                color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
 .script-link:hover { background: #dcfce7; }
+.card-option-a { border-left-color: #15803d; }
+.card-option-b { border-left-color: #1e40af; }
+.option-label {
+  display: inline-block; padding: .25rem .75rem; border-radius: 9999px;
+  font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
+  margin-bottom: .6rem;
+}
+.option-label-a { background: #dcfce7; color: #14532d; }
+.option-label-b { background: #dbeafe; color: #1e3a8a; }
+.choice-banner {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: .75rem;
+  padding: 1.25rem 1.5rem; margin-bottom: 2rem;
+  display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
+}
+.choice-banner p { color: #475569; font-size: .95rem; flex: 1 1 200px; }
+.choice-links { display: flex; gap: .75rem; flex-wrap: wrap; }
+.choice-links a {
+  padding: .5rem 1.1rem; border-radius: .5rem; font-size: .9rem; font-weight: 600;
+  text-decoration: none; white-space: nowrap;
+}
+.choice-links .link-a { background: #f0fdf4; border: 1px solid #86efac; color: #14532d; }
+.choice-links .link-b { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a8a; }
+.choice-links a:hover { filter: brightness(.95); }
+.note-box {
+  background: #fefce8; border: 1px solid #fde68a; border-radius: .5rem;
+  padding: .85rem 1.1rem; margin-top: 1rem; font-size: .9rem; color: #78350f;
+}
 footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem; }
 @media (max-width: 600px) { h1 { font-size: 1.6rem; } .meta-row { gap: .75rem; } }
 </style>
@@ -80,14 +107,22 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 <main>
 
   <div class="card">
-    <h2>3.2 Bulk Loading Script</h2>
-    <p>An alternative to the GUI is a <strong>bulk loading script</strong> that automates data ingestion into the PostgreSQL Chado schema.</p>
+    <h2>Related Files</h2>
+    <p>Download these before starting the lab:</p>
+    <a class="script-link" href="../scripts/load_template.sql" download>&#128196; scripts/load_template.sql</a>
+    &nbsp;
+    <a class="script-link" href="../data/sample_accessions.csv" download>&#128202; data/sample_accessions.csv</a>
+  </div>
 
-    <h3>💡 Features</h3>
+  <div class="card">
+    <h2>Session Overview</h2>
+    <p>An alternative to the GUI is a <strong>bulk loading script</strong> that automates data ingestion into the PostgreSQL Chado schema. This lab covers two approaches — using the automated script or running the SQL commands manually.</p>
+
+    <h3>What the Script Does</h3>
     <ul>
       <li>Validates input files (sample list, SNP positions, HDF5 file)</li>
       <li>Looks up or inserts CV terms, organism, and dbxref entries</li>
-      <li>Generates CSV files for each table:
+      <li>Generates intermediate CSV files for each target table:
         <ul>
           <li><code>StockSample.csv</code></li>
           <li><code>SampleVarietySet.csv</code></li>
@@ -99,36 +134,55 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
       <li>Updates sequence values to prevent ID conflicts</li>
       <li>Performs efficient bulk copy using <code>\copy</code></li>
     </ul>
+  </div>
 
-    <h3>🔗 Repository</h3>
-    <p>Script repository: <a href="https://github.com/1K1RG/1k1RG-Scripts.git">https://github.com/1K1RG/1k1RG-Scripts.git</a></p>
-
-    <h3>⚙️ Setup Instructions</h3>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>git clone https://github.com/1K1RG/1k1RG-Scripts.git
-cd 1k1RG-Scripts/loader
-chmod +x uploadDataset.sh</pre>
+  <!-- Choice banner -->
+  <div class="choice-banner">
+    <p><strong>Choose your loading approach below.</strong> Both paths load data into the Chado database — pick whichever fits your setup. Then follow the shared <em>Verify the Load</em> section.</p>
+    <div class="choice-links">
+      <a class="link-a" href="#option-a">&#9654; Option A — Using uploadDataset.sh</a>
+      <a class="link-b" href="#option-b">&#9654; Option B — Manual \copy Steps</a>
     </div>
+  </div>
 
-    <h3>🧩 Prerequisites</h3>
+  <!-- ── OPTION A ─────────────────────────────────────── -->
+  <div class="card card-option-a" id="option-a">
+    <span class="option-label option-label-a">Option A — Automated via uploadDataset.sh</span>
+    <h2>Using the Bulk Loading Script</h2>
+    <p>The <code>uploadDataset.sh</code> script from the 1k1RG-Scripts repository handles the full load — organism lookup, CSV generation, and bulk copy — in one command.</p>
+
+    <h3>Prerequisites</h3>
     <ul>
-      <li>PostgreSQL client (<code>psql</code>)</li>
-      <li>Database access credentials</li>
-      <li>Input files:
+      <li>PostgreSQL client (<code>psql</code>) and database access credentials</li>
+      <li>Input files ready:
         <ul>
-          <li>Sample list file</li>
-          <li>SNP positions file</li>
-          <li>HDF5 filename</li>
+          <li>Sample list file (e.g., <code>sample_list.txt</code>)</li>
+          <li>SNP positions file (e.g., <code>pos_500_per_chr.txt</code>)</li>
+          <li>HDF5 file (e.g., <code>test_file.h5</code>)</li>
         </ul>
       </li>
     </ul>
 
-    <h3>▶️ Usage</h3>
+    <h3>Step 1: Clone the Repository</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>./uploadDataset.sh genodb admin localhost 5432 secret samples.txt positions.txt data.h5</pre>
+      <pre>git clone https://github.com/1K1RG/1k1RG-Scripts.git
+cd 1k1RG-Scripts/loader</pre>
     </div>
+
+    <h3>Step 2: Make the Script Executable</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>chmod +x uploadDataset.sh</pre>
+    </div>
+
+    <h3>Step 3: Run the Script</h3>
+    <p>Make sure your input files are in the <code>1k1RG-Scripts/loader</code> directory, then run:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>./uploadDataset.sh sampleds sampleds sample_list.txt pos_500_per_chr.txt 'Japonica nipponbare' test_file.h5</pre>
+    </div>
+
     <table style="width:100%;border-collapse:collapse;font-size:.95rem;margin:.75rem 0;">
       <thead>
         <tr style="background:#f1f5f9;">
@@ -138,72 +192,73 @@ chmod +x uploadDataset.sh</pre>
       </thead>
       <tbody>
         <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>DB_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Target database name</td></tr>
-        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>VARIANT_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Variant set Name</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>VARIANT_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Variant set name</td></tr>
         <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>SAMPLE_FILE</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Path to list of stock/sample names</td></tr>
         <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>POS_FILE</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Path to SNP positions file</td></tr>
-        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>ORGANISM_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Organism</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>ORGANISM_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Organism (genus + variety)</td></tr>
         <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>H5_FILE_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">HDF5 filename</td></tr>
       </tbody>
     </table>
 
-    <h3>✅ Expected Outcome</h3>
-    <p>After successful execution:</p>
+    <div class="note-box">
+      &#9432; Once the script finishes, continue with the <strong>Verify the Load</strong> section below.
+    </div>
+  </div>
+
+  <!-- ── OPTION B ─────────────────────────────────────── -->
+  <div class="card card-option-b" id="option-b">
+    <span class="option-label option-label-b">Option B — Manual \copy Steps</span>
+    <h2>Manually Loading Data with \copy</h2>
+    <p>Follow these steps if you prefer to run each command yourself, or if the script is not available. Make sure you are in the directory containing the CSV file before connecting.</p>
+
+    <h3>Step 1: Create a New Database</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>createdb -h localhost -U &lt;USERNAME&gt; bulkload_demo</pre>
+    </div>
+
+    <h3>Step 2: Connect to the Database</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>psql -h localhost -U postgres -d bulkload_demo</pre>
+    </div>
+
+    <h3>Step 3: Bulk Load the CSV</h3>
+    <p>Once connected, run the copy command:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
+    </div>
+    <p style="margin-top:.75rem;">To load accession data using the provided template:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>psql -U postgres -d bulkload_demo -f load_template.sql</pre>
+    </div>
+
+    <div class="note-box">
+      &#9432; Once the load completes, continue with the <strong>Verify the Load</strong> section below.
+    </div>
+  </div>
+
+  <!-- ── SHARED VERIFICATION ────────────────────────── -->
+  <div class="card" id="verify">
+    <h2>Verify the Load</h2>
+    <p>Run these checks inside <code>psql</code> after loading — they apply whether you used Option A or Option B.</p>
+
+    <h3>Check Row Counts</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT COUNT(*) FROM stock_sample;
+SELECT COUNT(*) FROM snp_feature;
+SELECT COUNT(*) FROM variantset;</pre>
+    </div>
+
+    <h3>Expected Outcome</h3>
     <ul>
       <li>Stock, stock_sample, SNP, and variant data are fully inserted.</li>
       <li>Relationships between samples and SNPs are properly linked.</li>
       <li>Data is queryable using SQL joins and integrated into SNP-Seek.</li>
     </ul>
-  </div>
-
-  <div class="card">
-    <h2>Hands-On Exercises</h2>
-
-    <h3>Exercise 1: Do a bulk upload</h3>
-    <p>First, make sure you're in the directory where the CSV file is located, then follow these steps:</p>
-
-    <p><strong>Step 1: Create a new database</strong></p>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre># Syntax: createdb -h localhost -U &lt;USERNAME&gt; &lt;DB_NAME&gt;
-createdb -h localhost -U &lt;USERNAME&gt; bulkload_demo</pre>
-    </div>
-
-    <p><strong>Step 2: Connect to PostgreSQL and switch to the new database</strong></p>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre># Syntax: psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt;
-psql -h localhost -U postgres -d bulkload_demo</pre>
-    </div>
-
-    <p><strong>Step 3: Perform the bulk upload</strong></p>
-    <p>Once connected to the database, run the copy command:</p>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
-      <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
-    </div>
-
-    <h3>Exercise 2: Try using the script</h3>
-    <p>Make sure the sample list and position files are in the <code>1k1RG-Scripts/loader</code> directory, then run:</p>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre># add executable to file
-chmod +x uploadDataset.sh
-
-# run upload dataset
-./uploadDataset.sh sampleds sampleds sample_list.txt pos_500_per_chr.txt 'Japonica nipponbare' test_file.h5</pre>
-    </div>
-
-    <h3>Exercise 3: Bulk Loading Practice</h3>
-    <ul>
-      <li>Verify row counts in <code>stock_sample</code>, <code>snp_feature</code>, and <code>variantset</code>.</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Related Files</h2>
-    <a class="script-link" href="../scripts/load_template.sql" download>&#128196; scripts/load_template.sql</a>
-    &nbsp;
-    <a class="script-link" href="../data/sample_accessions.csv" download>&#128202; data/sample_accessions.csv</a>
   </div>
 
 </main>
