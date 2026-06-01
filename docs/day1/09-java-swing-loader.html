@@ -36,7 +36,36 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .card h2 { font-size: 1.2rem; font-weight: 600; color: #1e3a5f;
            border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .75rem; }
 .card p, .card li { color: #475569; font-size: 1.05rem; line-height: 1.8; }
-.card ul { padding-left: 1.25rem; }
+.card ul, .card ol { padding-left: 1.25rem; }
+.card h3 { font-size: 1rem; font-weight: 700; color: #1e3a5f; margin: 1.25rem 0 .5rem; }
+.card code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
+             font-family: 'Courier New', monospace; font-size: .9em; }
+.card pre { background: #1a1a1a; color: #e2e8f0; border: 1px solid #374151;
+            border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: .9rem;
+            overflow-x: auto; line-height: 1.7; font-family: 'Courier New', monospace; margin: 0; }
+.terminal-wrap { margin: .75rem 0; }
+.terminal-bar { background: #374151; border-radius: .5rem .5rem 0 0; padding: .35rem .75rem;
+                display: flex; align-items: center; gap: .4rem; }
+.terminal-bar span { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.terminal-bar .dot-red { background: #ef4444; }
+.terminal-bar .dot-yel { background: #f59e0b; }
+.terminal-bar .dot-grn { background: #22c55e; }
+.terminal-bar .term-label { font-size: .75rem; color: #9ca3af; font-family: 'Courier New', monospace; margin-left: .5rem; }
+.example-file { background: #1a1a1a; color: #e2e8f0; border: 1px solid #374151; border-radius: .5rem;
+                padding: 1rem 1.25rem; font-size: .85rem; font-family: 'Courier New', monospace;
+                line-height: 1.7; margin: .75rem 0; overflow-x: auto; }
+.example-file .line-num { color: #6b7280; display: inline-block; width: 2rem; text-align: right; margin-right: .75rem; user-select: none; }
+.ui-screenshot { border: 1px solid #e2e8f0; border-radius: .5rem; overflow: hidden; margin: .75rem 0; }
+.ui-screenshot-bar { background: #374151; color: #d1d5db; font-size: .8rem; padding: .4rem .75rem; font-family: 'Courier New', monospace; }
+.ui-form { background: #d4d0c8; padding: 1.25rem; font-size: .9rem; color: #1a1a1a; }
+.ui-form .ui-title { color: #cc0000; font-weight: 700; font-size: 1rem; text-align: center; margin-bottom: 1rem; }
+.ui-form table { width: 100%; border-collapse: collapse; }
+.ui-form td { padding: .3rem .5rem; font-size: .88rem; }
+.ui-form td:first-child { width: 40%; color: #1a1a1a; }
+.ui-form .ui-input { background: #fff; border: 1px solid #999; border-radius: 2px; height: 22px; display: inline-block; width: 100%; }
+.ui-form .ui-btn { background: #d4d0c8; border: 2px outset #fff; padding: .2rem .6rem; font-size: .8rem; cursor: pointer; }
+.ui-form .ui-section { color: #cc0000; font-weight: 600; margin: .75rem 0 .25rem; }
+.ui-form .ui-actions { text-align: center; margin-top: 1rem; display: flex; justify-content: center; gap: 1rem; }
 footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem; }
 @media (max-width: 600px) { h1 { font-size: 1.6rem; } .meta-row { gap: .75rem; } }
 </style>
@@ -53,39 +82,117 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
   <h1>Java Swing Loader — Show and Tell</h1>
   <div class="meta-row">
     <span>&#128336; 4:30 – 4:50</span>
-    <span>&#127908; —</span>
+    <span>&#127908; Lord Hendrix Barboza</span>
     <span>&#128337; 20 min</span>
   </div>
 </div>
 
 <main>
 
-  <div class="slide-box">
-    <div class="slide-icon">&#9749;</div>
-    <h2>Demo materials / screenshots go here</h2>
-    <p>Replace this placeholder with demo slides or a screenshot walkthrough of the Java Swing loader GUI.</p>
-    <div class="instruction">
-      <strong>How to replace:</strong><br>
-      1. Export slides or screenshots → <code>09-java-swing-slides.pdf</code><br>
-      2. Place in <code>/docs/day1/</code><br>
-      3. Alternatively, embed a screen-recording link if available
-    </div>
-  </div>
-
   <div class="card">
-    <h2>Session Overview</h2>
-    <p>A presenter-led demonstration of the Java Swing-based graphical loader tool used in the SNP-Seek production pipeline. Participants observe the tool in action; this is a show-and-tell, not a hands-on lab.</p>
-  </div>
+    <h2>3.1 Genotype Loader (Java Swing)</h2>
+    <p>The loader is implemented in <strong>Java</strong> and provides a graphical interface for loading genomic data into the database.</p>
 
-  <div class="card">
-    <h2>What to Expect (Placeholder)</h2>
+    <h3>🔗 Repository Information</h3>
     <ul>
-      <li>Overview of the loader GUI: input fields, file selectors, connection settings</li>
-      <li>Walkthrough of a sample load run with the training dataset</li>
-      <li>How the GUI maps to the underlying SQL operations shown in the script lab</li>
-      <li>Error handling and logging in the GUI</li>
-      <li>Q&amp;A on when to use the GUI vs. raw scripts</li>
+      <li>Loader repository: <a href="https://bitbucket.org/dagsbarboza/genotypeloader/">https://bitbucket.org/dagsbarboza/genotypeloader/</a></li>
+      <li>Dependency (Chado Model library): <a href="https://bitbucket.org/dagsbarboza/chadomodel/">https://bitbucket.org/dagsbarboza/chadomodel/</a></li>
+      <li>Bulk insert library: <strong>PgBulkInsert</strong> – used to efficiently insert large genomic datasets into PostgreSQL.</li>
     </ul>
+
+    <h3>⚙️ Prerequisites</h3>
+    <ul>
+      <li>Java JDK version 1.8 installed</li>
+      <li>Database connection settings configured in the loader</li>
+    </ul>
+
+    <h3>▶️ Running the Loader</h3>
+    <p>Execute:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>java -cp "genotypeloader.jar;lib/*" org.irri.genotype.GenotypeLoaderUI2</pre>
+    </div>
+
+    <h3>🗂️ Input Files Required</h3>
+    <ol>
+      <li><strong>Genotype HDF5 file</strong></li>
+      <li><strong>Sample list with Sample IDs</strong>
+        <ul>
+          <li>A text file containing sample names (in the same order as in the genotype matrix)</li>
+        </ul>
+        <p>Example (<code>Sorghum.samples</code>):</p>
+        <div class="example-file">
+          <span class="line-num">1</span>104B<br>
+          <span class="line-num">2</span>22436B<br>
+          <span class="line-num">3</span>22454B<br>
+          <span class="line-num">4</span>22458B<br>
+          <span class="line-num">5</span>22528B<br>
+          <span class="line-num">6</span>22548B<br>
+          <span class="line-num">7</span>2B_RMFR<br>
+          <span class="line-num">8</span>4111B<br>
+          <span class="line-num">9</span>ALT_RIL_308<br>
+          <span class="line-num">10</span>ALT_RIL_314<br>
+          <span class="line-num">11</span>ALT_RIL_321<br>
+          <span class="line-num">12</span>ALT_RIL_349<br>
+          <span class="line-num">13</span>ALT_RIL_359<br>
+          <span class="line-num">14</span>ALT_RIL_360<br>
+          <span class="line-num">15</span>ALT_RIL_364<br>
+        </div>
+      </li>
+      <li><strong>SNP positions</strong>
+        <ul>
+          <li>Genomic coordinates for SNPs</li>
+        </ul>
+        <p>Example (<code>Sorghum.positions</code>):</p>
+        <div class="example-file">
+          <span class="line-num">1</span>1&nbsp;&nbsp;&nbsp;&nbsp;1927&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;T<br>
+          <span class="line-num">2</span>1&nbsp;&nbsp;&nbsp;&nbsp;1941&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;A<br>
+          <span class="line-num">3</span>1&nbsp;&nbsp;&nbsp;&nbsp;2163&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;T<br>
+          <span class="line-num">4</span>1&nbsp;&nbsp;&nbsp;&nbsp;2256&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;G<br>
+          <span class="line-num">5</span>1&nbsp;&nbsp;&nbsp;&nbsp;2258&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;G<br>
+          <span class="line-num">6</span>1&nbsp;&nbsp;&nbsp;&nbsp;2259&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;C<br>
+          <span class="line-num">7</span>1&nbsp;&nbsp;&nbsp;&nbsp;2751&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;C<br>
+          <span class="line-num">8</span>1&nbsp;&nbsp;&nbsp;&nbsp;2753&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;C<br>
+          <span class="line-num">9</span>1&nbsp;&nbsp;&nbsp;&nbsp;2791&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;G<br>
+          <span class="line-num">10</span>1&nbsp;&nbsp;&nbsp;2793&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;G<br>
+          <span class="line-num">11</span>1&nbsp;&nbsp;&nbsp;2794&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;C<br>
+          <span class="line-num">12</span>1&nbsp;&nbsp;&nbsp;13677&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;A<br>
+          <span class="line-num">13</span>1&nbsp;&nbsp;&nbsp;13681&nbsp;&nbsp;&nbsp;G&nbsp;&nbsp;&nbsp;&nbsp;A<br>
+          <span class="line-num">14</span>1&nbsp;&nbsp;&nbsp;13900&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;A<br>
+          <span class="line-num">15</span>1&nbsp;&nbsp;&nbsp;14606&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;T<br>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>🖥️ The Loader UI</h2>
+    <div class="ui-screenshot">
+      <div class="ui-screenshot-bar">☰ GENOTYPE LOADER</div>
+      <div class="ui-form">
+        <div class="ui-title">Rice SNP-Seek Database Loader</div>
+        <table>
+          <tr><td>Organism</td><td><span class="ui-input"></span></td></tr>
+          <tr><td>Cv Term (Organism)</td><td><span class="ui-input" style="padding-left:.4rem;">whole plant</span></td></tr>
+          <tr><td>Database</td><td><span class="ui-input"></span></td></tr>
+          <tr><td>Variant Set</td><td><span class="ui-input"></span></td></tr>
+        </table>
+        <div class="ui-section">Select Files:</div>
+        <table>
+          <tr><td>Select Sample File</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
+          <tr><td>Select Position File</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
+          <tr><td>Nonsynonymous Variant</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
+          <tr><td>Splice Acceptor Variant</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
+          <tr><td>Splice Donor Variant</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
+          <tr><td>H5 File</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
+          <tr><td>Snp Genotype File</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
+        </table>
+        <div class="ui-actions">
+          <span class="ui-btn">RESET</span>
+          <span class="ui-btn">RUN</span>
+        </div>
+      </div>
+    </div>
   </div>
 
 </main>
