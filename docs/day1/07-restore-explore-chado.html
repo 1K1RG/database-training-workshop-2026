@@ -107,7 +107,7 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <div class="card">
     <h2>Database Setup</h2>
-    <p>All training computers run the same operating system image, distributed and pre-configured before the workshop. PostgreSQL is installed automatically via the <code>setup.sh</code> script — no manual installation is needed by participants.</p>
+    <p>All training computers run the same operating system image, distributed and pre-configured before the workshop. <strong>PostgreSQL is already installed</strong> on the image — no installation step is needed by participants.</p>
 
     <h3>Training Environment</h3>
     <div class="terminal-wrap">
@@ -116,14 +116,15 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     </div>
     <p style="margin-top:.75rem;"><strong>OS:</strong> Ubuntu 22.04.1 LTS &nbsp;·&nbsp; <strong>Arch:</strong> x86_64 &nbsp;·&nbsp; <strong>Kernel:</strong> 6.8.0-111-generic</p>
 
-    <h3>PostgreSQL Installation</h3>
-    <p>The same OS image is distributed to all training computers. PostgreSQL is installed by running the setup script once on each machine — participants do not need to install it manually:</p>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>bash setup.sh</pre>
-    </div>
+    <h3>What setup.sh does</h3>
+    <p><code>setup.sh</code> does <strong>not</strong> install PostgreSQL. It assumes PostgreSQL is already running and performs three steps:</p>
+    <ul style="margin-top:.5rem;">
+      <li>Creates the training database (skips if it already exists)</li>
+      <li>Restores the Chado schema from the provided <code>.dump</code> file</li>
+      <li>Verifies the schema is present and prints the connect command</li>
+    </ul>
     <div class="note-box">
-      &#9432; <strong>Note for facilitators:</strong> The <code>setup.sh</code> script handles PostgreSQL installation and initial configuration for the training environment. All machines receive the same script to ensure a consistent setup across the room.
+      &#9432; <strong>Note for facilitators:</strong> PostgreSQL is pre-installed on the distributed OS image. Participants only need to run <code>setup.sh</code> to create and populate the training database — there is no separate installation step.
     </div>
   </div>
 
