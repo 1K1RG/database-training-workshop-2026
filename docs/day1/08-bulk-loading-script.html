@@ -88,14 +88,18 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <div class="card">
     <h2>Related Files</h2>
-    <p>Download this file before starting the lab:</p>
+    <p>Download these before starting the lab:</p>
     <a class="script-link" href="https://drive.google.com/file/d/1rgmn64RM_RXuyMu__-ovP5qoE7HumBfc/view?usp=drive_link" target="_blank">&#128196; 11-feature-nipponbare.csv</a>
+    &nbsp;
+    <a class="script-link" href="../scripts/loadReferenceGenome.sh" download>&#128196; loadReferenceGenome.sh</a>
+    &nbsp;
+    <a class="script-link" href="../scripts/loadReferenceGenomeWSeq.sh" download>&#128196; loadReferenceGenomeWSeq.sh</a>
   </div>
 
-  <!-- ── LOADING REFERENCE GENOME VIA \copy ────────── -->
+  <!-- ── OPTION A: pre-built CSV via \copy ──────────── -->
   <div class="card">
-    <h2>Loading a Reference Genome with \copy</h2>
-    <p>This exercise loads reference genome feature data directly into Chado using PostgreSQL's <code>\copy</code> command. Make sure you are in the directory containing the CSV file before connecting.</p>
+    <h2>Option A — Load a Pre-built CSV with \copy</h2>
+    <p>Use this option when a ready-made feature CSV is already available (e.g., the Nipponbare training file). Make sure you are in the directory containing the CSV file before connecting.</p>
 
     <h3>Step 1: Connect to the Database</h3>
     <div class="terminal-wrap">
@@ -104,23 +108,104 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     </div>
 
     <h3>Step 2: Load the Reference Genome Features</h3>
-    <p>Once connected, run the copy command:</p>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
       <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
     </div>
 
-    <h3>Step 3: Verify the Load</h3>
-    <p>Check row counts to confirm the data was inserted:</p>
+    <h3>Step 3: Verify</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
       <pre>SELECT COUNT(*) FROM feature;</pre>
     </div>
+  </div>
 
-    <h3>Expected Outcome</h3>
+  <!-- ── OPTION B: loadReferenceGenome.sh ───────────── -->
+  <div class="card">
+    <h2>Option B — Load from GFF Using a Script</h2>
+    <p>When you have a raw GFF annotation file instead of a pre-built CSV, use one of the two loader scripts. Both scripts automatically look up or insert the organism, CV, and cvterm entries, then generate intermediate CSVs and bulk-load them into Chado.</p>
+
+    <h3>Which Script to Use?</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:.95rem;margin:.75rem 0;">
+      <thead>
+        <tr style="background:#f1f5f9;">
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Script</th>
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">When to use</th>
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Chromosome seqlen source</th>
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Chromosome naming</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>loadReferenceGenome.sh</code></td>
+          <td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">GFF has only <code>gene</code> rows (no explicit chromosome rows)</td>
+          <td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Inferred from the last gene position per chromosome</td>
+          <td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>Chr1</code>, <code>Chr2</code> …</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>loadReferenceGenomeWSeq.sh</code></td>
+          <td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">GFF has explicit <code>chromosome</code>-type rows with real sequence lengths</td>
+          <td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Read directly from the <code>chromosome</code> row in the GFF</td>
+          <td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>chr01</code>, <code>chr02</code> … (zero-padded)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>What the Scripts Do</h3>
     <ul>
-      <li>Reference genome features (chromosomes, genes, etc.) are fully inserted into the <code>feature</code> table.</li>
-      <li>Data is queryable using SQL joins.</li>
+      <li>Look up or insert the organism in the <code>organism</code> table</li>
+      <li>Look up or insert the <code>sequence</code> CV and <code>chromosome</code> / <code>gene</code> cvterms</li>
+      <li>Generate <code>&lt;output&gt;_feature.csv</code> and <code>&lt;output&gt;_featureloc.csv</code></li>
+      <li>Bulk-load both CSVs into Chado using <code>\copy</code></li>
+    </ul>
+
+    <h3>Parameters</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:.95rem;margin:.75rem 0;">
+      <thead>
+        <tr style="background:#f1f5f9;">
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Flag</th>
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>-i</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Input GFF file</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>-o</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Output file prefix (intermediate CSVs are named <code>&lt;prefix&gt;_feature.csv</code> etc.)</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>-n</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Organism common name (must match what is in the database)</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>-p</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">PostgreSQL password (<code>training2026</code> for the training database)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Step 1: Make the Script Executable</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>chmod +x loadReferenceGenome.sh</pre>
+    </div>
+
+    <h3>Step 2: Run the Script</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>bash loadReferenceGenome.sh -i nipponbare.gff -o nipponbare -n "Japonica nipponbare" -p training2026</pre>
+    </div>
+    <p style="margin-top:.75rem;">Or, if using the version with explicit chromosome lengths:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>bash loadReferenceGenomeWSeq.sh -i nipponbare.gff -o nipponbare -n "Japonica nipponbare" -p training2026</pre>
+    </div>
+
+    <h3>Step 3: Verify</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>sudo -u postgres psql -d chado_training -c "SELECT COUNT(*) FROM feature;"
+sudo -u postgres psql -d chado_training -c "SELECT COUNT(*) FROM featureloc;"</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Expected Outcome</h2>
+    <ul>
+      <li>Chromosome and gene features are inserted into the <code>feature</code> table with correct organism and cvterm linkage.</li>
+      <li>Gene locations are recorded in <code>featureloc</code> with chromosome feature as the source feature (<code>srcfeature_id</code>).</li>
+      <li>Data is queryable using SQL joins across <code>feature</code>, <code>featureloc</code>, and <code>organism</code>.</li>
     </ul>
 
     <div class="note-box">
