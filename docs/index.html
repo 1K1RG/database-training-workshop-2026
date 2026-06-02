@@ -26,6 +26,64 @@
       margin: auto;
     }
 
+    /* ── SITE NAV ─────────────────────────────────────────── */
+    .site-nav {
+      background: #10281e;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,.18);
+    }
+
+    .site-nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      height: 56px;
+    }
+
+    .site-nav-brand {
+      font-size: 14px;
+      font-weight: 700;
+      color: #86efac;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+
+    .site-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-link {
+      color: #a7c4b0;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: background .15s, color .15s;
+      white-space: nowrap;
+    }
+
+    .nav-link:hover { background: rgba(255,255,255,.08); color: #fff; }
+
+    .nav-link.active {
+      background: rgba(255,255,255,.12);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .nav-link-highlight {
+      background: #177245;
+      color: #fff !important;
+      font-weight: 700;
+      box-shadow: 0 4px 12px rgba(23,114,69,.35);
+    }
+
+    .nav-link-highlight:hover { background: #125d38 !important; }
+
     /* ── HERO ─────────────────────────────────────────────── */
     .hero {
       position: relative;
@@ -176,6 +234,44 @@
     .stat-box.wide .num { color: white; font-size: 1.4rem; margin-bottom: 4px; }
     .stat-box.wide .lbl { color: rgba(255,255,255,.75); }
 
+    /* ── MATERIALS CTA ───────────────────────────────────── */
+    .materials-cta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: linear-gradient(135deg, #177245, #0f5432);
+      color: white;
+      border-radius: 20px;
+      padding: 24px 32px;
+      box-shadow: 0 16px 40px rgba(23,114,69,.28);
+      transition: .2s ease;
+      cursor: pointer;
+    }
+
+    .materials-cta:hover { transform: translateY(-3px); box-shadow: 0 22px 50px rgba(23,114,69,.35); }
+
+    .cta-icon {
+      font-size: 2rem;
+      background: rgba(255,255,255,.15);
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .cta-body { flex: 1; }
+    .cta-body strong { display: block; font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+    .cta-body span { font-size: 0.9rem; color: rgba(255,255,255,.78); }
+
+    .cta-arrow {
+      font-size: 1.6rem;
+      color: rgba(255,255,255,.6);
+      flex-shrink: 0;
+      transition: transform .2s;
+    }
+
+    .materials-cta:hover .cta-arrow { transform: translateX(5px); color: white; }
+
     /* ── DOWNLOADS ────────────────────────────────────────── */
     .section { padding: 60px 0; }
 
@@ -198,67 +294,6 @@
 
     .section-title h2 { font-size: 1.8rem; margin-bottom: 6px; color: #183027; }
     .section-title p  { color: #6d8678; }
-
-    .download-btn {
-      background: #177245;
-      color: white;
-      padding: 14px 24px;
-      border-radius: 14px;
-      font-weight: 700;
-      font-size: 15px;
-      transition: .2s ease;
-      box-shadow: 0 12px 24px rgba(23,114,69,.22);
-      white-space: nowrap;
-    }
-
-    .download-btn:hover { transform: translateY(-2px); background: #125d38; }
-
-    .materials-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
-      gap: 16px;
-    }
-
-    .material-item {
-      border: 1px solid #e3ebe3;
-      border-radius: 18px;
-      padding: 22px 16px;
-      text-align: center;
-      transition: .2s ease;
-      background: #fbfdfb;
-      cursor: pointer;
-    }
-
-    .material-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0,0,0,.07);
-      border-color: #aacfb8;
-    }
-
-    .material-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 16px;
-      margin: 0 auto 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.45rem;
-      background: #e8f5ec;
-    }
-
-    .material-item h4 { font-size: 14px; color: #183027; margin-bottom: 5px; }
-    .material-item span { color: #6d8678; font-size: 12px; }
-
-    .notice {
-      margin-top: 28px;
-      background: #fff9e9;
-      border: 1px solid #f1dfac;
-      border-radius: 16px;
-      padding: 18px 22px;
-      color: #6b5821;
-      font-size: 14px;
-    }
 
     /* ── SCHEDULE ─────────────────────────────────────────── */
     .schedule-wrap { padding-top: 0; }
@@ -474,21 +509,6 @@
     .outcomes-box ul { padding-left: 1.1rem; display: flex; flex-direction: column; gap: 8px; }
     .outcomes-box li { font-size: 0.9rem; color: #4d6659; line-height: 1.6; }
 
-    /* ── MATERIALS GROUPS ─────────────────────────────────── */
-    .materials-group { margin-bottom: 28px; }
-    .materials-group:last-child { margin-bottom: 0; }
-
-    .group-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: #789184;
-      margin-bottom: 14px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #e3ebe3;
-    }
-
     /* ── FOOTER ───────────────────────────────────────────── */
     footer {
       text-align: center;
@@ -511,17 +531,27 @@
       h1 { font-size: 2.2rem; letter-spacing: -1px; }
       .card, .side-card { padding: 22px; }
       td, th { padding-inline: 16px; }
-      .materials-grid { grid-template-columns: 1fr 1fr; }
       .td-speaker { display: none; }
     }
 
     @media (max-width: 480px) {
-      .materials-grid { grid-template-columns: 1fr; }
       h1 { font-size: 1.9rem; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ══ SITE NAV ═════════════════════════════════════════ -->
+  <nav class="site-nav">
+    <div class="container site-nav-inner">
+      <span class="site-nav-brand">🌾 1k1RG Training 2026</span>
+      <div class="site-nav-links">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="#schedule" class="nav-link">Schedule</a>
+        <a href="materials.html" class="nav-link nav-link-highlight">⬇ Materials &amp; Downloads</a>
+      </div>
+    </div>
+  </nav>
 
   <!-- ══ HERO ══════════════════════════════════════════════ -->
   <section class="hero">
@@ -660,124 +690,22 @@
     </div>
   </section>
 
-  <!-- ══ DOWNLOADS ═════════════════════════════════════════ -->
-  <section class="section">
+  <!-- ══ MATERIALS CTA ════════════════════════════════════ -->
+  <section class="section" style="padding: 32px 0;">
     <div class="container">
-      <div class="card">
-
-        <div class="section-header">
-          <div class="section-title">
-            <h2>Downloads &amp; Materials</h2>
-            <p>Everything needed for the workshop — also on the USB backup.</p>
-          </div>
-          <a href="https://github.com/1K1RG/database-training-workshop-2026/archive/refs/heads/main.zip"
-             class="download-btn">⬇ Download Everything (ZIP)</a>
+      <a href="materials.html" class="materials-cta">
+        <div class="cta-icon">⬇</div>
+        <div class="cta-body">
+          <strong>Materials &amp; Downloads</strong>
+          <span>Scripts, data files, and slide decks — grouped by session topic</span>
         </div>
-
-        <!-- Group 1: Database Setup & Schema — Sessions 05, 06, 07 -->
-        <div class="materials-group">
-          <div class="group-label">Database Setup &amp; Schema &nbsp;·&nbsp; Sessions 05, 06, 07</div>
-          <div class="materials-grid">
-
-            <a class="material-item" href="scripts/setup.sh" download>
-              <div class="material-icon">⚙️</div>
-              <h4>setup.sh</h4>
-              <span>Environment &amp; DB setup</span>
-            </a>
-
-            <a class="material-item" href="data/chado_dump.sql" download>
-              <div class="material-icon">🗃️</div>
-              <h4>chado_dump.sql</h4>
-              <span>Training database dump</span>
-            </a>
-
-            <a class="material-item" href="day1/05-ontology-concepts-slides.pdf" download>
-              <div class="material-icon">📊</div>
-              <h4>Ontology Concepts</h4>
-              <span>Slides (PDF)</span>
-            </a>
-
-            <a class="material-item" href="day1/06-chado-schema-deepdive.pdf" download>
-              <div class="material-icon">📊</div>
-              <h4>Chado Schema Deep Dive</h4>
-              <span>Slides (PDF)</span>
-            </a>
-
-          </div>
-        </div>
-
-        <!-- Group 2: Data Loading — Sessions 08, 13 -->
-        <div class="materials-group">
-          <div class="group-label">Data Loading &nbsp;·&nbsp; Sessions 08, 13</div>
-          <div class="materials-grid">
-
-            <a class="material-item" href="scripts/load_template.sql" download>
-              <div class="material-icon">🗄️</div>
-              <h4>load_template.sql</h4>
-              <span>Bulk-loading template</span>
-            </a>
-
-            <a class="material-item" href="data/sample_accessions.csv" download>
-              <div class="material-icon">📄</div>
-              <h4>sample_accessions.csv</h4>
-              <span>Sample metadata file</span>
-            </a>
-
-            <a class="material-item" href="data/demo.tar.gz" download>
-              <div class="material-icon">🗜️</div>
-              <h4>demo.tar.gz</h4>
-              <span>Hands-on demo archive</span>
-            </a>
-
-          </div>
-        </div>
-
-        <!-- Group 3: VCF → HDF5 Pipeline — Sessions 11, 12 -->
-        <div class="materials-group">
-          <div class="group-label">VCF → HDF5 Pipeline &nbsp;·&nbsp; Sessions 11, 12</div>
-          <div class="materials-grid">
-
-            <a class="material-item" href="data/VCFv4.2.pdf" download>
-              <div class="material-icon">📋</div>
-              <h4>VCF v4.2 Spec</h4>
-              <span>Format reference (PDF)</span>
-            </a>
-
-            <a class="material-item" href="scripts/vcftomatrix.sh" download>
-              <div class="material-icon">🔀</div>
-              <h4>vcftomatrix.sh</h4>
-              <span>VCF → genotype matrix</span>
-            </a>
-
-            <a class="material-item" href="scripts/make_HDF_dataset.sh" download>
-              <div class="material-icon">📦</div>
-              <h4>make_HDF_dataset.sh</h4>
-              <span>Matrix → HDF5 dataset</span>
-            </a>
-
-            <a class="material-item" href="scripts/pipeline_vcf_to_hdf5.sh" download>
-              <div class="material-icon">🧬</div>
-              <h4>pipeline_vcf_to_hdf5.sh</h4>
-              <span>Full pipeline wrapper</span>
-            </a>
-
-          </div>
-        </div>
-
-        <div class="notice">
-          <strong>📡 If Wi-Fi is unavailable:</strong>
-          All slides, scripts, and workshop materials are also available on the distributed
-          USB backup. Open <strong>index.html</strong> from the USB directly in your browser —
-          all links work offline. (Note: Google Fonts requires an internet connection to display;
-          the page will fall back to system fonts automatically.)
-        </div>
-
-      </div>
+        <div class="cta-arrow">→</div>
+      </a>
     </div>
   </section>
 
   <!-- ══ SCHEDULE ══════════════════════════════════════════ -->
-  <section class="section schedule-wrap">
+  <section id="schedule" class="section schedule-wrap">
     <div class="container schedule-grid">
 
       <!-- Day 1 + Day 2 stacked in left column -->
