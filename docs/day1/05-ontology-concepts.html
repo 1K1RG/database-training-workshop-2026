@@ -53,37 +53,106 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
   <h1>Ontology Concepts</h1>
   <div class="meta-row">
     <span>&#128336; 1:30 – 2:15</span>
-    <span>&#127908; Jeffrey Detras / Lord Hendrix Barboza</span>
+    <span>&#127908; Jeffrey Detras</span>
     <span>&#128337; 45 min</span>
   </div>
 </div>
 
 <main>
 
+  <div class="card">
+    <h2>Session Overview</h2>
+    <p>Introduces the concepts, vocabulary, and structure of biological ontologies as used in Chado and the SNP-Seek platform. This lecture provides the conceptual grounding needed before the Chado schema deep dive that follows — tracing the path from a biological idea through an ontology term to a typed record in the database.</p>
+    <p style="margin-top:.75rem;"><em>Presented by Jeffrey Detras, PhD — Senior Specialist, Bioinformatics.</em></p>
+  </div>
+
+  <div class="card">
+    <h2>Topics Covered</h2>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">1. Motivation</h3>
+    <ul>
+      <li>The problem: biology has many names for one idea — <em>gene</em>, <em>Gene</em>, <em>locus</em>, <em>coding_gene</em></li>
+      <li>Controlled terms reduce ambiguity, typos, and local naming habits</li>
+      <li>Chado links biological records to controlled vocabulary terms instead of relying on free text</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">2. Controlled Vocabulary vs Ontology</h3>
+    <ul>
+      <li>Controlled vocabulary — a list of accepted terms; useful for consistency and validation</li>
+      <li>Ontology — terms + definitions + relationships; useful for meaning, integration, and broader queries</li>
+      <li>A controlled vocabulary standardizes words; an ontology standardizes meaning</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">3. Anatomy of a Term</h3>
+    <ul>
+      <li><strong>Name</strong> — readable label (e.g. <code>gene</code>)</li>
+      <li><strong>Stable ID</strong> — persistent reference (e.g. <code>SO:0000704</code>)</li>
+      <li><strong>Definition</strong> — limits ambiguity (e.g. <em>sequence region with function</em>)</li>
+      <li><strong>Relationships</strong> — places the concept in context (e.g. <code>is_a biological_region</code>)</li>
+      <li><strong>Synonyms</strong> — helps map alternatives (e.g. <em>locus</em>, <em>coding gene</em>)</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">4. Ontology Structure — Relationships as a Biological Graph</h3>
+    <ul>
+      <li>The power of an ontology comes from edges between concepts</li>
+      <li>Common relationship types: <code>is_a</code> (subtype), <code>part_of</code> (component), <code>derives_from</code> (origin), <code>regulates</code> (process)</li>
+      <li>Chado stores relation labels as cvterms too, allowing the vocabulary of relationships to be extended</li>
+      <li>Reasoning: a query for a broad parent term can include records annotated to more specific child terms</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">5. Ontologies Commonly Used Around Chado</h3>
+    <ul>
+      <li><strong>SO</strong> — Sequence Ontology: feature types such as gene, mRNA, exon, CDS</li>
+      <li><strong>GO</strong> — Gene Ontology: function, process, cellular component</li>
+      <li><strong>RO</strong> — Relation Ontology: part_of, derives_from, regulates</li>
+      <li><strong>TO / PO</strong> — Trait and Plant Ontologies: traits, phenotypes, plant structures</li>
+      <li><strong>CO</strong> — Crop Ontology: CGIAR community-developed ontologies</li>
+      <li><strong>Local CV</strong> — project-specific vocabulary for terms not covered by public ontologies</li>
+      <li>Principle: public ontology when possible; local CV when needed</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">6. The Chado CV Module</h3>
+    <ul>
+      <li><code>cv</code> — the ontology or vocabulary namespace</li>
+      <li><code>cvterm</code> — the term or concept; the central object that many other tables point to</li>
+      <li><code>dbxref</code> — the external identifier (e.g. <code>SO:0000704</code>)</li>
+      <li><code>cvtermsynonym</code> — alternative names for a term</li>
+      <li><code>cvterm_relationship</code> / <code>cvtermpath</code> — direct and transitive relationships between terms</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">7. cvterm as the Semantic Bridge</h3>
+    <ul>
+      <li>Concept pathway: biological idea → ontology term → <code>cvterm</code> → typed Chado record</li>
+      <li>Typing a feature as a gene is not just a label — it is a link to a defined ontology concept via <code>feature.type_id → cvterm.cvterm_id</code></li>
+      <li>Example: GFF strings (<code>gene</code>, <code>mRNA</code>, <code>exon</code>) must resolve to matching cvterms on load</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">8. Practical Implications for Loading and Querying</h3>
+    <ul>
+      <li><strong>Data integrity</strong> — avoids misspellings, duplicates, and informal labels</li>
+      <li><strong>Portability</strong> — shared ontology terms allow datasets to be integrated</li>
+      <li><strong>Reasoning</strong> — parent-child relationships enable queries across broad concepts</li>
+      <li><strong>Troubleshooting</strong> — trace loader errors to missing, wrong, or ambiguous terms</li>
+      <li>Most cvterm-related failures are term-resolution problems</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">9. Applied Concept Check — When a Term Does Not Resolve</h3>
+    <ul>
+      <li>Example: loader reports <em>"Could not find cvterm 'lncRNA'"</em></li>
+      <li>Step 1 — What kind of concept is it? (feature type, relationship, or property)</li>
+      <li>Step 2 — Which ontology should contain it? (sequence features → Sequence Ontology)</li>
+      <li>Step 3 — Is the accepted name different? (<code>lnc_RNA</code> vs <code>lncRNA</code>)</li>
+      <li>Step 4 — What to fix? Correct the input, load/update the ontology, or add a local term</li>
+    </ul>
+  </div>
+
   <div class="card" style="text-align:center; padding: 2rem;">
-    <div style="font-size: 2.5rem; margin-bottom: .75rem;">&#128269;</div>
+    <div style="font-size: 2.5rem; margin-bottom: .75rem;">&#128196;</div>
     <a href="05-ontology-concepts-slides.pdf" target="_blank"
        style="display:inline-block; background:#177245; color:#fff; padding:.75rem 1.5rem;
               border-radius:.5rem; font-weight:600; font-size:.95rem; text-decoration:none;">
       &#128196; Open Slides (PDF)
     </a>
-  </div>
-
-  <div class="card">
-    <h2>Session Overview</h2>
-    <p>Concepts, vocabulary, and structure of biological ontologies as used in plant genomics databases. This lecture provides the conceptual grounding needed before the Chado schema deep dive that follows.</p>
-  </div>
-
-  <div class="card">
-    <h2>Topics Covered (Placeholder)</h2>
-    <ul>
-      <li>What is an ontology and why databases use them</li>
-      <li>Key ontologies in plant biology: Gene Ontology (GO), Plant Ontology (PO), Crop Ontology (CO)</li>
-      <li>Terms, relationships, and hierarchy</li>
-      <li>Controlled vocabulary vs. free text</li>
-      <li>How ontology terms anchor traits in SNP-Seek</li>
-      <li>Practical examples from rice phenotyping data</li>
-    </ul>
   </div>
 
 </main>
