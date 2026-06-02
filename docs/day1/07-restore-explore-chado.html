@@ -105,9 +105,10 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
 <main>
 
+  <!-- ── PRE-REQUISITE: INSTALL POSTGRESQL ─────────────── -->
   <div class="card">
-    <h2>Database Setup</h2>
-    <p>All training computers run the same operating system image. The <code>setup.sh</code> script handles everything in one command — it installs PostgreSQL 16 if needed, creates the training database, and restores the Chado schema.</p>
+    <h2>Step 0 — Install PostgreSQL</h2>
+    <p>All training computers run the same OS image. Run <code>install-db.sh</code> once to install PostgreSQL 16. If PostgreSQL is already installed it will skip automatically.</p>
 
     <h3>Training Environment</h3>
     <div class="terminal-wrap">
@@ -116,45 +117,33 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     </div>
     <p style="margin-top:.75rem;"><strong>OS:</strong> Ubuntu 22.04.1 LTS &nbsp;·&nbsp; <strong>Arch:</strong> x86_64 &nbsp;·&nbsp; <strong>Kernel:</strong> 6.8.0-111-generic</p>
 
-    <h3>What setup.sh does</h3>
-    <ul style="margin-top:.5rem;">
-      <li><strong>Step 0</strong> — Installs PostgreSQL 16 via the official PGDG apt repo (skips if already installed)</li>
-      <li><strong>Step 1</strong> — Creates the training database (skips if it already exists)</li>
-      <li><strong>Step 2</strong> — Restores the Chado schema from the provided <code>.dump</code> file</li>
-      <li><strong>Step 3</strong> — Verifies the schema and prints the connect command</li>
-    </ul>
-
-    <h3>How to Run</h3>
-
-    <p><strong>Step 1 — Check file permissions</strong></p>
-    <p>Verify that <code>setup.sh</code> is executable:</p>
+    <h3>Check permissions</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>ls -l setup.sh</pre>
+      <pre>ls -l install-db.sh</pre>
     </div>
-    <p style="margin-top:.5rem;">Look for an <code>x</code> in the permissions column, e.g. <code>-rwxr-xr-x</code>. If it is missing, make it executable:</p>
+    <p style="margin-top:.5rem;">Look for an <code>x</code> in the permissions column (e.g. <code>-rwxr-xr-x</code>). If missing:</p>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>chmod +x setup.sh</pre>
+      <pre>chmod +x install-db.sh</pre>
     </div>
 
-    <p style="margin-top:1rem;"><strong>Step 2 — Run the script</strong></p>
-    <p>Place <code>setup.sh</code> and <code>chado_dump.sql</code> in the same directory, then run:</p>
+    <h3>Run the installer</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>bash setup.sh chado_training chado_dump.sql</pre>
+      <pre>bash install-db.sh</pre>
     </div>
-    <p style="margin-top:.75rem;">The first argument is the database name; the second is the dump file. Both are optional — defaults are <code>chado_training</code> and <code>chado_dump.sql</code>.</p>
-
     <div class="note-box">
-      &#9432; <strong>Note:</strong> The script uses <code>sudo</code> for the apt install and PostgreSQL commands. You will be prompted for your password if <code>sudo</code> requires it.
+      &#9432; The script uses <code>sudo</code> — you will be prompted for your password. Once done, continue below to restore the database.
     </div>
   </div>
 
   <div class="card">
     <h2>Related Files</h2>
     <p>Download these before starting the lab:</p>
-    <a class="script-link" href="../scripts/setup.sh" download>&#128196; scripts/setup.sh</a>
+    <a class="script-link" href="../scripts/install-db.sh" download>&#128196; scripts/install-db.sh</a>
+    &nbsp;
+    <a class="script-link" href="../scripts/restore.sh" download>&#128196; scripts/restore.sh</a>
     &nbsp;
     <a class="script-link" href="../data/chado_dump.sql" download>&#128196; data/chado_dump.sql</a>
   </div>
@@ -166,45 +155,54 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <!-- Choice banner -->
   <div class="choice-banner">
-    <p><strong>Choose your setup path below.</strong> Both paths result in the same database — pick whichever fits your setup. Once the database is ready, follow the shared <em>Explore the Schema</em> section.</p>
+    <p><strong>Choose how to restore the database.</strong> Both options produce the same result — pick whichever fits your preference. Once the database is ready, follow the shared <em>Explore the Schema</em> section.</p>
     <div class="choice-links">
-      <a class="link-a" href="#option-a">&#9654; Option A — Using setup.sh</a>
+      <a class="link-a" href="#option-a">&#9654; Option A — Using restore.sh</a>
       <a class="link-b" href="#option-b">&#9654; Option B — Manual Steps</a>
     </div>
   </div>
 
   <!-- ── OPTION A ─────────────────────────────────────── -->
   <div class="card card-option-a" id="option-a">
-    <span class="option-label option-label-a">Option A — Automated via setup.sh</span>
-    <h2>Using setup.sh to Restore the Database</h2>
-    <p>The <code>setup.sh</code> script handles database creation and schema restore in one command. Use this if you want a faster, automated setup.</p>
+    <span class="option-label option-label-a">Option A — Automated via restore.sh</span>
+    <h2>Using restore.sh</h2>
+    <p><code>restore.sh</code> creates the training database and loads the Chado schema in one command. It does not install PostgreSQL — run <code>install-db.sh</code> first if you have not already.</p>
 
-    <h3>Step 1: Place the Files</h3>
+    <h3>Step 1: Check permissions</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>ls -l restore.sh</pre>
+    </div>
+    <p style="margin-top:.5rem;">If the <code>x</code> flag is missing:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>chmod +x restore.sh</pre>
+    </div>
+
+    <h3>Step 2: Place the files</h3>
     <p>Make sure both files are in the same working directory:</p>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>ls setup.sh chado_dump.sql</pre>
+      <pre>ls restore.sh chado_dump.sql</pre>
     </div>
 
-    <h3>Step 2: Run the Script</h3>
-    <p>Pass your desired database name and the dump file as arguments:</p>
+    <h3>Step 3: Run the script</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>bash setup.sh chado_training chado_dump.sql</pre>
+      <pre>bash restore.sh chado_training chado_dump.sql</pre>
     </div>
     <p style="margin-top:.75rem;">The script will:</p>
     <ul style="margin-top:.5rem;">
       <li>Create the database <code>chado_training</code> (skips if it already exists)</li>
       <li>Restore the Chado schema from <code>chado_dump.sql</code></li>
       <li>Verify the schema is present</li>
-      <li>Print the <code>psql</code> connect command when done</li>
+      <li>Print the connect command when done</li>
     </ul>
 
-    <h3>Step 3: Connect to the Database</h3>
-    <p>Use the connect command printed by the script, or run directly:</p>
+    <h3>Step 4: Connect to the database</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>psql -U postgres -d chado_training</pre>
+      <pre>sudo -u postgres psql -d chado_training</pre>
     </div>
 
     <div class="note-box">
@@ -216,24 +214,24 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
   <div class="card card-option-b" id="option-b">
     <span class="option-label option-label-b">Option B — Manual Steps</span>
     <h2>Manually Restoring the Database</h2>
-    <p>Follow these steps if you prefer to run each command yourself, or if <code>setup.sh</code> is not available in your environment.</p>
+    <p>Follow these steps if you prefer to run each command yourself.</p>
 
     <h3>Step 1: Create the Database</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>createdb -h localhost -U &lt;USERNAME&gt; &lt;DB_NAME&gt;</pre>
+      <pre>sudo -u postgres createdb chado_training</pre>
     </div>
 
     <h3>Step 2: Restore the Chado Schema</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt; -f chado_dump.sql</pre>
+      <pre>sudo -u postgres psql -d chado_training -f chado_dump.sql</pre>
     </div>
 
     <h3>Step 3: Connect to the Database</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>psql -h localhost -U &lt;USERNAME&gt; -d &lt;DB_NAME&gt;</pre>
+      <pre>sudo -u postgres psql -d chado_training</pre>
     </div>
 
     <div class="note-box">
