@@ -7,11 +7,17 @@ set -euo pipefail
 
 DB_NAME="${1:-chado_training}"
 DUMP_FILE="${2:-chado_dump.sql}"
+PG_PASSWORD="training2026"
 
 echo "=== Chado Training Database Restore ==="
 echo "Database : $DB_NAME"
 echo "Dump file: $DUMP_FILE"
 echo
+
+# --- Set postgres password for TCP connections ---
+echo "[0/3] Setting password for postgres user ..."
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD '$PG_PASSWORD';"
+echo "      Password set."
 
 # --- Create database ---
 echo "[1/3] Creating database '$DB_NAME' ..."
@@ -38,3 +44,10 @@ sudo -u postgres psql -d "$DB_NAME" -c "\dn" | grep -q "public" \
 echo
 echo "Restore complete. Connect with:"
 echo "  sudo -u postgres psql -d $DB_NAME"
+echo
+echo "Or via TCP (e.g. from a script or GUI tool):"
+echo "  host:     localhost"
+echo "  port:     5432"
+echo "  db_name:  $DB_NAME"
+echo "  user:     postgres"
+echo "  password: $PG_PASSWORD"
