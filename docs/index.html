@@ -406,6 +406,89 @@
       color: #365445;
     }
 
+    /* ── ABOUT ───────────────────────────────────────────── */
+    .about-intro {
+      font-size: 1.05rem;
+      color: #3d5a4a;
+      line-height: 1.8;
+      margin-bottom: 32px;
+      max-width: 860px;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+
+    .day-card {
+      border-radius: 18px;
+      padding: 24px 26px;
+      border: 1px solid #e3ebe3;
+    }
+
+    .day-card.day1 { background: #f5fdf7; border-color: #b6dfc4; }
+    .day-card.day2 { background: #f0f6ff; border-color: #b6cff5; }
+
+    .day-card-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .day1 .day-card-label { background: #d1fae5; color: #065f46; }
+    .day2 .day-card-label { background: #dbeafe; color: #1e3a8a; }
+
+    .day-card h3 { font-size: 1rem; font-weight: 700; color: #183027; margin-bottom: 12px; }
+    .day-card ul { padding-left: 1.1rem; display: flex; flex-direction: column; gap: 7px; }
+    .day-card li { font-size: 0.9rem; color: #4d6659; line-height: 1.6; }
+
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .outcomes-box {
+      background: #f8fbf8;
+      border: 1px solid #e3ebe3;
+      border-radius: 16px;
+      padding: 22px 24px;
+    }
+
+    .outcomes-box h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #183027;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 14px;
+    }
+
+    .outcomes-box ul { padding-left: 1.1rem; display: flex; flex-direction: column; gap: 8px; }
+    .outcomes-box li { font-size: 0.9rem; color: #4d6659; line-height: 1.6; }
+
+    /* ── MATERIALS GROUPS ─────────────────────────────────── */
+    .materials-group { margin-bottom: 28px; }
+    .materials-group:last-child { margin-bottom: 0; }
+
+    .group-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #789184;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e3ebe3;
+    }
+
     /* ── FOOTER ───────────────────────────────────────────── */
     footer {
       text-align: center;
@@ -417,7 +500,9 @@
     /* ── RESPONSIVE ───────────────────────────────────────── */
     @media (max-width: 980px) {
       .hero-grid,
-      .schedule-grid { grid-template-columns: 1fr; }
+      .schedule-grid,
+      .about-grid,
+      .outcomes-grid { grid-template-columns: 1fr; }
       .hero { padding: 70px 0 60px; }
       .stats-panel { max-width: 100%; }
     }
@@ -499,6 +584,82 @@
     </div>
   </section>
 
+  <!-- ══ ABOUT ════════════════════════════════════════════ -->
+  <section class="section" style="padding-bottom: 0;">
+    <div class="container">
+      <div class="card">
+
+        <div class="section-header" style="margin-bottom: 20px;">
+          <div class="section-title">
+            <h2>About This Training</h2>
+            <p>Background, what to expect, and what you will be able to do after.</p>
+          </div>
+        </div>
+
+        <p class="about-intro">
+          The 1k1RG Database Curation and Loading Workshop is a two-day, hands-on technical training
+          for IT personnel responsible for operating and maintaining the SNP-Seek rice genomics platform.
+          SNP-Seek runs on a specialized stack — PostgreSQL with the Chado biological schema, HDF5 for
+          genotype matrices, and brAPI for external system integration. This training closes the gap
+          between server administration and the domain-specific knowledge required to independently
+          curate, load, and verify genomic data without constant support from the development team.
+        </p>
+
+        <div class="about-grid">
+          <div class="day-card day1">
+            <span class="day-card-label">Day 1</span>
+            <h3>Database Schema, Ontologies &amp; Curation</h3>
+            <ul>
+              <li>Platform overview and SNP-Seek technology stack</li>
+              <li>Chado schema — core tables, relationships, and ERD walkthrough</li>
+              <li>Biological ontologies and how cvterms act as the database type system</li>
+              <li>Hands-on: restore and query a real training database</li>
+              <li>Bulk data loading via script — step-by-step lab</li>
+              <li>HDF5 introduction — what genotype matrix files are and why they exist</li>
+            </ul>
+          </div>
+          <div class="day-card day2">
+            <span class="day-card-label">Day 2</span>
+            <h3>Pipeline, Loading &amp; Verification</h3>
+            <ul>
+              <li>VCF format — what it is and what the genotype calls represent</li>
+              <li>Full two-step pipeline: VCF → genotype matrix → HDF5</li>
+              <li>Loading into Chado using <code style="background:#dbeafe;padding:.1em .35em;border-radius:.2em;font-size:.85em;">uploadDataset.sh</code></li>
+              <li>Diagnosing and recovering from partial load failures</li>
+              <li>brAPI — verifying that loaded data is visible to external systems</li>
+              <li>Open lab: end-to-end run on an unseen dataset</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="outcomes-grid">
+          <div class="outcomes-box">
+            <h3>Learning Outcomes</h3>
+            <ul>
+              <li>Navigate and query the SNP-Seek Chado database</li>
+              <li>Understand how ontologies and cvterms structure genomic data</li>
+              <li>Run the full VCF → HDF5 → Chado loading pipeline</li>
+              <li>Diagnose and recover from partial load and pipeline failures</li>
+              <li>Verify loaded data through brAPI endpoints</li>
+              <li>Perform routine maintenance: backup, restore, VACUUM, monitoring</li>
+            </ul>
+          </div>
+          <div class="outcomes-box">
+            <h3>Prerequisites</h3>
+            <ul>
+              <li>Linux command-line comfort — navigation, file operations, running scripts</li>
+              <li>SQL fundamentals — SELECT, JOIN, INSERT, basic relational tables</li>
+              <li>SSH access to the training server (credentials distributed before the session)</li>
+              <li>A laptop with an SSH client and a browser</li>
+              <li>No prior bioinformatics background required — biological concepts are introduced as they become relevant</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ══ DOWNLOADS ═════════════════════════════════════════ -->
   <section class="section">
     <div class="container">
@@ -513,77 +674,94 @@
              class="download-btn">⬇ Download Everything (ZIP)</a>
         </div>
 
-        <div class="materials-grid">
+        <!-- Group 1: Database Setup & Schema — Sessions 05, 06, 07 -->
+        <div class="materials-group">
+          <div class="group-label">Database Setup &amp; Schema &nbsp;·&nbsp; Sessions 05, 06, 07</div>
+          <div class="materials-grid">
 
-          <!-- Slide Decks -->
-          <a class="material-item" href="day1/05-ontology-concepts-slides.pdf" download>
-            <div class="material-icon">📊</div>
-            <h4>Ontology Concepts</h4>
-            <span>Slides (PDF)</span>
-          </a>
+            <a class="material-item" href="scripts/setup.sh" download>
+              <div class="material-icon">⚙️</div>
+              <h4>setup.sh</h4>
+              <span>Environment &amp; DB setup</span>
+            </a>
 
-          <a class="material-item" href="day1/06-chado-schema-deepdive.pdf" download>
-            <div class="material-icon">📊</div>
-            <h4>Chado Schema Deep Dive</h4>
-            <span>Slides (PDF)</span>
-          </a>
+            <a class="material-item" href="data/chado_dump.sql" download>
+              <div class="material-icon">🗃️</div>
+              <h4>chado_dump.sql</h4>
+              <span>Training database dump</span>
+            </a>
 
-          <!-- Scripts -->
-          <a class="material-item" href="scripts/setup.sh" download>
-            <div class="material-icon">⚙️</div>
-            <h4>setup.sh</h4>
-            <span>Environment setup script</span>
-          </a>
+            <a class="material-item" href="day1/05-ontology-concepts-slides.pdf" download>
+              <div class="material-icon">📊</div>
+              <h4>Ontology Concepts</h4>
+              <span>Slides (PDF)</span>
+            </a>
 
-          <a class="material-item" href="scripts/load_template.sql" download>
-            <div class="material-icon">🗄️</div>
-            <h4>load_template.sql</h4>
-            <span>Bulk-loading template</span>
-          </a>
+            <a class="material-item" href="day1/06-chado-schema-deepdive.pdf" download>
+              <div class="material-icon">📊</div>
+              <h4>Chado Schema Deep Dive</h4>
+              <span>Slides (PDF)</span>
+            </a>
 
-          <a class="material-item" href="scripts/pipeline_vcf_to_hdf5.sh" download>
-            <div class="material-icon">🧬</div>
-            <h4>pipeline_vcf_to_hdf5.sh</h4>
-            <span>VCF → HDF5 pipeline</span>
-          </a>
+          </div>
+        </div>
 
-          <a class="material-item" href="scripts/vcftomatrix.sh" download>
-            <div class="material-icon">🔀</div>
-            <h4>vcftomatrix.sh</h4>
-            <span>VCF → genotype matrix</span>
-          </a>
+        <!-- Group 2: Data Loading — Sessions 08, 13 -->
+        <div class="materials-group">
+          <div class="group-label">Data Loading &nbsp;·&nbsp; Sessions 08, 13</div>
+          <div class="materials-grid">
 
-          <a class="material-item" href="scripts/make_HDF_dataset.sh" download>
-            <div class="material-icon">📦</div>
-            <h4>make_HDF_dataset.sh</h4>
-            <span>Matrix → HDF5 dataset</span>
-          </a>
+            <a class="material-item" href="scripts/load_template.sql" download>
+              <div class="material-icon">🗄️</div>
+              <h4>load_template.sql</h4>
+              <span>Bulk-loading template</span>
+            </a>
 
-          <!-- Data Files -->
-          <a class="material-item" href="data/sample_accessions.csv" download>
-            <div class="material-icon">📄</div>
-            <h4>sample_accessions.csv</h4>
-            <span>Sample metadata file</span>
-          </a>
+            <a class="material-item" href="data/sample_accessions.csv" download>
+              <div class="material-icon">📄</div>
+              <h4>sample_accessions.csv</h4>
+              <span>Sample metadata file</span>
+            </a>
 
-          <a class="material-item" href="data/chado_dump.sql" download>
-            <div class="material-icon">🗃️</div>
-            <h4>chado_dump.sql</h4>
-            <span>Chado database dump</span>
-          </a>
+            <a class="material-item" href="data/demo.tar.gz" download>
+              <div class="material-icon">🗜️</div>
+              <h4>demo.tar.gz</h4>
+              <span>Hands-on demo archive</span>
+            </a>
 
-          <a class="material-item" href="data/demo.tar.gz" download>
-            <div class="material-icon">🗜️</div>
-            <h4>demo.tar.gz</h4>
-            <span>Hands-on demo archive</span>
-          </a>
+          </div>
+        </div>
 
-          <a class="material-item" href="data/VCFv4.2.pdf" download>
-            <div class="material-icon">📋</div>
-            <h4>VCF v4.2 Spec</h4>
-            <span>Format specification (PDF)</span>
-          </a>
+        <!-- Group 3: VCF → HDF5 Pipeline — Sessions 11, 12 -->
+        <div class="materials-group">
+          <div class="group-label">VCF → HDF5 Pipeline &nbsp;·&nbsp; Sessions 11, 12</div>
+          <div class="materials-grid">
 
+            <a class="material-item" href="data/VCFv4.2.pdf" download>
+              <div class="material-icon">📋</div>
+              <h4>VCF v4.2 Spec</h4>
+              <span>Format reference (PDF)</span>
+            </a>
+
+            <a class="material-item" href="scripts/vcftomatrix.sh" download>
+              <div class="material-icon">🔀</div>
+              <h4>vcftomatrix.sh</h4>
+              <span>VCF → genotype matrix</span>
+            </a>
+
+            <a class="material-item" href="scripts/make_HDF_dataset.sh" download>
+              <div class="material-icon">📦</div>
+              <h4>make_HDF_dataset.sh</h4>
+              <span>Matrix → HDF5 dataset</span>
+            </a>
+
+            <a class="material-item" href="scripts/pipeline_vcf_to_hdf5.sh" download>
+              <div class="material-icon">🧬</div>
+              <h4>pipeline_vcf_to_hdf5.sh</h4>
+              <span>Full pipeline wrapper</span>
+            </a>
+
+          </div>
         </div>
 
         <div class="notice">
