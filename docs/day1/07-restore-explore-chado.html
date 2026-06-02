@@ -105,6 +105,21 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
 <main>
 
+  <div class="card">
+    <h2>Session Overview</h2>
+    <p>Hands-on lab: participants restore a PostgreSQL dump of the training Chado database and then explore its structure using <code>psql</code> meta-commands and SQL queries to confirm the schema matches what was described in the lecture.</p>
+  </div>
+
+  <div class="card">
+    <h2>Related Files</h2>
+    <p>Download these before starting the lab:</p>
+    <a class="script-link" href="../scripts/install-db.sh" download>&#128196; scripts/install-db.sh</a>
+    &nbsp;
+    <a class="script-link" href="../scripts/restore.sh" download>&#128196; scripts/restore.sh</a>
+    &nbsp;
+    <a class="script-link" href="../data/chado_dump.sql" download>&#128196; data/chado_dump.sql</a>
+  </div>
+
   <!-- ── PRE-REQUISITE: INSTALL POSTGRESQL ─────────────── -->
   <div class="card">
     <h2>Step 0 — Install PostgreSQL</h2>
@@ -136,21 +151,6 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     <div class="note-box">
       &#9432; The script uses <code>sudo</code> — you will be prompted for your password. Once done, continue below to restore the database.
     </div>
-  </div>
-
-  <div class="card">
-    <h2>Related Files</h2>
-    <p>Download these before starting the lab:</p>
-    <a class="script-link" href="../scripts/install-db.sh" download>&#128196; scripts/install-db.sh</a>
-    &nbsp;
-    <a class="script-link" href="../scripts/restore.sh" download>&#128196; scripts/restore.sh</a>
-    &nbsp;
-    <a class="script-link" href="../data/chado_dump.sql" download>&#128196; data/chado_dump.sql</a>
-  </div>
-
-  <div class="card">
-    <h2>Session Overview</h2>
-    <p>Hands-on lab: participants restore a PostgreSQL dump of the training Chado database and then explore its structure using <code>psql</code> meta-commands and SQL queries to confirm the schema matches what was described in the lecture.</p>
   </div>
 
   <!-- Choice banner -->
