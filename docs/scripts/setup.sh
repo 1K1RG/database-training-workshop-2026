@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# Purpose: Prepare the training environment — create the PostgreSQL training DB,
+# Purpose: Install PostgreSQL 16 (if not present), create the training DB,
 #          restore the Chado schema dump, and verify connectivity.
 # Usage:   bash setup.sh [DB_NAME] [DUMP_FILE]
-# TODO: Replace with the real setup script before the training.
+# Target:  Ubuntu 22.04.1 LTS x86_64 (6.8.0-111-generic)
 
 set -euo pipefail
 
 DB_NAME="${1:-chado_training}"
 DUMP_FILE="${2:-chado_training.dump}"
 PG_USER="${PGUSER:-postgres}"
+PG_VERSION="16"
 
 echo "=== 1k1RG Training Environment Setup ==="
 echo "Database : $DB_NAME"
@@ -16,9 +17,33 @@ echo "Dump file: $DUMP_FILE"
 echo "PG user  : $PG_USER"
 echo
 
+# --- Install PostgreSQL 16 if not already installed ---
+echo "[0/3] Checking PostgreSQL installation ..."
+if command -v psql &>/dev/null && psql --version | grep -q "PostgreSQL $PG_VERSION"; then
+  echo "      PostgreSQL $PG_VERSION already installed — skipping."
+else
+  echo "      Installing PostgreSQL $PG_VERSION via PGDG apt repository ..."
+  sudo apt-get update -qq
+  sudo apt-get install -y --no-install-recommends gnupg curl ca-certificates
+
+  # Add the official PostgreSQL apt repository
+  sudo install -d /usr/share/postgresql-common/pgdg
+  curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc \
+    | sudo gpg --dearmor -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.gpg
+  echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.gpg] \
+https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+    | sudo tee /etc/apt/sources.list.d/pgdg.list > /dev/null
+
+  sudo apt-get update -qq
+  sudo apt-get install -y --no-install-recommends postgresql-$PG_VERSION
+  sudo systemctl enable --now postgresql
+  echo "      PostgreSQL $PG_VERSION installed and started."
+fi
+echo
+
 # --- Create database ---
 echo "[1/3] Creating database '$DB_NAME' ..."
-createdb -U "$PG_USER" "$DB_NAME" 2>/dev/null \
+sudo -u postgres createdb "$DB_NAME" 2>/dev/null \
   && echo "      Created." \
   || echo "      Already exists — skipping."
 
@@ -29,15 +54,17 @@ if [[ ! -f "$DUMP_FILE" ]]; then
   echo "       Place the .dump file in the current directory and re-run."
   exit 1
 fi
-pg_restore -U "$PG_USER" -d "$DB_NAME" --no-owner --no-privileges "$DUMP_FILE"
+sudo -u postgres pg_restore -d "$DB_NAME" --no-owner --no-privileges "$DUMP_FILE"
 echo "      Restore complete."
 
 # --- Verify ---
 echo "[3/3] Verifying schema ..."
-psql -U "$PG_USER" -d "$DB_NAME" -c "\dn" | grep -q "public" \
+sudo -u postgres psql -d "$DB_NAME" -c "\dn" | grep -q "public" \
   && echo "      Schema 'public' present — OK." \
   || echo "      WARNING: 'public' schema not found. Check restore output above."
 
 echo
 echo "Setup complete. Connect with:"
+echo "  sudo -u postgres psql -d $DB_NAME"
+echo "  # or, if your user has been granted access:"
 echo "  psql -U $PG_USER -d $DB_NAME"
