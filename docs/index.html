@@ -417,6 +417,15 @@
     /* admin row — muted italic */
     .row-admin td { color: #8fa89a; font-style: italic; font-size: 13px; }
 
+    /* break / lunch rows */
+    .row-break td { background: #f6f8f7; color: #8fa89a; font-style: italic; font-size: 13px; text-align: center; }
+    .row-lunch td { background: #fdf6ec; color: #a07040; font-style: italic; font-size: 13px; text-align: center; }
+
+    /* session number badge */
+    .sess-num { display: inline-block; font-size: 10px; font-weight: 700; font-family: monospace;
+                color: #789184; background: #eef2f0; border-radius: 4px;
+                padding: 1px 5px; margin-right: 5px; vertical-align: middle; }
+
     /* ── SIDEBAR ──────────────────────────────────────────── */
     .sidebar { display: flex; flex-direction: column; gap: 20px; }
 
@@ -728,82 +737,106 @@
             </thead>
             <tbody>
               <tr>
-                <td class="td-time">9:00</td>
+                <td class="td-time">9:00 – 9:30</td>
                 <td class="td-session">
-                  <a href="day1/01-orientation.html">Orientation &amp; Environment Check</a>
-                </td>
-                <td class="td-speaker">Admin</td>
-                <td><span class="tag admin">Admin</span></td>
-              </tr>
-              <tr>
-                <td class="td-time">9:30</td>
-                <td class="td-session">
-                  <a href="day1/02-1k1rg-overview.html">1k1RG Project Overview &amp; Activity 5</a>
+                  <span class="sess-num">01–02</span>
+                  <a href="day1/01-orientation.html">Orientation</a>
+                  &amp;
+                  <a href="day1/02-1k1rg-overview.html">1k1RG Project Overview</a>
                 </td>
                 <td class="td-speaker">Arian Jacildo</td>
                 <td><span class="tag lecture">Lecture</span></td>
               </tr>
               <tr>
-                <td class="td-time">10:30</td>
+                <td class="td-time">9:30 – 10:30</td>
                 <td class="td-session">
-                  <a href="day1/03-linux-basics.html">Linux Basics</a>
+                  <span class="sess-num">03</span>
+                  <a href="day1/03-linux-basics.html">Linux Basics — Part 1</a>
                   <span class="new-tag">NEW</span>
                 </td>
                 <td class="td-speaker">Garth Hendrich Lapitan</td>
                 <td><span class="tag leclab">Lecture+Lab</span></td>
               </tr>
+              <tr class="row-break">
+                <td class="td-time">10:30 – 10:45</td>
+                <td colspan="3">☕ Break</td>
+              </tr>
               <tr>
-                <td class="td-time">11:00</td>
+                <td class="td-time">10:45 – 12:00</td>
                 <td class="td-session">
-                  <a href="day1/04-sql-basics.html">SQL Basics</a>
+                  <span class="sess-num">03</span>
+                  <a href="day1/03-linux-basics.html">Linux Basics — Part 2</a>
                 </td>
                 <td class="td-speaker">Garth Hendrich Lapitan</td>
                 <td><span class="tag leclab">Lecture+Lab</span></td>
               </tr>
               <tr>
-                <td class="td-time">1:30</td>
+                <td class="td-time">12:00 – 12:30</td>
                 <td class="td-session">
+                  <span class="sess-num">04</span>
+                  <a href="day1/04-sql-basics.html">SQL Basics</a>
+                </td>
+                <td class="td-speaker">Garth Hendrich Lapitan</td>
+                <td><span class="tag leclab">Lecture+Lab</span></td>
+              </tr>
+              <tr class="row-lunch">
+                <td class="td-time">12:30 – 1:30</td>
+                <td colspan="3">🍱 Lunch Break</td>
+              </tr>
+              <tr>
+                <td class="td-time">1:30 – 2:15</td>
+                <td class="td-session">
+                  <span class="sess-num">05</span>
                   <a href="day1/05-ontology-concepts.html">Ontology Concepts</a>
                 </td>
-                <td class="td-speaker">Jeffrey Detras </td>
+                <td class="td-speaker">Jeffrey Detras</td>
                 <td><span class="tag lecture">Lecture</span></td>
               </tr>
               <tr>
-                <td class="td-time">2:15</td>
+                <td class="td-time">2:15 – 3:00</td>
                 <td class="td-session">
+                  <span class="sess-num">06</span>
                   <a href="day1/06-chado-schema-deepdive.html">Chado Schema Deep Dive &amp; Ontology Implementation</a>
                   <span class="new-tag">NEW</span>
                 </td>
                 <td class="td-speaker">Lord Hendrix Barboza</td>
                 <td><span class="tag lecture">Lecture</span></td>
               </tr>
+              <tr class="row-break">
+                <td class="td-time">3:00 – 3:15</td>
+                <td colspan="3">☕ Break</td>
+              </tr>
               <tr>
-                <td class="td-time">3:15</td>
+                <td class="td-time">3:15 – 3:45</td>
                 <td class="td-session">
+                  <span class="sess-num">07</span>
                   <a href="day1/07-restore-explore-chado.html">Restore &amp; Explore the Chado Schema</a>
                 </td>
                 <td class="td-speaker">Lord Hendrix Barboza</td>
                 <td><span class="tag lab">Lab</span></td>
               </tr>
               <tr>
-                <td class="td-time">3:45</td>
+                <td class="td-time">3:45 – 4:30</td>
                 <td class="td-session">
+                  <span class="sess-num">08</span>
                   <a href="day1/08-bulk-loading-script.html">Bulk Data Loading via Script</a>
                 </td>
                 <td class="td-speaker">Lord Hendrix Barboza</td>
                 <td><span class="tag lab">Lab</span></td>
               </tr>
               <tr>
-                <td class="td-time">4:30</td>
+                <td class="td-time">4:30 – 4:50</td>
                 <td class="td-session">
+                  <span class="sess-num">09</span>
                   <a href="day1/09-java-swing-loader.html">Java Swing Loader — Show and Tell</a>
                 </td>
                 <td class="td-speaker">Lord Hendrix Barboza</td>
                 <td><span class="tag demo">Demo</span></td>
               </tr>
               <tr>
-                <td class="td-time">4:50</td>
+                <td class="td-time">4:50 – 5:00</td>
                 <td class="td-session">
+                  <span class="sess-num">10</span>
                   <a href="day1/10-hdf5-intro.html">HDF5 — What It Is and Why SNP-Seek Uses It</a>
                   <span class="new-tag">NEW</span>
                 </td>
@@ -914,10 +947,11 @@
         <div class="side-card">
           <h4>Speakers &amp; Facilitators</h4>
           <ul style="padding-left:18px; color:#557062; display:flex; flex-direction:column; gap:10px; font-size:14px;">
-            <li><strong>Arian Jacildo</strong> — 1k1RG overview</li>
-            <li><strong>Garth Hendrich Lapitan</strong> — Linux basics</li>
-            <li><strong>Jeffrey Detras / Lord Hendrix Barboza</strong> — Ontologies, Chado, bulk loading</li>
-            <li><strong>Riza Pasco</strong> — VCF &amp; pipeline</li>
+            <li><strong>Arian Jacildo</strong> — Orientation &amp; 1k1RG Overview <span style="font-size:11px;color:#789184;">(01–02)</span></li>
+            <li><strong>Garth Hendrich Lapitan</strong> — Linux Basics &amp; SQL Fundamentals <span style="font-size:11px;color:#789184;">(03–04)</span></li>
+            <li><strong>Jeffrey Detras</strong> — Ontology Concepts <span style="font-size:11px;color:#789184;">(05)</span></li>
+            <li><strong>Lord Hendrix Barboza</strong> — Chado Schema, Bulk Loading, HDF5 <span style="font-size:11px;color:#789184;">(06–10)</span></li>
+            <li><strong>Riza Pasco</strong> — VCF Format &amp; Pipeline <span style="font-size:11px;color:#789184;">(11–12)</span></li>
           </ul>
         </div>
 
