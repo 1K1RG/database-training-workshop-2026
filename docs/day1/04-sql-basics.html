@@ -16,7 +16,7 @@ nav a:hover { color: #fff; text-decoration: underline; }
 .badges { display: flex; gap: .5rem; margin-bottom: .85rem; flex-wrap: wrap; align-items: center; }
 .badge { display: inline-block; padding: .2rem .7rem; border-radius: 9999px;
          font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
-.b-leclab { background: #cffafe; color: #155e75; }
+.b-lab { background: #d1fae5; color: #065f46; }
 h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.25; margin-bottom: .6rem; }
 .meta-row { display: flex; gap: 1.75rem; flex-wrap: wrap; font-size: 1rem; color: #86efac; }
 main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
@@ -47,52 +47,27 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
 <div class="page-header">
   <div class="badges">
-    <span class="badge b-leclab">Lecture+Lab</span>
+    <span class="badge b-lab">Lab</span>
     <span>Day 1 &nbsp;·&nbsp; Session 4 of 10</span>
   </div>
   <h1>SQL Basics</h1>
   <div class="meta-row">
-    <span>&#128336; 11:00 – 12:00 (approx.)</span>
-    <span>&#127908; —</span>
-    <span>&#128337; ~60 min</span>
+    <span>&#128336; 12:00 – 12:30</span>
+    <span>&#127908; G</span>
+    <span>&#128337; 30 min</span>
   </div>
 </div>
 
 <main>
 
-  <div class="slide-box">
-    <div class="slide-icon">&#128200;</div>
-    <h2>Slides &amp; Lab Exercises go here</h2>
-    <p>Replace this placeholder with exported SQL basics slides and lab worksheet.</p>
-    <div class="instruction">
-      <strong>How to replace:</strong><br>
-      1. Export slides → <code>04-sql-basics-slides.pdf</code><br>
-      2. Lab worksheet → <code>04-sql-basics-lab.pdf</code><br>
-      3. Place in <code>/docs/day1/</code><br>
-      4. See also <code>/cheatsheets/psql-commands.pdf</code> for participant reference
-    </div>
+  <div class="card" style="padding: 0; overflow: hidden;">
+    <iframe src="04-sql-basics-slides.pdf" title="SQL Basics slides"
+            style="width:100%; height:75vh; border:0; display:block;"></iframe>
   </div>
 
   <div class="card">
     <h2>Session Overview</h2>
     <p>Introduction to SQL and PostgreSQL (psql) for participants with limited database experience. The lab exercises use a sample dataset from the training database so participants can immediately practise on rice genomics data.</p>
-  </div>
-
-  <div class="card">
-    <h2>Topics Covered (Placeholder)</h2>
-    <ul>
-      <li>Relational database concepts: tables, rows, columns, primary/foreign keys</li>
-      <li>Connecting with <code>psql</code> and navigating the client</li>
-      <li>Basic queries: <code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>, <code>LIMIT</code></li>
-      <li>Aggregations: <code>COUNT</code>, <code>SUM</code>, <code>GROUP BY</code></li>
-      <li>Joins: <code>INNER JOIN</code>, <code>LEFT JOIN</code></li>
-      <li>Inserting and updating data safely</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Supporting Material</h2>
-    <p>See the <strong>psql Commands Cheat Sheet</strong> in the Downloads section — handy reference for quick command lookup during the lab.</p>
   </div>
 
 </main>
