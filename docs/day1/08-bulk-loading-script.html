@@ -110,7 +110,7 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <div class="card">
     <h2>Session Overview</h2>
-    <p>A <strong>bulk loading script</strong> automates data ingestion into the PostgreSQL Chado schema. This lab walks through using <code>uploadDataset.sh</code> to load a training dataset, followed by a separate exercise loading a reference genome directly with <code>\copy</code>.</p>
+    <p>A <strong>bulk loading script</strong> automates data ingestion into the PostgreSQL Chado schema. This lab starts with loading a reference genome directly with <code>\copy</code>, followed by using <code>uploadDataset.sh</code> to load a full training dataset.</p>
 
     <h3>What the Script Does</h3>
     <ul>
@@ -144,9 +144,31 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     <a class="script-link" href="https://drive.google.com/file/d/1rgmn64RM_RXuyMu__-ovP5qoE7HumBfc/view?usp=drive_link" target="_blank">&#128196; 11-feature-nipponbare.csv</a>
   </div>
 
-  <!-- ── PART 1: uploadDataset.sh ───────────────────── -->
+  <!-- ── PART 1: Reference Genome via \copy ────────── -->
   <div class="card" id="option-a">
-    <h2>Part 1 — Using uploadDataset.sh</h2>
+    <h2>Part 1 — Loading a Reference Genome with \copy</h2>
+    <p>This exercise loads reference genome feature data directly into Chado using PostgreSQL's <code>\copy</code> command. Make sure you are in the directory containing the CSV file before connecting.</p>
+
+    <h3>Step 1: Connect to the Database</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>sudo -u postgres psql -d chado_training</pre>
+    </div>
+
+    <h3>Step 2: Load the Reference Genome Features</h3>
+    <p>Once connected, run the copy command:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
+    </div>
+    <div class="note-box">
+      &#9432; Once the load completes, continue with <strong>Part 2</strong> below.
+    </div>
+  </div>
+
+  <!-- ── PART 2: uploadDataset.sh ───────────────────── -->
+  <div class="card" id="option-b">
+    <h2>Part 2 — Using uploadDataset.sh</h2>
     <p><code>uploadDataset.sh</code> handles the full load — organism lookup, CSV generation, and bulk copy — in one command. Download it from the Related Files section above.</p>
 
     <h3>Prerequisites</h3>
@@ -193,34 +215,6 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
     <div class="note-box">
       &#9432; Once the script finishes, continue with the <strong>Verify the Load</strong> section below.
-    </div>
-  </div>
-
-  <!-- ── PART 2: Reference Genome via \copy ────────── -->
-  <div class="card" id="option-b">
-    <h2>Part 2 — Loading a Reference Genome with \copy</h2>
-    <p>This exercise loads reference genome feature data directly into Chado using PostgreSQL's <code>\copy</code> command. Make sure you are in the directory containing the CSV file before connecting.</p>
-
-    <h3>Step 1: Create a New Database</h3>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>sudo -u postgres createdb chado_training</pre>
-    </div>
-
-    <h3>Step 2: Connect to the Database</h3>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>sudo -u postgres psql -d chado_training</pre>
-    </div>
-
-    <h3>Step 3: Load the Reference Genome Features</h3>
-    <p>Once connected, run the copy command:</p>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
-      <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
-    </div>
-    <div class="note-box">
-      &#9432; Once the load completes, continue with the <strong>Verify the Load</strong> section below.
     </div>
   </div>
 
