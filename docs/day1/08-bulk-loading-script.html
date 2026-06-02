@@ -135,8 +135,6 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     <p>Download these before starting the lab:</p>
     <a class="script-link" href="https://github.com/1K1RG/1k1RG-Scripts/blob/main/loader/uploadDataset.sh" target="_blank">&#128196; uploadDataset.sh</a>
     &nbsp;
-    <a class="script-link" href="../scripts/load_template.sql" download>&#128196; scripts/load_template.sql</a>
-    &nbsp;
     <a class="script-link" href="../data/sample_accessions.csv" download>&#128202; data/sample_accessions.csv</a>
   </div>
 
@@ -207,13 +205,13 @@ cd 1k1RG-Scripts/loader</pre>
     <h3>Step 1: Create a New Database</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>sudo -u postgres createdb bulkload_demo</pre>
+      <pre>sudo -u postgres createdb chado_training</pre>
     </div>
 
     <h3>Step 2: Connect to the Database</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>sudo -u postgres psql -d bulkload_demo</pre>
+      <pre>sudo -u postgres psql -d chado_training</pre>
     </div>
 
     <h3>Step 3: Load the Reference Genome Features</h3>
@@ -222,12 +220,6 @@ cd 1k1RG-Scripts/loader</pre>
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
       <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
     </div>
-    <p style="margin-top:.75rem;">To load accession data using the provided template:</p>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>sudo -u postgres psql -d bulkload_demo -f load_template.sql</pre>
-    </div>
-
     <div class="note-box">
       &#9432; Once the load completes, continue with the <strong>Verify the Load</strong> section below.
     </div>
