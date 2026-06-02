@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>08 – Bulk Data Loading via Script — DB Training 2026</title>
+<title>08 – Loading Reference Genome into Chado — DB Training 2026</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
@@ -20,16 +20,6 @@ nav a:hover { color: #fff; text-decoration: underline; }
 h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.25; margin-bottom: .6rem; }
 .meta-row { display: flex; gap: 1.75rem; flex-wrap: wrap; font-size: 1rem; color: #86efac; }
 main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
-.slide-box { background: #fff; border: 2.5px dashed #94a3b8; border-radius: 1rem;
-             padding: 3.5rem 2rem; text-align: center; margin-bottom: 2rem; }
-.slide-icon { font-size: 3rem; margin-bottom: .75rem; }
-.slide-box h2 { font-size: 1.25rem; color: #475569; margin-bottom: .4rem; }
-.slide-box p { color: #64748b; font-size: 1rem; margin-bottom: .25rem; }
-.instruction { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
-               padding: 1rem 1.25rem; margin-top: 1.5rem; text-align: left;
-               font-size: .95rem; color: #475569; }
-.instruction code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
-                    font-family: 'Courier New', monospace; }
 .card { background: #fff; border-radius: .75rem; border: 1px solid #e2e8f0;
         border-left: 5px solid #1e3a5f; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         padding: 2rem 2.25rem; margin-bottom: 2rem; }
@@ -42,7 +32,6 @@ main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
             border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: 1rem;
             overflow-x: auto; line-height: 1.7; font-family: 'Courier New', monospace;
             margin: .75rem 0 .75rem; }
-.card pre + pre { margin-top: 0; }
 .card code { background: #e2e8f0; padding: .15em .45em; border-radius: .25em;
              font-family: 'Courier New', monospace; font-size: .95em; }
 .terminal-wrap { margin: .75rem 0; }
@@ -58,29 +47,6 @@ main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
                border-radius: .4rem; padding: .45rem 1rem; font-size: .95rem;
                color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
 .script-link:hover { background: #dcfce7; }
-.card-option-a { border-left-color: #15803d; }
-.card-option-b { border-left-color: #1e40af; }
-.option-label {
-  display: inline-block; padding: .25rem .75rem; border-radius: 9999px;
-  font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em;
-  margin-bottom: .6rem;
-}
-.option-label-a { background: #dcfce7; color: #14532d; }
-.option-label-b { background: #dbeafe; color: #1e3a8a; }
-.choice-banner {
-  background: #fff; border: 1px solid #e2e8f0; border-radius: .75rem;
-  padding: 1.25rem 1.5rem; margin-bottom: 2rem;
-  display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
-}
-.choice-banner p { color: #475569; font-size: 1rem; flex: 1 1 200px; }
-.choice-links { display: flex; gap: .75rem; flex-wrap: wrap; }
-.choice-links a {
-  padding: .55rem 1.2rem; border-radius: .5rem; font-size: 1rem; font-weight: 600;
-  text-decoration: none; white-space: nowrap;
-}
-.choice-links .link-a { background: #f0fdf4; border: 1px solid #86efac; color: #14532d; }
-.choice-links .link-b { background: #eff6ff; border: 1px solid #93c5fd; color: #1e3a8a; }
-.choice-links a:hover { filter: brightness(.95); }
 .note-box {
   background: #fefce8; border: 1px solid #fde68a; border-radius: .5rem;
   padding: .9rem 1.1rem; margin-top: 1rem; font-size: 1rem; color: #78350f;
@@ -98,10 +64,10 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     <span class="badge b-lab">Lab</span>
     <span>Day 1 &nbsp;·&nbsp; Session 8 of 10</span>
   </div>
-  <h1>Bulk Data Loading via Script</h1>
+  <h1>Loading Reference Genome into Chado</h1>
   <div class="meta-row">
     <span>&#128336; 3:45 – 4:30</span>
-    <span>&#127908; —</span>
+    <span>&#127908; Lord Hendrix Barboza</span>
     <span>&#128337; 45 min</span>
   </div>
 </div>
@@ -110,43 +76,25 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <div class="card">
     <h2>Session Overview</h2>
-    <p>A <strong>bulk loading script</strong> automates data ingestion into the PostgreSQL Chado schema. This lab starts with loading a reference genome directly with <code>\copy</code>, followed by using <code>uploadDataset.sh</code> to load a full training dataset.</p>
+    <p>This lab loads reference genome feature data directly into the PostgreSQL Chado schema using PostgreSQL's <code>\copy</code> command. Participants will connect to the training database and bulk-import Nipponbare reference genome features from a CSV file, then verify the load with row count queries.</p>
 
-    <h3>What the Script Does</h3>
+    <h3>What You Will Do</h3>
     <ul>
-      <li>Validates input files (sample list, SNP positions, HDF5 file)</li>
-      <li>Looks up or inserts CV terms, organism, and dbxref entries</li>
-      <li>Generates intermediate CSV files for each target table:
-        <ul>
-          <li><code>StockSample.csv</code></li>
-          <li><code>SampleVarietySet.csv</code></li>
-          <li><code>SnpFeature.csv</code></li>
-          <li><code>Variant_variantset.csv</code></li>
-          <li><code>Snp_FeatureLoc.csv</code></li>
-        </ul>
-      </li>
-      <li>Updates sequence values to prevent ID conflicts</li>
-      <li>Performs efficient bulk copy using <code>\copy</code></li>
+      <li>Connect to the <code>chado_training</code> database using <code>psql</code></li>
+      <li>Load the Nipponbare reference genome features with <code>\copy</code></li>
+      <li>Verify the loaded data with SQL queries</li>
     </ul>
   </div>
 
   <div class="card">
     <h2>Related Files</h2>
-    <p>Download these before starting the lab:</p>
-    <a class="script-link" href="../scripts/uploadDataset.sh" download>&#128196; scripts/uploadDataset.sh</a>
-    &nbsp;
-    <a class="script-link" href="../data/sample_accessions.csv" download>&#128202; data/sample_accessions.csv</a>
-    &nbsp;
-    <a class="script-link" href="https://1k1rg.github.io/database-training-workshop-2025/public/assets/day-3/sample_list.txt" target="_blank">&#128196; sample_list.txt</a>
-    &nbsp;
-    <a class="script-link" href="https://1k1rg.github.io/database-training-workshop-2025/public/assets/day-3/pos_500_per_chr.txt" target="_blank">&#128196; pos_500_per_chr.txt</a>
-    &nbsp;
+    <p>Download this file before starting the lab:</p>
     <a class="script-link" href="https://drive.google.com/file/d/1rgmn64RM_RXuyMu__-ovP5qoE7HumBfc/view?usp=drive_link" target="_blank">&#128196; 11-feature-nipponbare.csv</a>
   </div>
 
-  <!-- ── PART 1: Reference Genome via \copy ────────── -->
-  <div class="card" id="option-a">
-    <h2>Part 1 — Loading a Reference Genome with \copy</h2>
+  <!-- ── LOADING REFERENCE GENOME VIA \copy ────────── -->
+  <div class="card">
+    <h2>Loading a Reference Genome with \copy</h2>
     <p>This exercise loads reference genome feature data directly into Chado using PostgreSQL's <code>\copy</code> command. Make sure you are in the directory containing the CSV file before connecting.</p>
 
     <h3>Step 1: Connect to the Database</h3>
@@ -161,82 +109,23 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
       <pre>\copy feature FROM '11-feature-nipponbare.csv' WITH (FORMAT csv, HEADER true)</pre>
     </div>
-    <div class="note-box">
-      &#9432; Once the load completes, continue with <strong>Part 2</strong> below.
-    </div>
-  </div>
 
-  <!-- ── PART 2: uploadDataset.sh ───────────────────── -->
-  <div class="card" id="option-b">
-    <h2>Part 2 — Using uploadDataset.sh</h2>
-    <p><code>uploadDataset.sh</code> handles the full load — organism lookup, CSV generation, and bulk copy — in one command. Download it from the Related Files section above.</p>
-
-    <h3>Prerequisites</h3>
-    <ul>
-      <li>PostgreSQL client (<code>psql</code>) and database access credentials</li>
-      <li>Input files ready:
-        <ul>
-          <li>Sample list file (e.g., <code>sample_list.txt</code>)</li>
-          <li>SNP positions file (e.g., <code>pos_500_per_chr.txt</code>)</li>
-          <li>HDF5 file (e.g., <code>test_file.h5</code>)</li>
-        </ul>
-      </li>
-    </ul>
-
-    <h3>Step 1: Make the Script Executable</h3>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>chmod +x uploadDataset.sh</pre>
-    </div>
-
-    <h3>Step 2: Run the Script</h3>
-    <p>Make sure <code>uploadDataset.sh</code> and your input files are in the same directory, then run:</p>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>./uploadDataset.sh sampleds sampleds sample_list.txt pos_500_per_chr.txt 'Japonica nipponbare' test_file.h5</pre>
-    </div>
-
-    <table style="width:100%;border-collapse:collapse;font-size:.95rem;margin:.75rem 0;">
-      <thead>
-        <tr style="background:#f1f5f9;">
-          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Parameter</th>
-          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>DB_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Target database name</td></tr>
-        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>VARIANT_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Variant set name</td></tr>
-        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>SAMPLE_FILE</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Path to list of stock/sample names</td></tr>
-        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>POS_FILE</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Path to SNP positions file</td></tr>
-        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>ORGANISM_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Organism (genus + variety)</td></tr>
-        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>H5_FILE_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">HDF5 filename</td></tr>
-      </tbody>
-    </table>
-
-    <div class="note-box">
-      &#9432; Once the script finishes, continue with the <strong>Verify the Load</strong> section below.
-    </div>
-  </div>
-
-  <!-- ── SHARED VERIFICATION ────────────────────────── -->
-  <div class="card" id="verify">
-    <h2>Verify the Load</h2>
-    <p>Run these checks inside <code>psql</code> after loading — they apply whether you used Option A or Option B.</p>
-
-    <h3>Check Row Counts</h3>
+    <h3>Step 3: Verify the Load</h3>
+    <p>Check row counts to confirm the data was inserted:</p>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
-      <pre>SELECT COUNT(*) FROM stock_sample;
-SELECT COUNT(*) FROM snp_feature;
-SELECT COUNT(*) FROM variantset;</pre>
+      <pre>SELECT COUNT(*) FROM feature;</pre>
     </div>
 
     <h3>Expected Outcome</h3>
     <ul>
-      <li>Stock, stock_sample, SNP, and variant data are fully inserted.</li>
-      <li>Relationships between samples and SNPs are properly linked.</li>
-      <li>Data is queryable using SQL joins and integrated into SNP-Seek.</li>
+      <li>Reference genome features (chromosomes, genes, etc.) are fully inserted into the <code>feature</code> table.</li>
+      <li>Data is queryable using SQL joins.</li>
     </ul>
+
+    <div class="note-box">
+      &#9432; Once the load completes, proceed to <strong>Session 09 — Loading Dataset into Chado</strong> to load the full training dataset using <code>uploadDataset.sh</code>.
+    </div>
   </div>
 
 </main>

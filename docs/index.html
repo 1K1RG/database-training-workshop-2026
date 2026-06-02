@@ -575,7 +575,7 @@
         </h1>
 
         <p>
-          SNP-Seek / Chado / HDF5 / brAPI — hands-on workshop covering database loading,
+          SNP-Seek / Chado / HDF5 — hands-on workshop covering database loading,
           bioinformatics pipelines, Linux tooling, and scalable genomic data management.
         </p>
 
@@ -602,7 +602,7 @@
             <span class="lbl">Days</span>
           </div>
           <div class="stat-box">
-            <span class="num">15</span>
+            <span class="num">14</span>
             <span class="lbl">Sessions</span>
           </div>
           <div class="stat-box">
@@ -615,7 +615,7 @@
           </div>
           <div class="stat-box wide">
             <span class="num">🌾 1k1RG Project</span>
-            <span class="lbl">SNP-Seek · Chado · HDF5 · brAPI</span>
+            <span class="lbl">SNP-Seek · Chado · HDF5</span>
           </div>
         </div>
       </div>
@@ -638,10 +638,10 @@
         <p class="about-intro">
           The 1k1RG Database Curation and Loading Workshop is a two-day, hands-on technical training
           for IT personnel responsible for operating and maintaining the SNP-Seek rice genomics platform.
-          SNP-Seek runs on a specialized stack — PostgreSQL with the Chado biological schema, HDF5 for
-          genotype matrices, and brAPI for external system integration. This training closes the gap
-          between server administration and the domain-specific knowledge required to independently
-          curate, load, and verify genomic data without constant support from the development team.
+          SNP-Seek runs on a specialized stack — PostgreSQL with the Chado biological schema, and HDF5 for
+          genotype matrices. This training closes the gap between server administration and the
+          domain-specific knowledge required to independently curate, load, and verify genomic data
+          without constant support from the development team.
         </p>
 
         <div class="about-grid">
@@ -653,7 +653,7 @@
               <li>Chado schema — core tables, relationships, and ERD walkthrough</li>
               <li>Biological ontologies and how cvterms act as the database type system</li>
               <li>Hands-on: restore and query a real training database</li>
-              <li>Bulk data loading via script — step-by-step lab</li>
+              <li>Loading reference genome and full dataset into Chado — step-by-step labs</li>
               <li>HDF5 introduction — what genotype matrix files are and why they exist</li>
             </ul>
           </div>
@@ -665,7 +665,6 @@
               <li>Full two-step pipeline: VCF → genotype matrix → HDF5</li>
               <li>Loading into Chado using <code style="background:#dbeafe;padding:.1em .35em;border-radius:.2em;font-size:.85em;">uploadDataset.sh</code></li>
               <li>Diagnosing and recovering from partial load failures</li>
-              <li>brAPI — verifying that loaded data is visible to external systems</li>
               <li>Open lab: end-to-end run on an unseen dataset</li>
             </ul>
           </div>
@@ -679,7 +678,6 @@
               <li>Understand how ontologies and cvterms structure genomic data</li>
               <li>Run the full VCF → HDF5 → Chado loading pipeline</li>
               <li>Diagnose and recover from partial load and pipeline failures</li>
-              <li>Verify loaded data through brAPI endpoints</li>
               <li>Perform routine maintenance: backup, restore, VACUUM, monitoring</li>
             </ul>
           </div>
@@ -810,7 +808,7 @@
                 <td class="td-time">3:15 – 3:45</td>
                 <td class="td-session">
                   <span class="sess-num">07</span>
-                  <a href="day1/07-restore-explore-chado.html">Restore &amp; Explore the Chado Schema</a>
+                  <a href="day1/07-restore-explore-chado.html">Setup and Explore Chado Schema</a>
                 </td>
                 <td class="td-speaker">Lord Hendrix Barboza</td>
                 <td><span class="tag lab">Lab</span></td>
@@ -819,29 +817,19 @@
                 <td class="td-time">3:45 – 4:30</td>
                 <td class="td-session">
                   <span class="sess-num">08</span>
-                  <a href="day1/08-bulk-loading-script.html">Bulk Data Loading via Script</a>
+                  <a href="day1/08-bulk-loading-script.html">Loading Reference Genome into Chado</a>
                 </td>
                 <td class="td-speaker">Lord Hendrix Barboza</td>
                 <td><span class="tag lab">Lab</span></td>
               </tr>
               <tr>
-                <td class="td-time">4:30 – 4:50</td>
+                <td class="td-time">4:30 – 5:00</td>
                 <td class="td-session">
                   <span class="sess-num">09</span>
-                  <a href="day1/09-java-swing-loader.html">Java Swing Loader — Show and Tell</a>
+                  <a href="day1/09-java-swing-loader.html">Loading Dataset into Chado</a>
                 </td>
                 <td class="td-speaker">Lord Hendrix Barboza</td>
-                <td><span class="tag demo">Demo</span></td>
-              </tr>
-              <tr>
-                <td class="td-time">4:50 – 5:00</td>
-                <td class="td-session">
-                  <span class="sess-num">14</span>
-                  <a href="day2/14-brapi-verification.html">brAPI — Verifying Loaded Data via the API</a>
-                  <span class="new-tag">NEW</span>
-                </td>
-                <td class="td-speaker">Lord Hendrix Barboza</td>
-                <td><span class="tag leclab">Lecture+Demo</span></td>
+                <td><span class="tag lab">Lab</span></td>
               </tr>
             </tbody>
           </table>
@@ -943,7 +931,6 @@
             <li>PostgreSQL &amp; SQL essentials</li>
             <li>HDF5 genotype storage</li>
             <li>VCF → HDF5 pipeline</li>
-            <li>brAPI service integration</li>
             <li>Bulk data loading scripts</li>
           </ul>
         </div>

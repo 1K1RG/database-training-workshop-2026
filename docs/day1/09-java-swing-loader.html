@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>09 – Java Swing Loader Demo — DB Training 2026</title>
+<title>09 – Loading Dataset into Chado — DB Training 2026</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-       background: #f0f4f8; color: #1a202c; line-height: 1.8; min-height: 100vh; }
+       font-size: 17px; background: #f0f4f8; color: #1a202c; line-height: 1.8; min-height: 100vh; }
 nav { background: #14532d; padding: .7rem 1.5rem; }
 nav a { color: #86efac; text-decoration: none; font-weight: 500; font-size: 1rem; }
 nav a:hover { color: #fff; text-decoration: underline; }
@@ -16,56 +16,42 @@ nav a:hover { color: #fff; text-decoration: underline; }
 .badges { display: flex; gap: .5rem; margin-bottom: .85rem; flex-wrap: wrap; align-items: center; }
 .badge { display: inline-block; padding: .2rem .7rem; border-radius: 9999px;
          font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
-.b-demo { background: #ede9fe; color: #5b21b6; }
+.b-lab { background: #d1fae5; color: #065f46; }
 h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.25; margin-bottom: .6rem; }
 .meta-row { display: flex; gap: 1.75rem; flex-wrap: wrap; font-size: 1rem; color: #86efac; }
-main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
-.slide-box { background: #fff; border: 2.5px dashed #94a3b8; border-radius: 1rem;
-             padding: 3.5rem 2rem; text-align: center; margin-bottom: 2rem; }
-.slide-icon { font-size: 3rem; margin-bottom: .75rem; }
-.slide-box h2 { font-size: 1.25rem; color: #475569; margin-bottom: .4rem; }
-.slide-box p { color: #64748b; font-size: 1rem; margin-bottom: .25rem; }
-.instruction { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
-               padding: 1rem 1.25rem; margin-top: 1.5rem; text-align: left;
-               font-size: .9rem; color: #475569; }
-.instruction code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
-                    font-family: 'Courier New', monospace; }
+main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
 .card { background: #fff; border-radius: .75rem; border: 1px solid #e2e8f0;
         border-left: 5px solid #1e3a5f; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        padding: 2rem; margin-bottom: 2rem; }
-.card h2 { font-size: 1.2rem; font-weight: 600; color: #1e3a5f;
-           border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .75rem; }
-.card p, .card li { color: #475569; font-size: 1.05rem; line-height: 1.8; }
-.card ul, .card ol { padding-left: 1.25rem; }
-.card h3 { font-size: 1rem; font-weight: 700; color: #1e3a5f; margin: 1.25rem 0 .5rem; }
-.card code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
-             font-family: 'Courier New', monospace; font-size: .9em; }
+        padding: 2rem 2.25rem; margin-bottom: 2rem; }
+.card h2 { font-size: 1.4rem; font-weight: 700; color: #1e3a5f;
+           border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .85rem; }
+.card p, .card li { color: #374151; font-size: 1.05rem; line-height: 1.85; }
+.card ul, .card ol { padding-left: 1.4rem; }
+.card h3 { font-size: 1.1rem; font-weight: 700; color: #1e3a5f; margin: 1.25rem 0 .6rem; }
 .card pre { background: #1a1a1a; color: #e2e8f0; border: 1px solid #374151;
-            border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: .9rem;
-            overflow-x: auto; line-height: 1.7; font-family: 'Courier New', monospace; margin: 0; }
+            border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: 1rem;
+            overflow-x: auto; line-height: 1.7; font-family: 'Courier New', monospace;
+            margin: .75rem 0 .75rem; }
+.card pre + pre { margin-top: 0; }
+.card code { background: #e2e8f0; padding: .15em .45em; border-radius: .25em;
+             font-family: 'Courier New', monospace; font-size: .95em; }
 .terminal-wrap { margin: .75rem 0; }
+.terminal-wrap pre { margin: 0; border-radius: 0 0 .5rem .5rem; }
 .terminal-bar { background: #374151; border-radius: .5rem .5rem 0 0; padding: .35rem .75rem;
                 display: flex; align-items: center; gap: .4rem; }
 .terminal-bar span { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-.terminal-bar .dot-red { background: #ef4444; }
-.terminal-bar .dot-yel { background: #f59e0b; }
-.terminal-bar .dot-grn { background: #22c55e; }
-.terminal-bar .term-label { font-size: .75rem; color: #9ca3af; font-family: 'Courier New', monospace; margin-left: .5rem; }
-.example-file { background: #1a1a1a; color: #e2e8f0; border: 1px solid #374151; border-radius: .5rem;
-                padding: 1rem 1.25rem; font-size: .85rem; font-family: 'Courier New', monospace;
-                line-height: 1.7; margin: .75rem 0; overflow-x: auto; }
-.example-file .line-num { color: #6b7280; display: inline-block; width: 2rem; text-align: right; margin-right: .75rem; user-select: none; }
-.ui-screenshot { border: 1px solid #e2e8f0; border-radius: .5rem; overflow: hidden; margin: .75rem 0; }
-.ui-screenshot-bar { background: #374151; color: #d1d5db; font-size: .8rem; padding: .4rem .75rem; font-family: 'Courier New', monospace; }
-.ui-form { background: #d4d0c8; padding: 1.25rem; font-size: .9rem; color: #1a1a1a; }
-.ui-form .ui-title { color: #cc0000; font-weight: 700; font-size: 1rem; text-align: center; margin-bottom: 1rem; }
-.ui-form table { width: 100%; border-collapse: collapse; }
-.ui-form td { padding: .3rem .5rem; font-size: .88rem; }
-.ui-form td:first-child { width: 40%; color: #1a1a1a; }
-.ui-form .ui-input { background: #fff; border: 1px solid #999; border-radius: 2px; height: 22px; display: inline-block; width: 100%; }
-.ui-form .ui-btn { background: #d4d0c8; border: 2px outset #fff; padding: .2rem .6rem; font-size: .8rem; cursor: pointer; }
-.ui-form .ui-section { color: #cc0000; font-weight: 600; margin: .75rem 0 .25rem; }
-.ui-form .ui-actions { text-align: center; margin-top: 1rem; display: flex; justify-content: center; gap: 1rem; }
+.terminal-bar .dot-red   { background: #ef4444; }
+.terminal-bar .dot-yel   { background: #f59e0b; }
+.terminal-bar .dot-grn   { background: #22c55e; }
+.terminal-bar .term-label { font-size: .8rem; color: #9ca3af; font-family: 'Courier New', monospace; margin-left: .5rem; }
+.script-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
+               border-radius: .4rem; padding: .45rem 1rem; font-size: .95rem;
+               color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
+.script-link:hover { background: #dcfce7; }
+.note-box {
+  background: #fefce8; border: 1px solid #fde68a; border-radius: .5rem;
+  padding: .9rem 1.1rem; margin-top: 1rem; font-size: 1rem; color: #78350f;
+}
 footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem; }
 @media (max-width: 600px) { h1 { font-size: 1.6rem; } .meta-row { gap: .75rem; } }
 </style>
@@ -76,123 +62,125 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
 <div class="page-header">
   <div class="badges">
-    <span class="badge b-demo">Demo</span>
+    <span class="badge b-lab">Lab</span>
     <span>Day 1 &nbsp;·&nbsp; Session 9 of 10</span>
   </div>
-  <h1>Java Swing Loader — Show and Tell</h1>
+  <h1>Loading Dataset into Chado</h1>
   <div class="meta-row">
-    <span>&#128336; 4:30 – 4:50</span>
+    <span>&#128336; 4:30 – 5:00</span>
     <span>&#127908; Lord Hendrix Barboza</span>
-    <span>&#128337; 20 min</span>
+    <span>&#128337; 30 min</span>
   </div>
 </div>
 
 <main>
 
   <div class="card">
-    <h2>3.1 Genotype Loader (Java Swing)</h2>
-    <p>The loader is implemented in <strong>Java</strong> and provides a graphical interface for loading genomic data into the database.</p>
+    <h2>Session Overview</h2>
+    <p>This session uses <code>uploadDataset.sh</code> to load a full training dataset into the Chado schema. The script automates organism lookup, intermediate CSV generation, and bulk copy into PostgreSQL in a single command.</p>
 
-    <h3>🔗 Repository Information</h3>
+    <h3>What the Script Does</h3>
     <ul>
-      <li>Loader repository: <a href="https://bitbucket.org/dagsbarboza/genotypeloader/">https://bitbucket.org/dagsbarboza/genotypeloader/</a></li>
-      <li>Dependency (Chado Model library): <a href="https://bitbucket.org/dagsbarboza/chadomodel/">https://bitbucket.org/dagsbarboza/chadomodel/</a></li>
-      <li>Bulk insert library: <strong>PgBulkInsert</strong> – used to efficiently insert large genomic datasets into PostgreSQL.</li>
-    </ul>
-
-    <h3>⚙️ Prerequisites</h3>
-    <ul>
-      <li>Java JDK version 1.8 installed</li>
-      <li>Database connection settings configured in the loader</li>
-    </ul>
-
-    <h3>▶️ Running the Loader</h3>
-    <p>Execute:</p>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>java -cp "genotypeloader.jar;lib/*" org.irri.genotype.GenotypeLoaderUI2</pre>
-    </div>
-
-    <h3>🗂️ Input Files Required</h3>
-    <ol>
-      <li><strong>Genotype HDF5 file</strong></li>
-      <li><strong>Sample list with Sample IDs</strong>
+      <li>Validates input files (sample list, SNP positions, HDF5 file)</li>
+      <li>Looks up or inserts CV terms, organism, and dbxref entries</li>
+      <li>Generates intermediate CSV files for each target table:
         <ul>
-          <li>A text file containing sample names (in the same order as in the genotype matrix)</li>
+          <li><code>StockSample.csv</code></li>
+          <li><code>SampleVarietySet.csv</code></li>
+          <li><code>SnpFeature.csv</code></li>
+          <li><code>Variant_variantset.csv</code></li>
+          <li><code>Snp_FeatureLoc.csv</code></li>
         </ul>
-        <p>Example (<code>Sorghum.samples</code>):</p>
-        <div class="example-file">
-          <span class="line-num">1</span>104B<br>
-          <span class="line-num">2</span>22436B<br>
-          <span class="line-num">3</span>22454B<br>
-          <span class="line-num">4</span>22458B<br>
-          <span class="line-num">5</span>22528B<br>
-          <span class="line-num">6</span>22548B<br>
-          <span class="line-num">7</span>2B_RMFR<br>
-          <span class="line-num">8</span>4111B<br>
-          <span class="line-num">9</span>ALT_RIL_308<br>
-          <span class="line-num">10</span>ALT_RIL_314<br>
-          <span class="line-num">11</span>ALT_RIL_321<br>
-          <span class="line-num">12</span>ALT_RIL_349<br>
-          <span class="line-num">13</span>ALT_RIL_359<br>
-          <span class="line-num">14</span>ALT_RIL_360<br>
-          <span class="line-num">15</span>ALT_RIL_364<br>
-        </div>
       </li>
-      <li><strong>SNP positions</strong>
-        <ul>
-          <li>Genomic coordinates for SNPs</li>
-        </ul>
-        <p>Example (<code>Sorghum.positions</code>):</p>
-        <div class="example-file">
-          <span class="line-num">1</span>1&nbsp;&nbsp;&nbsp;&nbsp;1927&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;T<br>
-          <span class="line-num">2</span>1&nbsp;&nbsp;&nbsp;&nbsp;1941&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;A<br>
-          <span class="line-num">3</span>1&nbsp;&nbsp;&nbsp;&nbsp;2163&nbsp;&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;T<br>
-          <span class="line-num">4</span>1&nbsp;&nbsp;&nbsp;&nbsp;2256&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;G<br>
-          <span class="line-num">5</span>1&nbsp;&nbsp;&nbsp;&nbsp;2258&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;G<br>
-          <span class="line-num">6</span>1&nbsp;&nbsp;&nbsp;&nbsp;2259&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;C<br>
-          <span class="line-num">7</span>1&nbsp;&nbsp;&nbsp;&nbsp;2751&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;C<br>
-          <span class="line-num">8</span>1&nbsp;&nbsp;&nbsp;&nbsp;2753&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;C<br>
-          <span class="line-num">9</span>1&nbsp;&nbsp;&nbsp;&nbsp;2791&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;G<br>
-          <span class="line-num">10</span>1&nbsp;&nbsp;&nbsp;2793&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;&nbsp;&nbsp;&nbsp;G<br>
-          <span class="line-num">11</span>1&nbsp;&nbsp;&nbsp;2794&nbsp;&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;C<br>
-          <span class="line-num">12</span>1&nbsp;&nbsp;&nbsp;13677&nbsp;&nbsp;&nbsp;T&nbsp;&nbsp;&nbsp;&nbsp;A<br>
-          <span class="line-num">13</span>1&nbsp;&nbsp;&nbsp;13681&nbsp;&nbsp;&nbsp;G&nbsp;&nbsp;&nbsp;&nbsp;A<br>
-          <span class="line-num">14</span>1&nbsp;&nbsp;&nbsp;13900&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;A<br>
-          <span class="line-num">15</span>1&nbsp;&nbsp;&nbsp;14606&nbsp;&nbsp;&nbsp;C&nbsp;&nbsp;&nbsp;&nbsp;T<br>
-        </div>
-      </li>
-    </ol>
+      <li>Updates sequence values to prevent ID conflicts</li>
+      <li>Performs efficient bulk copy using <code>\copy</code></li>
+    </ul>
   </div>
 
   <div class="card">
-    <h2>🖥️ The Loader UI</h2>
-    <div class="ui-screenshot">
-      <div class="ui-screenshot-bar">☰ GENOTYPE LOADER</div>
-      <div class="ui-form">
-        <div class="ui-title">Rice SNP-Seek Database Loader</div>
-        <table>
-          <tr><td>Organism</td><td><span class="ui-input"></span></td></tr>
-          <tr><td>Cv Term (Organism)</td><td><span class="ui-input" style="padding-left:.4rem;">whole plant</span></td></tr>
-          <tr><td>Database</td><td><span class="ui-input"></span></td></tr>
-          <tr><td>Variant Set</td><td><span class="ui-input"></span></td></tr>
-        </table>
-        <div class="ui-section">Select Files:</div>
-        <table>
-          <tr><td>Select Sample File</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
-          <tr><td>Select Position File</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
-          <tr><td>Nonsynonymous Variant</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
-          <tr><td>Splice Acceptor Variant</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
-          <tr><td>Splice Donor Variant</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
-          <tr><td>H5 File</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
-          <tr><td>Snp Genotype File</td><td style="text-align:right;"><span class="ui-btn">browse</span></td></tr>
-        </table>
-        <div class="ui-actions">
-          <span class="ui-btn">RESET</span>
-          <span class="ui-btn">RUN</span>
-        </div>
-      </div>
+    <h2>Related Files</h2>
+    <p>Download these before starting the lab:</p>
+    <a class="script-link" href="../scripts/uploadDataset.sh" download>&#128196; scripts/uploadDataset.sh</a>
+    &nbsp;
+    <a class="script-link" href="../data/sample_accessions.csv" download>&#128202; data/sample_accessions.csv</a>
+    &nbsp;
+    <a class="script-link" href="https://1k1rg.github.io/database-training-workshop-2025/public/assets/day-3/sample_list.txt" target="_blank">&#128196; sample_list.txt</a>
+    &nbsp;
+    <a class="script-link" href="https://1k1rg.github.io/database-training-workshop-2025/public/assets/day-3/pos_500_per_chr.txt" target="_blank">&#128196; pos_500_per_chr.txt</a>
+  </div>
+
+  <!-- ── USING uploadDataset.sh ──────────────────── -->
+  <div class="card">
+    <h2>Using uploadDataset.sh</h2>
+    <p><code>uploadDataset.sh</code> handles the full load — organism lookup, CSV generation, and bulk copy — in one command. Download it from the Related Files section above.</p>
+
+    <h3>Prerequisites</h3>
+    <ul>
+      <li>PostgreSQL client (<code>psql</code>) and database access credentials</li>
+      <li>Reference genome already loaded (completed in Session 08)</li>
+      <li>Input files ready:
+        <ul>
+          <li>Sample list file (e.g., <code>sample_list.txt</code>)</li>
+          <li>SNP positions file (e.g., <code>pos_500_per_chr.txt</code>)</li>
+          <li>HDF5 file (e.g., <code>test_file.h5</code>)</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Step 1: Make the Script Executable</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>chmod +x uploadDataset.sh</pre>
     </div>
+
+    <h3>Step 2: Run the Script</h3>
+    <p>Make sure <code>uploadDataset.sh</code> and your input files are in the same directory, then run:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>./uploadDataset.sh sampleds sampleds sample_list.txt pos_500_per_chr.txt 'Japonica nipponbare' test_file.h5</pre>
+    </div>
+
+    <table style="width:100%;border-collapse:collapse;font-size:.95rem;margin:.75rem 0;">
+      <thead>
+        <tr style="background:#f1f5f9;">
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Parameter</th>
+          <th style="text-align:left;padding:.5rem .75rem;border:1px solid #e2e8f0;">Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>DB_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Target database name</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>VARIANT_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Variant set name</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>SAMPLE_FILE</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Path to list of stock/sample names</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>POS_FILE</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Path to SNP positions file</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>ORGANISM_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">Organism (genus + variety)</td></tr>
+        <tr><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;"><code>H5_FILE_NAME</code></td><td style="padding:.5rem .75rem;border:1px solid #e2e8f0;">HDF5 filename</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      &#9432; Once the script finishes, continue with the <strong>Verify the Load</strong> section below.
+    </div>
+  </div>
+
+  <!-- ── VERIFICATION ────────────────────────────── -->
+  <div class="card">
+    <h2>Verify the Load</h2>
+    <p>Run these checks inside <code>psql</code> after the script completes.</p>
+
+    <h3>Check Row Counts</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT COUNT(*) FROM stock_sample;
+SELECT COUNT(*) FROM snp_feature;
+SELECT COUNT(*) FROM variantset;</pre>
+    </div>
+
+    <h3>Expected Outcome</h3>
+    <ul>
+      <li>Stock, stock_sample, SNP, and variant data are fully inserted.</li>
+      <li>Relationships between samples and SNPs are properly linked.</li>
+      <li>Data is queryable using SQL joins and integrated into SNP-Seek.</li>
+    </ul>
   </div>
 
 </main>
