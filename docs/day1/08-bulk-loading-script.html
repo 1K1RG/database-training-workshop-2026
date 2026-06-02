@@ -110,7 +110,7 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <div class="card">
     <h2>Session Overview</h2>
-    <p>An alternative to the GUI is a <strong>bulk loading script</strong> that automates data ingestion into the PostgreSQL Chado schema. This lab covers two approaches — using the automated script or running the SQL commands manually.</p>
+    <p>A <strong>bulk loading script</strong> automates data ingestion into the PostgreSQL Chado schema. This lab walks through using <code>uploadDataset.sh</code> to load a training dataset, followed by a separate exercise loading a reference genome directly with <code>\copy</code>.</p>
 
     <h3>What the Script Does</h3>
     <ul>
@@ -133,24 +133,16 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
   <div class="card">
     <h2>Related Files</h2>
     <p>Download these before starting the lab:</p>
+    <a class="script-link" href="https://github.com/1K1RG/1k1RG-Scripts/blob/main/loader/uploadDataset.sh" target="_blank">&#128196; uploadDataset.sh</a>
+    &nbsp;
     <a class="script-link" href="../scripts/load_template.sql" download>&#128196; scripts/load_template.sql</a>
     &nbsp;
     <a class="script-link" href="../data/sample_accessions.csv" download>&#128202; data/sample_accessions.csv</a>
   </div>
 
-  <!-- Choice banner -->
-  <div class="choice-banner">
-    <p><strong>Choose your loading approach below.</strong> Both paths load data into the Chado database — pick whichever fits your setup. Then follow the shared <em>Verify the Load</em> section.</p>
-    <div class="choice-links">
-      <a class="link-a" href="#option-a">&#9654; Option A — Using uploadDataset.sh</a>
-      <a class="link-b" href="#option-b">&#9654; Option B — Manual \copy Steps</a>
-    </div>
-  </div>
-
-  <!-- ── OPTION A ─────────────────────────────────────── -->
-  <div class="card card-option-a" id="option-a">
-    <span class="option-label option-label-a">Option A — Automated via uploadDataset.sh</span>
-    <h2>Using the Bulk Loading Script</h2>
+  <!-- ── PART 1: uploadDataset.sh ───────────────────── -->
+  <div class="card" id="option-a">
+    <h2>Part 1 — Using uploadDataset.sh</h2>
     <p>The <code>uploadDataset.sh</code> script from the 1k1RG-Scripts repository handles the full load — organism lookup, CSV generation, and bulk copy — in one command.</p>
 
     <h3>Prerequisites</h3>
@@ -207,25 +199,24 @@ cd 1k1RG-Scripts/loader</pre>
     </div>
   </div>
 
-  <!-- ── OPTION B ─────────────────────────────────────── -->
-  <div class="card card-option-b" id="option-b">
-    <span class="option-label option-label-b">Option B — Manual \copy Steps</span>
-    <h2>Manually Loading Data with \copy</h2>
-    <p>Follow these steps if you prefer to run each command yourself, or if the script is not available. Make sure you are in the directory containing the CSV file before connecting.</p>
+  <!-- ── PART 2: Reference Genome via \copy ────────── -->
+  <div class="card" id="option-b">
+    <h2>Part 2 — Loading a Reference Genome with \copy</h2>
+    <p>This exercise loads reference genome feature data directly into Chado using PostgreSQL's <code>\copy</code> command. Make sure you are in the directory containing the CSV file before connecting.</p>
 
     <h3>Step 1: Create a New Database</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>createdb -h localhost -U &lt;USERNAME&gt; bulkload_demo</pre>
+      <pre>sudo -u postgres createdb bulkload_demo</pre>
     </div>
 
     <h3>Step 2: Connect to the Database</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>psql -h localhost -U postgres -d bulkload_demo</pre>
+      <pre>sudo -u postgres psql -d bulkload_demo</pre>
     </div>
 
-    <h3>Step 3: Bulk Load the CSV</h3>
+    <h3>Step 3: Load the Reference Genome Features</h3>
     <p>Once connected, run the copy command:</p>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
@@ -234,7 +225,7 @@ cd 1k1RG-Scripts/loader</pre>
     <p style="margin-top:.75rem;">To load accession data using the provided template:</p>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>psql -U postgres -d bulkload_demo -f load_template.sql</pre>
+      <pre>sudo -u postgres psql -d bulkload_demo -f load_template.sql</pre>
     </div>
 
     <div class="note-box">
