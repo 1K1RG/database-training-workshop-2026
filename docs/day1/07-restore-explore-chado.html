@@ -187,6 +187,19 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     <div class="note-box" style="margin-top:1rem;">
       &#9432; The password is set automatically by <code>restore.sh</code> when the database is created.
     </div>
+
+    <h3>Troubleshooting — Password Authentication Failed</h3>
+    <p>If you see <em>"password authentication failed for user postgres"</em>, the password may not have been set yet. Run this command to set it manually:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'training2026';"</pre>
+    </div>
+    <p style="margin-top:.75rem;">If the error persists, PostgreSQL may be using <code>scram-sha-256</code> which some clients do not support. Switch to <code>md5</code> and restart:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>sudo sed -i 's/scram-sha-256/md5/g' /etc/postgresql/16/main/pg_hba.conf
+sudo systemctl restart postgresql</pre>
+    </div>
   </div>
 
   <!-- Choice banner -->

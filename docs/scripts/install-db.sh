@@ -30,6 +30,14 @@ sudo apt-get update -qq
 sudo apt-get install -y --no-install-recommends postgresql-$PG_VERSION
 sudo systemctl enable --now postgresql
 
+# --- Configure pg_hba.conf to use md5 for all connections ---
+PG_HBA="/etc/postgresql/$PG_VERSION/main/pg_hba.conf"
+echo "Configuring $PG_HBA to use md5 authentication ..."
+sudo sed -i 's/\(host\s\+all\s\+all\s\+.*\)\bscram-sha-256\b/\1md5/g' "$PG_HBA"
+sudo sed -i 's/\(local\s\+all\s\+all\s\+\)\bpeer\b/\1md5/g' "$PG_HBA"
+sudo systemctl restart postgresql
+echo "      pg_hba.conf updated and PostgreSQL restarted."
+
 echo
 echo "PostgreSQL $PG_VERSION installed and running."
 echo "Connect with:  sudo -u postgres psql"
