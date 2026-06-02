@@ -57,7 +57,7 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
   <h1>Chado Schema Deep Dive &amp; Ontology Implementation</h1>
   <div class="meta-row">
     <span>&#128336; 2:15 – 3:15</span>
-    <span>&#127908; —</span>
+    <span>&#127908; Lord Hendrix Barboza</span>
     <span>&#128337; 60 min</span>
   </div>
 </div>
@@ -68,19 +68,73 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <div class="card">
     <h2>Session Overview</h2>
-    <p>A detailed walkthrough of the Chado relational schema: its module structure, how it models biological entities (organisms, features, stocks, phenotypes), and specifically how it encodes ontology terms and their relationships. Directly prepares participants for the Restore &amp; Explore lab that follows.</p>
+    <p>Continues from Jeffrey Detras' <em>Ontology Concepts for Chado</em> lecture. Where that session covered the vocabulary (<code>cv</code>, <code>cvterm</code>, <code>dbxref</code>, relationships), this session covers the plumbing — the actual tables you load into and query for SNP-Seek, and how every one of them hangs off the <code>cvterm</code> bridge.</p>
   </div>
 
   <div class="card">
-    <h2>Topics Covered (Placeholder)</h2>
+    <h2>Topics Covered</h2>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">What is Chado?</h3>
     <ul>
-      <li>Chado schema overview and module map (organism, sequence, stock, phenotype, cv, pub)</li>
-      <li>The <code>cv</code> and <code>cvterm</code> tables — storing ontology terms</li>
-      <li>The <code>feature</code> table and <code>featureprop</code></li>
-      <li>The <code>stock</code> and <code>stockprop</code> tables for accession data</li>
-      <li>Cross-references via <code>dbxref</code></li>
-      <li>How SNP data maps to Chado entities</li>
-      <li>Common gotchas and SNP-Seek customisations</li>
+      <li>A modular, ontology-driven, extensible schema — the foundation SNP-Seek is built on</li>
+      <li>Hard-coded vs. ontology-driven design: why Chado uses one <code>feature</code> table typed by <code>cvterm</code> instead of separate tables per biological type</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">The Core Pattern — <code>type_id → cvterm</code></h3>
+    <ul>
+      <li><code>feature.type_id</code> — is this a gene, a SNP, a chromosome?</li>
+      <li><code>featureprop.type_id</code> — what kind of property is this annotation?</li>
+      <li>Relationship tables — <code>is_a</code>, <code>part_of</code>, <code>derives_from</code></li>
+      <li><code>synonym.type_id</code> — which naming system this name belongs to</li>
+      <li>New feature type tomorrow? Add a <code>cvterm</code>, not a table</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">Commonly Used SNP-Seek Tables</h3>
+    <ul>
+      <li><code>db</code> — external databases / sources (GenBank, Ensembl)</li>
+      <li><code>cv</code> / <code>cvterm</code> — controlled vocabularies and ontology terms (SO, GO)</li>
+      <li><code>organism</code> — taxonomy for species &amp; subspecies</li>
+      <li><code>feature</code> — central table: genes, SNPs, chromosomes, contigs</li>
+      <li><code>snp_feature</code> / <code>snp_featureloc</code> — SNP-specific features and their genomic locations</li>
+      <li><code>stock</code> / <code>stock_sample</code> — biological accessions and their sequencing-run links</li>
+      <li><code>variantset</code> / <code>variant_variantset</code> — named variant groupings and their join table</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">Schema ERDs</h3>
+    <ul>
+      <li>The <code>cvterm</code> cluster: <code>cvterm ↔ dbxref ↔ db</code>, with <code>cv</code> defining the vocabulary</li>
+      <li>Full modular ERD: organism, feature, stock, variantset — each stored separately, linked by foreign keys</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">The <code>feature</code> Table and Location</h3>
+    <ul>
+      <li>Genes, SNPs, contigs, chromosomes — all rows in one table, distinguished by <code>type_id</code></li>
+      <li><code>featureloc</code>: <code>srcfeature_id</code> (chromosome), <code>fmin</code>/<code>fmax</code> (coordinates), <code>strand</code></li>
+      <li><code>featureprop</code>: notes, descriptions, scores — also typed by <code>cvterm</code></li>
+      <li>Loading gotcha: <code>fmin</code> is zero-based and interbase — not the 1-based number in a genome browser</li>
+      <li>Tracing one SNP through the schema: <code>feature</code> → <code>cvterm</code> (type), <code>organism</code>, <code>featureloc</code>, <code>srcfeature</code> (chromosome)</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">Stocks, Variant Sets &amp; the PostgreSQL / HDF5 Boundary</h3>
+    <ul>
+      <li><code>organism</code> — reference genomes &amp; rice lines; <code>stock</code>/<code>stock_sample</code> — the 3,000+ accessions</li>
+      <li><code>variantset</code>/<code>variant_variantset</code> — named groupings of variants</li>
+      <li>The boundary: PostgreSQL/Chado holds WHAT and WHERE; the dense genotype matrix (~60 billion data points) lives in HDF5 files — not in PostgreSQL</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">Synonyms — One Locus, Many Names</h3>
+    <ul>
+      <li>Naming systems in SNP-Seek: MSU7/LOC_, IRIC, RAP representative/predicted, FGENESH, per-genome (IR64, MH63, N22, Azucena)</li>
+      <li><code>synonym</code> + <code>feature_synonym</code> typed by <code>cvterm</code> — no wide locus-mapping table needed</li>
+      <li>New naming system = add a cvterm, not a column</li>
+    </ul>
+
+    <h3 style="font-size:1rem;font-weight:700;color:#1e3a5f;margin:1rem 0 .5rem;">Why This Design Wins</h3>
+    <ul>
+      <li><strong>Ontology-driven typing</strong> — meaning lives in <code>cvterm</code>, referenced by <code>type_id</code> everywhere</li>
+      <li><strong>Extensibility</strong> — new types and new names are new cvterms, not schema changes</li>
+      <li><strong>Integrity</strong> — foreign keys hold features, locations, stocks, and sets together</li>
+      <li>Most loader failures are term-resolution problems — a name in the file that doesn't match a term</li>
     </ul>
   </div>
 
