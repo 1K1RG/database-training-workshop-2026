@@ -125,12 +125,26 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
     </ul>
 
     <h3>How to Run</h3>
-    <p>Place <code>setup.sh</code> and the dump file in the same directory, then run:</p>
+
+    <p><strong>Step 1 — Check file permissions</strong></p>
+    <p>Verify that <code>setup.sh</code> is executable:</p>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>bash setup.sh chado_training chado_training.dump</pre>
+      <pre>ls -l setup.sh</pre>
     </div>
-    <p style="margin-top:.75rem;">The first argument is the database name; the second is the dump file. Both are optional — defaults are <code>chado_training</code> and <code>chado_training.dump</code>.</p>
+    <p style="margin-top:.5rem;">Look for an <code>x</code> in the permissions column, e.g. <code>-rwxr-xr-x</code>. If it is missing, make it executable:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>chmod +x setup.sh</pre>
+    </div>
+
+    <p style="margin-top:1rem;"><strong>Step 2 — Run the script</strong></p>
+    <p>Place <code>setup.sh</code> and <code>chado_dump.sql</code> in the same directory, then run:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>bash setup.sh chado_training chado_dump.sql</pre>
+    </div>
+    <p style="margin-top:.75rem;">The first argument is the database name; the second is the dump file. Both are optional — defaults are <code>chado_training</code> and <code>chado_dump.sql</code>.</p>
 
     <div class="note-box">
       &#9432; <strong>Note:</strong> The script uses <code>sudo</code> for the apt install and PostgreSQL commands. You will be prompted for your password if <code>sudo</code> requires it.

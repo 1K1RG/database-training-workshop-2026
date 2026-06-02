@@ -7,7 +7,7 @@
 set -euo pipefail
 
 DB_NAME="${1:-chado_training}"
-DUMP_FILE="${2:-chado_training.dump}"
+DUMP_FILE="${2:-chado_dump.sql}"
 PG_USER="${PGUSER:-postgres}"
 PG_VERSION="16"
 
@@ -51,10 +51,10 @@ sudo -u postgres createdb "$DB_NAME" 2>/dev/null \
 echo "[2/3] Restoring '$DUMP_FILE' into '$DB_NAME' ..."
 if [[ ! -f "$DUMP_FILE" ]]; then
   echo "ERROR: Dump file '$DUMP_FILE' not found."
-  echo "       Place the .dump file in the current directory and re-run."
+  echo "       Place chado_dump.sql in the current directory and re-run."
   exit 1
 fi
-sudo -u postgres pg_restore -d "$DB_NAME" --no-owner --no-privileges "$DUMP_FILE"
+sudo -u postgres psql -d "$DB_NAME" -f "$DUMP_FILE"
 echo "      Restore complete."
 
 # --- Verify ---
