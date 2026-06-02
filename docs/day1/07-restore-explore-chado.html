@@ -106,6 +106,28 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 <main>
 
   <div class="card">
+    <h2>Database Setup</h2>
+    <p>All training computers run the same operating system image, distributed and pre-configured before the workshop. PostgreSQL is installed automatically via the <code>setup.sh</code> script — no manual installation is needed by participants.</p>
+
+    <h3>Training Environment</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">uname -a</span></div>
+      <pre>Linux administrator-Altos-P10-F8 6.8.0-111-generic #111~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Tue Apr 14 17:13:45 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux</pre>
+    </div>
+    <p style="margin-top:.75rem;"><strong>OS:</strong> Ubuntu 22.04.1 LTS &nbsp;·&nbsp; <strong>Arch:</strong> x86_64 &nbsp;·&nbsp; <strong>Kernel:</strong> 6.8.0-111-generic</p>
+
+    <h3>PostgreSQL Installation</h3>
+    <p>The same OS image is distributed to all training computers. PostgreSQL is installed by running the setup script once on each machine — participants do not need to install it manually:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>bash setup.sh</pre>
+    </div>
+    <div class="note-box">
+      &#9432; <strong>Note for facilitators:</strong> The <code>setup.sh</code> script handles PostgreSQL installation and initial configuration for the training environment. All machines receive the same script to ensure a consistent setup across the room.
+    </div>
+  </div>
+
+  <div class="card">
     <h2>Related Files</h2>
     <p>Download these before starting the lab:</p>
     <a class="script-link" href="../scripts/setup.sh" download>&#128196; scripts/setup.sh</a>
