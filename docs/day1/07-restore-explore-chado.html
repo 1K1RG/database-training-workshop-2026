@@ -7,7 +7,7 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-       background: #f0f4f8; color: #1a202c; line-height: 1.8; min-height: 100vh; }
+       font-size: 17px; background: #f0f4f8; color: #1a202c; line-height: 1.8; min-height: 100vh; }
 nav { background: #14532d; padding: .7rem 1.5rem; }
 nav a { color: #86efac; text-decoration: none; font-weight: 500; font-size: 1rem; }
 nav a:hover { color: #fff; text-decoration: underline; }
@@ -19,7 +19,7 @@ nav a:hover { color: #fff; text-decoration: underline; }
 .b-lab { background: #d1fae5; color: #065f46; }
 h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.25; margin-bottom: .6rem; }
 .meta-row { display: flex; gap: 1.75rem; flex-wrap: wrap; font-size: 1rem; color: #86efac; }
-main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
+main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem 3rem; }
 .slide-box { background: #fff; border: 2.5px dashed #94a3b8; border-radius: 1rem;
              padding: 3.5rem 2rem; text-align: center; margin-bottom: 2rem; }
 .slide-icon { font-size: 3rem; margin-bottom: .75rem; }
@@ -27,21 +27,21 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .slide-box p { color: #64748b; font-size: 1rem; margin-bottom: .25rem; }
 .instruction { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
                padding: 1rem 1.25rem; margin-top: 1.5rem; text-align: left;
-               font-size: .9rem; color: #475569; }
+               font-size: .95rem; color: #475569; }
 .instruction code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
                     font-family: 'Courier New', monospace; }
 .card { background: #fff; border-radius: .75rem; border: 1px solid #e2e8f0;
         border-left: 5px solid #1e3a5f; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        padding: 2rem; margin-bottom: 2rem; }
-.card h2 { font-size: 1.2rem; font-weight: 600; color: #1e3a5f;
-           border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .75rem; }
-.card p, .card li { color: #475569; font-size: 1.05rem; line-height: 1.8; }
-.card ul, .card ol { padding-left: 1.25rem; }
+        padding: 2rem 2.25rem; margin-bottom: 2rem; }
+.card h2 { font-size: 1.4rem; font-weight: 700; color: #1e3a5f;
+           border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .85rem; }
+.card p, .card li { color: #374151; font-size: 1.05rem; line-height: 1.85; }
+.card ul, .card ol { padding-left: 1.4rem; }
 .card h3 { font-size: 1.1rem; font-weight: 700; color: #1e3a5f; margin: 1.5rem 0 .75rem; text-transform: uppercase; letter-spacing: 0.025em; }
-.card code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
-             font-family: 'Courier New', monospace; font-size: .9em; }
+.card code { background: #e2e8f0; padding: .15em .45em; border-radius: .25em;
+             font-family: 'Courier New', monospace; font-size: .95em; }
 .card pre { background: #1a1a1a; color: #e2e8f0; border: 1px solid #374151;
-            border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: .9rem;
+            border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: 1rem;
             overflow-x: auto; line-height: 1.7; font-family: 'Courier New', monospace; margin: 0; }
 .terminal-wrap { margin: .75rem 0; }
 .terminal-bar { background: #374151; border-radius: .5rem .5rem 0 0; padding: .35rem .75rem;
@@ -50,9 +50,9 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .terminal-bar .dot-red { background: #ef4444; }
 .terminal-bar .dot-yel { background: #f59e0b; }
 .terminal-bar .dot-grn { background: #22c55e; }
-.terminal-bar .term-label { font-size: .75rem; color: #9ca3af; font-family: 'Courier New', monospace; margin-left: .5rem; }
+.terminal-bar .term-label { font-size: .8rem; color: #9ca3af; font-family: 'Courier New', monospace; margin-left: .5rem; }
 .script-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
-               border-radius: .4rem; padding: .4rem .9rem; font-size: .85rem;
+               border-radius: .4rem; padding: .45rem 1rem; font-size: .95rem;
                color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
 .script-link:hover { background: #dcfce7; }
 .card-option-a { border-left-color: #15803d; }
@@ -69,10 +69,10 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
   padding: 1.25rem 1.5rem; margin-bottom: 2rem;
   display: flex; gap: 1rem; flex-wrap: wrap; align-items: center;
 }
-.choice-banner p { color: #475569; font-size: .95rem; flex: 1 1 200px; }
+.choice-banner p { color: #475569; font-size: 1rem; flex: 1 1 200px; }
 .choice-links { display: flex; gap: .75rem; flex-wrap: wrap; }
 .choice-links a {
-  padding: .5rem 1.1rem; border-radius: .5rem; font-size: .9rem; font-weight: 600;
+  padding: .55rem 1.2rem; border-radius: .5rem; font-size: 1rem; font-weight: 600;
   text-decoration: none; white-space: nowrap;
 }
 .choice-links .link-a { background: #f0fdf4; border: 1px solid #86efac; color: #14532d; }
@@ -80,7 +80,7 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .choice-links a:hover { filter: brightness(.95); }
 .note-box {
   background: #fefce8; border: 1px solid #fde68a; border-radius: .5rem;
-  padding: .85rem 1.1rem; margin-top: 1rem; font-size: .9rem; color: #78350f;
+  padding: .9rem 1.1rem; margin-top: 1rem; font-size: 1rem; color: #78350f;
 }
 footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem; }
 @media (max-width: 600px) { h1 { font-size: 1.6rem; } .meta-row { gap: .75rem; } }
