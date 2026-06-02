@@ -141,7 +141,7 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
   <!-- ── PART 1: uploadDataset.sh ───────────────────── -->
   <div class="card" id="option-a">
     <h2>Part 1 — Using uploadDataset.sh</h2>
-    <p>The <code>uploadDataset.sh</code> script from the 1k1RG-Scripts repository handles the full load — organism lookup, CSV generation, and bulk copy — in one command.</p>
+    <p><code>uploadDataset.sh</code> handles the full load — organism lookup, CSV generation, and bulk copy — in one command. Download it from the Related Files section above.</p>
 
     <h3>Prerequisites</h3>
     <ul>
@@ -155,21 +155,14 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
       </li>
     </ul>
 
-    <h3>Step 1: Clone the Repository</h3>
-    <div class="terminal-wrap">
-      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
-      <pre>git clone https://github.com/1K1RG/1k1RG-Scripts.git
-cd 1k1RG-Scripts/loader</pre>
-    </div>
-
-    <h3>Step 2: Make the Script Executable</h3>
+    <h3>Step 1: Make the Script Executable</h3>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
       <pre>chmod +x uploadDataset.sh</pre>
     </div>
 
-    <h3>Step 3: Run the Script</h3>
-    <p>Make sure your input files are in the <code>1k1RG-Scripts/loader</code> directory, then run:</p>
+    <h3>Step 2: Run the Script</h3>
+    <p>Make sure <code>uploadDataset.sh</code> and your input files are in the same directory, then run:</p>
     <div class="terminal-wrap">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
       <pre>./uploadDataset.sh sampleds sampleds sample_list.txt pos_500_per_chr.txt 'Japonica nipponbare' test_file.h5</pre>
