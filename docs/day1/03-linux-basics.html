@@ -16,7 +16,7 @@ nav a:hover { color: #fff; text-decoration: underline; }
 .badges { display: flex; gap: .5rem; margin-bottom: .85rem; flex-wrap: wrap; align-items: center; }
 .badge { display: inline-block; padding: .2rem .7rem; border-radius: 9999px;
          font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
-.b-leclab { background: #cffafe; color: #155e75; }
+.b-lab { background: #d1fae5; color: #065f46; }
 .b-new    { background: #fee2e2; color: #991b1b; }
 h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.25; margin-bottom: .6rem; }
 .meta-row { display: flex; gap: 1.75rem; flex-wrap: wrap; font-size: 1rem; color: #86efac; }
@@ -50,15 +50,15 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
 <div class="page-header">
   <div class="badges">
-    <span class="badge b-leclab">Lecture+Lab</span>
+    <span class="badge b-lab">Lab</span>
     <span class="badge b-new">NEW this year</span>
     <span>Day 1 &nbsp;·&nbsp; Session 3 of 10</span>
   </div>
   <h1>Linux Basics</h1>
   <div class="meta-row">
-    <span>&#128336; 10:30 – 11:00</span>
-    <span>&#127908; Garth Hendrich Lapitan</span>
-    <span>&#128337; 30 min</span>
+    <span>&#128336; 9:30 – 12:00</span>
+    <span>&#127908; G</span>
+    <span>&#128337; 2h 15m · Parts 1 &amp; 2</span>
   </div>
 </div>
 
@@ -66,40 +66,14 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <div class="new-banner">&#127381; This is a <strong>new session</strong> added for the 2026 training to help participants with limited command-line experience get up to speed before the lab exercises.</div>
 
-  <div class="slide-box">
-    <div class="slide-icon">&#128187;</div>
-    <h2>Slides &amp; Lab Exercises go here</h2>
-    <p>Replace this placeholder with the exported lecture slides and/or a lab exercise handout.</p>
-    <div class="instruction">
-      <strong>How to replace:</strong><br>
-      1. Export slides → <code>03-linux-basics-slides.pdf</code><br>
-      2. Optionally add a lab sheet → <code>03-linux-basics-lab.pdf</code><br>
-      3. Place in <code>/docs/day1/</code><br>
-      4. Also see <code>/cheatsheets/linux-survival.pdf</code> (distributed to participants)
-    </div>
+  <div class="card" style="padding: 0; overflow: hidden;">
+    <iframe src="03-linux-basics-slides.pdf" title="Linux Basics slides"
+            style="width:100%; height:75vh; border:0; display:block;"></iframe>
   </div>
 
   <div class="card">
     <h2>Session Overview</h2>
     <p>A crash course in Linux command-line essentials for participants new to terminal environments. Immediately applicable to the lab exercises that follow throughout the training.</p>
-  </div>
-
-  <div class="card">
-    <h2>Topics Covered (Placeholder)</h2>
-    <ul>
-      <li>Navigating the filesystem: <code>pwd</code>, <code>ls</code>, <code>cd</code></li>
-      <li>Viewing and editing files: <code>cat</code>, <code>less</code>, <code>nano</code></li>
-      <li>File operations: <code>cp</code>, <code>mv</code>, <code>rm</code>, <code>mkdir</code></li>
-      <li>Permissions basics: <code>chmod</code>, <code>chown</code></li>
-      <li>Pipes and redirection: <code>|</code>, <code>&gt;</code>, <code>&gt;&gt;</code></li>
-      <li>Searching: <code>grep</code>, <code>find</code></li>
-      <li>Running scripts: <code>bash script.sh</code>, <code>./script.sh</code></li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Supporting Material</h2>
-    <p>See the <strong>Linux Survival Cheat Sheet</strong> in the Downloads section of the main page — print one per participant before the training.</p>
   </div>
 
 </main>
