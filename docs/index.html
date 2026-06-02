@@ -647,25 +647,26 @@
         <div class="about-grid">
           <div class="day-card day1">
             <span class="day-card-label">Day 1</span>
-            <h3>Database Schema, Ontologies &amp; Curation</h3>
+            <h3>Schema, Ontologies &amp; Data Loading</h3>
             <ul>
-              <li>Platform overview and SNP-Seek technology stack</li>
-              <li>Chado schema — core tables, relationships, and ERD walkthrough</li>
-              <li>Biological ontologies and how cvterms act as the database type system</li>
-              <li>Hands-on: restore and query a real training database</li>
-              <li>Loading reference genome and full dataset into Chado — step-by-step labs</li>
-              <li>HDF5 introduction — what genotype matrix files are and why they exist</li>
+              <li>1k1RG project overview and the SNP-Seek technology stack</li>
+              <li>Linux essentials and SQL fundamentals for database operations</li>
+              <li>Biological ontologies — controlled vocabularies and how <code style="background:#d1fae5;padding:.1em .35em;border-radius:.2em;font-size:.85em;">cvterm</code> types every record in Chado</li>
+              <li>Chado schema deep dive — <code style="background:#d1fae5;padding:.1em .35em;border-radius:.2em;font-size:.85em;">feature</code>, <code style="background:#d1fae5;padding:.1em .35em;border-radius:.2em;font-size:.85em;">featureloc</code>, <code style="background:#d1fae5;padding:.1em .35em;border-radius:.2em;font-size:.85em;">stock</code>, <code style="background:#d1fae5;padding:.1em .35em;border-radius:.2em;font-size:.85em;">variantset</code>, and the PostgreSQL/HDF5 boundary</li>
+              <li>Lab: install PostgreSQL, restore a Chado training database, explore with <code style="background:#d1fae5;padding:.1em .35em;border-radius:.2em;font-size:.85em;">psql</code></li>
+              <li>Lab: load a reference genome into Chado using <code style="background:#d1fae5;padding:.1em .35em;border-radius:.2em;font-size:.85em;">\copy</code> and GFF-based loader scripts</li>
+              <li>Lab: bulk-load a full genomic dataset using <code style="background:#d1fae5;padding:.1em .35em;border-radius:.2em;font-size:.85em;">uploadDataset.sh</code></li>
             </ul>
           </div>
           <div class="day-card day2">
             <span class="day-card-label">Day 2</span>
-            <h3>Pipeline, Loading &amp; Verification</h3>
+            <h3>HDF5, VCF Pipeline &amp; Open Lab</h3>
             <ul>
-              <li>VCF format — what it is and what the genotype calls represent</li>
-              <li>Full two-step pipeline: VCF → genotype matrix → HDF5</li>
-              <li>Loading into Chado using <code style="background:#dbeafe;padding:.1em .35em;border-radius:.2em;font-size:.85em;">uploadDataset.sh</code></li>
-              <li>Diagnosing and recovering from partial load failures</li>
-              <li>Open lab: end-to-end run on an unseen dataset</li>
+              <li>HDF5 — why the genotype matrix lives outside PostgreSQL and how SNP-Seek reads it</li>
+              <li>VCF format — file structure, INFO/FORMAT fields, and what genotype calls represent</li>
+              <li>Full two-step pipeline: VCF → genotype matrix → HDF5 (hands-on run)</li>
+              <li>Open lab — finish unfinished exercises, troubleshoot, and ask questions</li>
+              <li>Closing Q&amp;A and handover</li>
             </ul>
           </div>
         </div>
@@ -674,11 +675,14 @@
           <div class="outcomes-box">
             <h3>Learning Outcomes</h3>
             <ul>
-              <li>Navigate and query the SNP-Seek Chado database</li>
-              <li>Understand how ontologies and cvterms structure genomic data</li>
-              <li>Run the full VCF → HDF5 → Chado loading pipeline</li>
-              <li>Diagnose and recover from partial load and pipeline failures</li>
-              <li>Perform routine maintenance: backup, restore, VACUUM, monitoring</li>
+              <li>Explain how Chado uses <code>cvterm</code> as the semantic type system across all core tables</li>
+              <li>Set up a PostgreSQL Chado database and restore a training dump independently</li>
+              <li>Navigate and query the Chado schema using <code>psql</code> meta-commands and SQL joins</li>
+              <li>Load a reference genome into Chado from a pre-built CSV or a GFF annotation file</li>
+              <li>Run <code>uploadDataset.sh</code> to bulk-load stock, SNP, and variant data into Chado</li>
+              <li>Explain the PostgreSQL/HDF5 boundary — what lives in the database and what does not</li>
+              <li>Execute the full VCF → genotype matrix → HDF5 pipeline and verify the output</li>
+              <li>Diagnose and recover from common loader failures (term-resolution errors, ID conflicts)</li>
             </ul>
           </div>
           <div class="outcomes-box">
@@ -687,8 +691,6 @@
               <li>Linux command-line comfort — navigation, file operations, running scripts</li>
               <li>SQL fundamentals — SELECT, JOIN, INSERT, basic relational tables</li>
               <li>SSH access to the training server (credentials distributed before the session)</li>
-              <li>A laptop with an SSH client and a browser</li>
-              <li>No prior bioinformatics background required — biological concepts are introduced as they become relevant</li>
             </ul>
           </div>
         </div>
