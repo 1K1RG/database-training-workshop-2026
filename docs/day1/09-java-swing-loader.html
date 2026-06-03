@@ -183,6 +183,231 @@ SELECT COUNT(*) FROM variantset;</pre>
     </ul>
   </div>
 
+  <!-- ── SNP-SEEK CHADO SAMPLE QUERIES ─────────────── -->
+  <div class="card" style="border-left-color:#177245;">
+    <h2>SNP-Seek Chado — Sample Queries</h2>
+    <p style="color:#6b7280;margin-bottom:.5rem;">A beginner's reference for common lookups &nbsp;·&nbsp; Database Curation &amp; Loading Training &nbsp;·&nbsp; 1k1 Rice Genome Project</p>
+    <p><strong>How to use this sheet:</strong> Each query is a complete, runnable example with a plain-English description and what it returns. They are deliberately simple lookups — the building blocks. Table and column names match the SNP-Seek Chado schema. Replace the example values (in capitals or quotes) with your own.</p>
+    <div class="note-box" style="margin-top:1rem;">
+      <strong>The one pattern to remember:</strong> Almost every lookup joins a data table to <code>cvterm</code> to turn a <code>type_id</code> into a readable name, and often to <code>organism</code> to know which rice line. If you internalise that, most of these queries look familiar.
+    </div>
+  </div>
+
+  <div class="card" style="border-left-color:#177245;">
+    <h2>A. Vocabulary lookups (cvterm)</h2>
+
+    <h3>1. Find the cvterm for "gene"</h3>
+    <p>Look up a single ontology term by name. This is the term that <code>feature</code> rows point to.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT cvterm_id, name, definition
+FROM   cvterm
+WHERE  name = 'gene';</pre>
+    </div>
+    <p><em>Returns:</em> The <code>cvterm_id</code> you can use elsewhere, plus the term's definition.</p>
+
+    <h3>2. List all feature types in use</h3>
+    <p>See every distinct type a feature can be (gene, SNP, chromosome, mRNA, …).</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT DISTINCT c.name AS feature_type
+FROM   feature f
+JOIN   cvterm  c ON f.type_id = c.cvterm_id
+ORDER  BY feature_type;</pre>
+    </div>
+    <p><em>Returns:</em> One row per feature type present in the database.</p>
+  </div>
+
+  <div class="card" style="border-left-color:#177245;">
+    <h2>B. Finding features (genes &amp; SNPs)</h2>
+
+    <h3>3. Find a feature by name</h3>
+    <p>The simplest lookup — fetch one feature by its unique name.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT feature_id, name, uniquename
+FROM   feature
+WHERE  uniquename = 'LOC_Os01g01010';</pre>
+    </div>
+    <p><em>Returns:</em> The matching feature row (or nothing if the name isn't found).</p>
+
+    <h3>4. List all genes</h3>
+    <p>Filter the feature table to just one type by joining to <code>cvterm</code>.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT f.uniquename, f.name
+FROM   feature f
+JOIN   cvterm  c ON f.type_id = c.cvterm_id
+WHERE  c.name = 'gene'
+LIMIT  50;</pre>
+    </div>
+    <p><em>Returns:</em> Up to 50 gene features. (Always use <code>LIMIT</code> while exploring — these tables are large.)</p>
+
+    <h3>5. Count features by type</h3>
+    <p>A quick health-check: how many of each type are loaded?</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT c.name AS feature_type, COUNT(*) AS n
+FROM   feature f
+JOIN   cvterm  c ON f.type_id = c.cvterm_id
+GROUP  BY c.name
+ORDER  BY n DESC;</pre>
+    </div>
+    <p><em>Returns:</em> Each feature type with its row count, largest first.</p>
+
+    <h3>6. List genes for one rice line</h3>
+    <p>Combine a type filter with an organism filter — the two most common <code>WHERE</code> clauses together.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT f.uniquename, f.name
+FROM   feature  f
+JOIN   cvterm   c ON f.type_id     = c.cvterm_id
+JOIN   organism o ON f.organism_id = o.organism_id
+WHERE  c.name = 'gene'
+AND    o.common_name = 'Japonica nipponbare'
+LIMIT  50;</pre>
+    </div>
+    <p><em>Returns:</em> Genes belonging to the named reference genome.</p>
+  </div>
+
+  <div class="card" style="border-left-color:#177245;">
+    <h2>C. Where things sit (featureloc)</h2>
+
+    <h3>7. Get the position of one feature</h3>
+    <p><code>featureloc</code> holds the coordinates. <code>srcfeature_id</code> is the chromosome (itself a feature) the feature sits on.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT fl.fmin, fl.fmax, fl.strand
+FROM   featureloc fl
+JOIN   feature    f ON fl.feature_id = f.feature_id
+WHERE  f.uniquename = 'LOC_Os01g01010';</pre>
+    </div>
+    <p><em>Returns:</em> Start (<code>fmin</code>), end (<code>fmax</code>) and strand for that feature.</p>
+
+    <h3>8. List features on chromosome 1</h3>
+    <p>Find everything located on a given chromosome by matching the source feature's name.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT f.uniquename, fl.fmin, fl.fmax
+FROM   featureloc fl
+JOIN   feature    f   ON fl.feature_id    = f.feature_id
+JOIN   feature    chr ON fl.srcfeature_id = chr.feature_id
+WHERE  chr.name = 'Chr1'
+ORDER  BY fl.fmin
+LIMIT  50;</pre>
+    </div>
+    <p><em>Returns:</em> Features on Chr1, ordered by start position.</p>
+    <div class="note-box" style="margin-top:.75rem;">
+      <strong>Heads-up:</strong> <code>fmin</code> is zero-based and interbase — it may read one lower than the position shown in a genome browser. The loaders handle this for you; just don't be surprised by an off-by-one.
+    </div>
+  </div>
+
+  <div class="card" style="border-left-color:#177245;">
+    <h2>D. Notes &amp; properties (featureprop)</h2>
+
+    <h3>9. Get all properties of a feature</h3>
+    <p><code>featureprop</code> holds descriptions, scores and notes. Its own <code>type_id</code> (a cvterm) says what kind of property each row is.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT c.name AS property_type, fp.value
+FROM   featureprop fp
+JOIN   feature     f ON fp.feature_id = f.feature_id
+JOIN   cvterm      c ON fp.type_id    = c.cvterm_id
+WHERE  f.uniquename = 'LOC_Os01g01010';</pre>
+    </div>
+    <p><em>Returns:</em> Each property attached to the feature, labelled by its type.</p>
+  </div>
+
+  <div class="card" style="border-left-color:#177245;">
+    <h2>E. Alternative names (synonyms)</h2>
+
+    <h3>10. List all names of a feature</h3>
+    <p>Show every alternate name attached to a feature, labelled by which naming system it came from.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT s.name AS synonym, c.name AS naming_system
+FROM   feature_synonym fs
+JOIN   synonym s ON fs.synonym_id = s.synonym_id
+JOIN   feature f ON fs.feature_id = f.feature_id
+JOIN   cvterm  c ON s.type_id     = c.cvterm_id
+WHERE  f.uniquename = 'LOC_Os01g01010';</pre>
+    </div>
+    <p><em>Returns:</em> Each known synonym for the feature, with its source system.</p>
+
+    <h3>11. Find a feature by any of its names</h3>
+    <p>The synonym-aware lookup — search the feature's own name OR any synonym, in one query.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT f.uniquename, f.name
+FROM   feature f
+WHERE  f.name = 'Os01g0100100'
+
+UNION
+
+SELECT f.uniquename, f.name
+FROM   feature f
+JOIN   feature_synonym fs ON f.feature_id = fs.feature_id
+JOIN   synonym s          ON fs.synonym_id = s.synonym_id
+WHERE  s.name = 'Os01g0100100';</pre>
+    </div>
+    <p><em>Returns:</em> The same feature, whether the search term was its primary name or a synonym.</p>
+  </div>
+
+  <div class="card" style="border-left-color:#177245;">
+    <h2>F. Samples &amp; accessions (stock)</h2>
+
+    <h3>12. List rice accessions</h3>
+    <p><code>stock</code> holds the physical material — the accessions/germplasm.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT stock_id, name, uniquename
+FROM   stock
+LIMIT  50;</pre>
+    </div>
+    <p><em>Returns:</em> Up to 50 accessions.</p>
+
+    <h3>13. Find one accession by name</h3>
+    <p>A direct lookup of a single accession.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT stock_id, name, uniquename, description
+FROM   stock
+WHERE  name = 'IR64';</pre>
+    </div>
+    <p><em>Returns:</em> The matching accession row.</p>
+  </div>
+
+  <div class="card" style="border-left-color:#177245;">
+    <h2>G. Variant sets</h2>
+
+    <h3>14. List variant sets</h3>
+    <p>A variantset is a named group of variants (positions). This lists the groups themselves.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT variantset_id, name
+FROM   variantset
+ORDER  BY name;</pre>
+    </div>
+    <p><em>Returns:</em> Each named variant set.</p>
+
+    <h3>15. Count variants in each set</h3>
+    <p>Use the join table <code>variant_variantset</code> to count how many variants belong to each set.</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">psql</span></div>
+      <pre>SELECT vs.name, COUNT(*) AS n_variants
+FROM   variant_variantset vv
+JOIN   variantset vs ON vv.variantset_id = vs.variantset_id
+GROUP  BY vs.name
+ORDER  BY n_variants DESC;</pre>
+    </div>
+    <p><em>Returns:</em> Each variant set with the number of variants it contains.</p>
+  </div>
+
+  <div class="card" style="border-left-color:#f59e0b; background:#fffbeb;">
+    <h2 style="color:#92400e;">A note on the genotype matrix</h2>
+    <p>These queries all read <strong>metadata</strong> from PostgreSQL/Chado — what things are, where they sit, which accessions exist. The actual genotype calls (which accession has which allele at each position — roughly 60 billion data points) live in HDF5 files, not in these tables. You will not find the allele values with SQL; those come through the genotype API / HDF5 layer.</p>
+  </div>
+
 </main>
 
 <footer>Database Curation &amp; Loading Training &nbsp;·&nbsp; 1k1RG Project &nbsp;·&nbsp; June 3–4, 2026</footer>
