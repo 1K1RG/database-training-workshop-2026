@@ -67,25 +67,22 @@ cd ..
 # ── Step 4: Compile loadmatrix_geno ───────────────────────────────────────────
 info "Step 4 — Compile $OUTPUT_BIN"
 
-if [[ -f "$OUTPUT_BIN" ]]; then
-  ok "$OUTPUT_BIN already compiled — skipping"
-else
-  if [[ ! -f "$CPP_SRC" ]]; then
-    info "  Downloading $CPP_SRC ..."
-    wget -q --show-progress "$CPP_URL" -O "$CPP_SRC"
-    ok "Downloaded $CPP_SRC"
-  fi
-
-  LIB_DIR="$PREFIX/lib"
-  INCLUDE_DIR="$PREFIX/include"
-
-  export LD_RUN_PATH="$LIB_DIR"
-  export LDFLAGS="-L$LIB_DIR"
-  export CPPFLAGS="-I$INCLUDE_DIR"
-
-  g++ -Wno-narrowing -o "$OUTPUT_BIN" -I "$INCLUDE_DIR" "$CPP_SRC" -lhdf5 -L"$LIB_DIR"
-  ok "Compiled $OUTPUT_BIN"
+if [[ ! -f "$CPP_SRC" ]]; then
+  info "  Downloading $CPP_SRC ..."
+  wget -q --show-progress "$CPP_URL" -O "$CPP_SRC"
+  ok "Downloaded $CPP_SRC"
 fi
+
+LIB_DIR="$PREFIX/lib"
+INCLUDE_DIR="$PREFIX/include"
+
+export LD_RUN_PATH="$LIB_DIR"
+export LDFLAGS="-L$LIB_DIR"
+export CPPFLAGS="-I$INCLUDE_DIR"
+
+rm -f "$OUTPUT_BIN"
+g++ -Wno-narrowing -o "$OUTPUT_BIN" -I "$INCLUDE_DIR" "$CPP_SRC" -lhdf5 -L"$LIB_DIR"
+ok "Compiled $OUTPUT_BIN"
 
 # ── Verify ─────────────────────────────────────────────────────────────────────
 info "Verifying build"
