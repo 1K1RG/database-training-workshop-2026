@@ -50,6 +50,10 @@ main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
 .step-number { display: inline-block; background: #1e3a5f; color: #fff;
                border-radius: 50%; width: 1.8rem; height: 1.8rem; text-align: center;
                line-height: 1.8rem; font-size: .9rem; font-weight: 700; margin-right: .5rem; }
+.script-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
+               border-radius: .4rem; padding: .45rem 1rem; font-size: .95rem;
+               color: #14532d; text-decoration: none; margin-top: .5rem; font-weight: 600; }
+.script-link:hover { background: #dcfce7; }
 footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem; }
 @media (max-width: 600px) { h1 { font-size: 1.6rem; } .meta-row { gap: .75rem; } }
 </style>
@@ -71,6 +75,17 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 </div>
 
 <main>
+
+  <div class="card">
+    <h2>Quick Start — Automated Script</h2>
+    <p>If you prefer to run everything in one shot, download the setup script and execute it. It performs all four steps below automatically.</p>
+    <a class="script-link" href="scripts/setup-hdf5.sh" download>&#128196; scripts/setup-hdf5.sh</a>
+    <div class="terminal-wrap" style="margin-top:1rem;">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>bash setup-hdf5.sh</pre>
+    </div>
+    <p style="margin-top:.75rem;">An optional install prefix can be passed as the first argument (default: <code>$HOME/tools/hdf5-1.8.23</code>).</p>
+  </div>
 
   <div class="card">
     <h2>Overview</h2>
