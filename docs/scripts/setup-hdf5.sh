@@ -14,7 +14,6 @@ HDF5_SRC_DIR="hdf5-${HDF5_VERSION}"
 PREFIX="${1:-$HOME/tools/hdf5-${HDF5_VERSION}}"
 
 CPP_SRC="loadmatrix_SNP-annot.cpp"
-# TODO: Replace with the real raw-file URL from the 1K1RG GitHub repository
 CPP_URL="https://raw.githubusercontent.com/1K1RG/1K1RG-Documentations/master/resources/${CPP_SRC}"
 OUTPUT_BIN="loadmatrix_geno"
 
