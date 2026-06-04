@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Setup Guide — DB Training 2026</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+       font-size: 17px; background: #f0f4f8; color: #1a202c; line-height: 1.8; min-height: 100vh; }
+nav { background: #14532d; padding: .7rem 1.5rem; }
+nav a { color: #86efac; text-decoration: none; font-weight: 500; font-size: 1rem; }
+nav a:hover { color: #fff; text-decoration: underline; }
+.page-header { background: linear-gradient(135deg, #1e3a5f 0%, #0f2745 100%);
+               color: #fff; padding: 2.5rem 1.5rem 2rem; }
+.badges { display: flex; gap: .5rem; margin-bottom: .85rem; flex-wrap: wrap; align-items: center; }
+.badge { display: inline-block; padding: .2rem .7rem; border-radius: 9999px;
+         font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; }
+.b-setup { background: #dbeafe; color: #1e40af; }
+h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.25; margin-bottom: .6rem; }
+.meta-row { display: flex; gap: 1.75rem; flex-wrap: wrap; font-size: 1rem; color: #93c5fd; }
+main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
+.card { background: #fff; border-radius: .75rem; border: 1px solid #e2e8f0;
+        border-left: 5px solid #1e3a5f; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        padding: 2rem 2.25rem; margin-bottom: 2rem; }
+.card h2 { font-size: 1.4rem; font-weight: 700; color: #1e3a5f;
+           border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .85rem; }
+.card p, .card li { color: #374151; font-size: 1.05rem; line-height: 1.85; }
+.card ul, .card ol { padding-left: 1.4rem; }
+.card h3 { font-size: 1.1rem; font-weight: 700; color: #1e3a5f; margin: 1.25rem 0 .6rem; }
+.card pre { background: #1a1a1a; color: #e2e8f0; border: 1px solid #374151;
+            border-radius: 0 0 .5rem .5rem; padding: 1.1rem 1.25rem; font-size: 1rem;
+            overflow-x: auto; line-height: 1.7; font-family: 'Courier New', monospace;
+            margin: .75rem 0 .75rem; }
+.card code { background: #e2e8f0; padding: .15em .45em; border-radius: .25em;
+             font-family: 'Courier New', monospace; font-size: .95em; }
+.terminal-wrap { margin: .75rem 0; }
+.terminal-wrap pre { margin: 0; border-radius: 0 0 .5rem .5rem; }
+.terminal-bar { background: #374151; border-radius: .5rem .5rem 0 0; padding: .35rem .75rem;
+                display: flex; align-items: center; gap: .4rem; }
+.terminal-bar span { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.terminal-bar .dot-red   { background: #ef4444; }
+.terminal-bar .dot-yel   { background: #f59e0b; }
+.terminal-bar .dot-grn   { background: #22c55e; }
+.terminal-bar .term-label { font-size: .8rem; color: #9ca3af; font-family: 'Courier New', monospace; margin-left: .5rem; }
+.note-box {
+  background: #fefce8; border: 1px solid #fde68a; border-radius: .5rem;
+  padding: .9rem 1.1rem; margin-top: 1rem; font-size: 1rem; color: #78350f;
+}
+.step-number { display: inline-block; background: #1e3a5f; color: #fff;
+               border-radius: 50%; width: 1.8rem; height: 1.8rem; text-align: center;
+               line-height: 1.8rem; font-size: .9rem; font-weight: 700; margin-right: .5rem; }
+footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem; }
+@media (max-width: 600px) { h1 { font-size: 1.6rem; } .meta-row { gap: .75rem; } }
+</style>
+</head>
+<body>
+
+<nav><a href="index.html">← Back to Schedule</a></nav>
+
+<div class="page-header">
+  <div class="badges">
+    <span class="badge b-setup">Setup</span>
+    <span>Pre-Session &nbsp;·&nbsp; Required before Day 2</span>
+  </div>
+  <h1>Setup Guide</h1>
+  <div class="meta-row">
+    <span>&#128336; Complete before Day 2</span>
+    <span>&#127908; Riza May Pasco</span>
+  </div>
+</div>
+
+<main>
+
+  <div class="card">
+    <h2>Overview</h2>
+    <p>This guide walks through the environment setup required to run the VCF-to-HDF5 pipeline covered in Day 2. It covers installing dependencies, building the HDF5 library from source, and compiling the <code>loadmatrix_geno</code> program.</p>
+    <div class="note-box">
+      &#9432; This setup guide is designed for <strong>Linux systems, particularly Ubuntu</strong>. For <strong>Windows users</strong>, please use WSL2 or a Linux virtual machine before proceeding.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-number">0</span> Install Required Software</h2>
+    <p>Update package lists and install <code>bcftools</code> and the C++ build tools:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>sudo apt update
+sudo apt install -y bcftools build-essential</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-number">1</span> Obtain HDF5</h2>
+    <p>Download the HDF5 1.8.23 source package from the HDF Group releases page. Save the file <code>hdf5-1.8.23.tar.gz</code> to your home directory or a directory of your choice.</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-number">2</span> Extract and Navigate</h2>
+    <p>Extract the archive and change into the source directory:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>tar -xzvf hdf5-1.8.23.tar.gz
+cd hdf5-1.8.23</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-number">3</span> Configure and Build HDF5</h2>
+    <p>Run the standard build sequence. This may take several minutes:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>./configure
+make
+make install</pre>
+    </div>
+    <p>The library will be installed under <code>hdf5-1.8.23/hdf5/</code> by default. Note the path to the <code>lib/</code> and <code>include/</code> subdirectories — you will need them in the next step.</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-number">4</span> Compile Roven's Program</h2>
+
+    <h3>Download the source file</h3>
+    <p>Download <code>loadmatrix_SNP-annot.cpp</code> from the 1K1RG GitHub repository and place it in your working directory.</p>
+
+    <h3>Create the build script</h3>
+    <p>Create a file named <code>build.sh</code> with the following content. <strong>Change the <code>lib</code> variable</strong> to match the directory where you installed the HDF5 library on your system (e.g., <code>/home/yourname/Tools/hdf5-1.8.23/hdf5/lib</code>):</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">build.sh</span></div>
+      <pre>#!/bin/bash
+
+main=/home/riza/Tools/hdf5-1.8.23
+lib=$main/hdf5/lib
+include=$main/hdf5/include
+header=$include
+
+export PATH=$main/hdf5/bin:$PATH
+export LD_RUN_PATH=$lib
+export LDFLAGS="-L$lib"
+export CPPFLAGS="-I$include"
+
+g++ -o loadmatrix_geno -I $header loadmatrix_SNP-annot.cpp -lhdf5 -L$lib</pre>
+    </div>
+    <div class="note-box">
+      &#9432; Change the path assigned to the <code>lib</code> variable to match the directory where you installed the HDF5 library on your system.
+    </div>
+
+    <h3>Make executable and run</h3>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>chmod u+x build.sh
+./build.sh</pre>
+    </div>
+
+    <h3>Verify the build</h3>
+    <p>Run the compiled program to confirm it built successfully. It should display usage parameters and an error indicating it requires arguments — this is expected:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>./loadmatrix_geno</pre>
+    </div>
+  </div>
+
+</main>
+
+<footer>Database Curation &amp; Loading Training &nbsp;·&nbsp; 1k1RG Project &nbsp;·&nbsp; June 3–4, 2026</footer>
+</body>
+</html>
