@@ -76,22 +76,25 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
 <main>
 
-  <div class="card">
-    <h2>Quick Start — Automated Script</h2>
-    <p>If you prefer to run everything in one shot, download the setup script and execute it. It performs all four steps below automatically.</p>
-    <a class="script-link" href="scripts/setup-hdf5.sh" download>&#128196; scripts/setup-hdf5.sh</a>
+  <div class="card" style="border-left-color:#1d4ed8; background:#eff6ff;">
+    <h2 style="color:#1d4ed8;">Option A &nbsp;·&nbsp; Automated Script <span style="font-size:.85rem;font-weight:400;color:#3b82f6;">(recommended)</span></h2>
+    <p>Download and run the setup script — it handles all four steps automatically.</p>
+    <a class="script-link" href="scripts/setup-hdf5.sh" download>&#128196; Download setup-hdf5.sh</a>
     <div class="terminal-wrap" style="margin-top:1rem;">
       <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
       <pre>bash setup-hdf5.sh</pre>
     </div>
     <p style="margin-top:.75rem;">An optional install prefix can be passed as the first argument (default: <code>$HOME/tools/hdf5-1.8.23</code>).</p>
+    <p style="margin-top:.5rem; color:#6b7280; font-size:.95rem;">Or follow <strong>Option B</strong> below to run each step manually.</p>
   </div>
 
-  <div class="card">
-    <h2>Overview</h2>
-    <p>This guide walks through the environment setup required to run the VCF-to-HDF5 pipeline covered in Day 2. It covers installing dependencies, building the HDF5 library from source, and compiling the <code>loadmatrix_geno</code> program.</p>
+  <div style="text-align:center; margin: -.5rem 0 1.5rem; font-size:1rem; color:#94a3b8; font-weight:600; letter-spacing:.05em;">— OR —</div>
+
+  <div class="card" style="border-left-color:#374151;">
+    <h2 style="color:#374151;">Option B &nbsp;·&nbsp; Manual Steps</h2>
+    <p>This guide walks through installing dependencies, building HDF5 from source, and compiling the <code>loadmatrix_geno</code> program step by step.</p>
     <div class="note-box">
-      &#9432; This setup guide is designed for <strong>Linux systems, particularly Ubuntu</strong>. For <strong>Windows users</strong>, please use WSL2 or a Linux virtual machine before proceeding.
+      &#9432; Designed for <strong>Linux systems, particularly Ubuntu</strong>. <strong>Windows users</strong>: use WSL2 or a Linux virtual machine before proceeding.
     </div>
   </div>
 
@@ -107,7 +110,13 @@ sudo apt install -y bcftools build-essential</pre>
 
   <div class="card">
     <h2><span class="step-number">1</span> Obtain HDF5</h2>
-    <p>Download the HDF5 1.8.23 source package from the HDF Group releases page. Save the file <code>hdf5-1.8.23.tar.gz</code> to your home directory or a directory of your choice.</p>
+    <p>Download the HDF5 1.8.23 source package from the HDF Group:</p>
+    <p><a href="https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.23/src/hdf5-1.8.23.tar.gz" target="_blank" style="color:#1d4ed8; word-break:break-all;">https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.23/src/hdf5-1.8.23.tar.gz</a></p>
+    <p style="margin-top:.75rem;">Or download directly from the terminal:</p>
+    <div class="terminal-wrap">
+      <div class="terminal-bar"><span class="dot-red"></span><span class="dot-yel"></span><span class="dot-grn"></span><span class="term-label">bash</span></div>
+      <pre>wget https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.8/hdf5-1.8.23/src/hdf5-1.8.23.tar.gz</pre>
+    </div>
   </div>
 
   <div class="card">
