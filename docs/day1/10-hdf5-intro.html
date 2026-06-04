@@ -21,28 +21,68 @@ nav a:hover { color: #fff; text-decoration: underline; }
 h1 { font-size: 2.2rem; font-weight: 700; line-height: 1.25; margin-bottom: .6rem; }
 .meta-row { display: flex; gap: 1.75rem; flex-wrap: wrap; font-size: 1rem; color: #86efac; }
 main { max-width: 1000px; margin: 2rem auto; padding: 0 1.25rem 3rem; }
-.slide-box { background: #fff; border: 2.5px dashed #94a3b8; border-radius: 1rem;
-             padding: 3.5rem 2rem; text-align: center; margin-bottom: 2rem; }
-.slide-icon { font-size: 3rem; margin-bottom: .75rem; }
-.slide-box h2 { font-size: 1.25rem; color: #475569; margin-bottom: .4rem; }
-.slide-box p { color: #64748b; font-size: 1rem; margin-bottom: .25rem; }
-.instruction { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
-               padding: 1rem 1.25rem; margin-top: 1.5rem; text-align: left;
-               font-size: .9rem; color: #475569; }
-.instruction code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
-                    font-family: 'Courier New', monospace; }
 .card { background: #fff; border-radius: .75rem; border: 1px solid #e2e8f0;
         border-left: 5px solid #1e3a5f; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         padding: 2rem; margin-bottom: 2rem; }
 .card h2 { font-size: 1.2rem; font-weight: 600; color: #1e3a5f;
            border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: .75rem; }
+.card h3 { font-size: 1rem; font-weight: 700; color: #1e3a5f; margin: 1.25rem 0 .4rem; }
 .card p, .card li { color: #475569; font-size: 1.05rem; line-height: 1.8; }
-.card ul { padding-left: 1.25rem; }
-.card code { font-size: .9em; }
+.card ul, .card ol { padding-left: 1.25rem; }
+.card code { background: #e2e8f0; padding: .1em .4em; border-radius: .25em;
+             font-family: 'Courier New', monospace; font-size: .9em; }
 .new-banner { background: #fef2f2; border: 1px solid #fecaca; border-radius: .5rem;
               padding: .75rem 1rem; margin-bottom: 1.25rem; font-size: .88rem; color: #7f1d1d; }
+.insight-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: .5rem;
+               padding: .85rem 1.1rem; margin-top: 1rem; font-size: 1rem; color: #78350f; }
+.warning-box { background: #fff7ed; border: 1px solid #fed7aa; border-radius: .5rem;
+               padding: .85rem 1.1rem; margin-top: 1rem; font-size: 1rem; color: #9a3412; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+.stat-cell { background: #f0fdfa; border: 1px solid #99f6e4; border-radius: .5rem;
+             padding: 1rem; text-align: center; }
+.stat-cell .num { font-size: 1.6rem; font-weight: 700; color: #0f766e; }
+.stat-cell .lbl { font-size: .85rem; color: #374151; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: .95rem; margin: .75rem 0; }
+.compare-table th { background: #1e3a5f; color: #fff; padding: .5rem .75rem;
+                    text-align: left; font-weight: 600; }
+.compare-table th:nth-child(2) { background: #374151; }
+.compare-table th:nth-child(3) { background: #0f766e; }
+.compare-table td { padding: .5rem .75rem; border-bottom: 1px solid #e2e8f0; color: #374151; }
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table .bad  { color: #dc2626; font-weight: 600; }
+.compare-table .good { color: #0f766e; font-weight: 600; }
+.pipeline { display: flex; align-items: stretch; gap: .5rem; margin: 1rem 0; flex-wrap: wrap; }
+.p-step { flex: 1; min-width: 130px; background: #f8fafc; border: 1px solid #e2e8f0;
+          border-radius: .5rem; padding: .85rem; text-align: center; }
+.p-step .p-num { font-size: .75rem; font-weight: 700; text-transform: uppercase;
+                 letter-spacing: .07em; color: #64748b; }
+.p-step .p-label { font-size: 1rem; font-weight: 700; color: #1e3a5f; margin: .25rem 0; }
+.p-step .p-sub { font-size: .85rem; color: #64748b; }
+.p-arrow { align-self: center; font-size: 1.2rem; color: #94a3b8; }
+.out-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1rem 0; }
+.out-cell { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: .5rem;
+            padding: 1rem; }
+.out-cell .oc-title { font-weight: 700; color: #1e3a5f; font-size: .95rem; }
+.out-cell .oc-sub   { font-size: .85rem; color: #64748b; }
+.out-cell code { display: block; margin-top: .4rem; font-size: .82rem; }
+.slide-card { background: #fff; border-radius: .75rem; border: 1px solid #e2e8f0;
+              border-left: 5px solid #14532d; box-shadow: 0 4px 6px -1px rgba(0,0,0,.05);
+              padding: 1.5rem 2rem; margin-bottom: 2rem; }
+.slide-card h2 { font-size: 1.2rem; font-weight: 600; color: #14532d;
+                 border-bottom: 2px solid #e2e8f0; padding-bottom: .5rem; margin-bottom: 1rem; }
+.slide-link { display: inline-block; background: #f0fdf4; border: 1px solid #86efac;
+              border-radius: .4rem; padding: .45rem 1rem; font-size: .95rem;
+              color: #14532d; text-decoration: none; font-weight: 600; margin-bottom: 1rem; }
+.slide-link:hover { background: #dcfce7; }
+.pdf-embed { width: 100%; height: 600px; border: 1px solid #e2e8f0; border-radius: .5rem; }
 footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem; }
-@media (max-width: 600px) { h1 { font-size: 1.6rem; } .meta-row { gap: .75rem; } }
+@media (max-width: 600px) {
+  h1 { font-size: 1.6rem; } .meta-row { gap: .75rem; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .out-grid { grid-template-columns: 1fr; }
+  .pipeline { flex-direction: column; }
+  .p-arrow { transform: rotate(90deg); }
+}
 </style>
 </head>
 <body>
@@ -67,32 +107,131 @@ footer { text-align: center; padding: 2.5rem; color: #94a3b8; font-size: .85rem;
 
   <div class="new-banner">&#127381; <strong>New session for 2026.</strong> This brief closing lecture frames the HDF5 format before participants work directly with it in the Day 2 pipeline lab.</div>
 
-  <div class="slide-box">
-    <div class="slide-icon">&#128190;</div>
-    <h2>Slides go here</h2>
-    <p>Replace this placeholder with the HDF5 overview slides.</p>
-    <div class="instruction">
-      <strong>How to replace:</strong><br>
-      1. Export slides → <code>10-hdf5-intro-slides.pdf</code><br>
-      2. Place in <code>/docs/day1/</code>
-    </div>
-  </div>
-
+  <!-- 1. Session Overview -->
   <div class="card">
     <h2>Session Overview</h2>
     <p>A short closing lecture that explains what HDF5 (Hierarchical Data Format v5) is, its advantages for large array-based genomic datasets, and specifically why SNP-Seek uses it to store variant call matrices. Sets up the Day 2 pipeline run lab.</p>
   </div>
 
+  <!-- 2. Topics Covered -->
   <div class="card">
-    <h2>Topics Covered (Placeholder)</h2>
+    <h2>Topics Covered</h2>
+
+    <h3>What is HDF5?</h3>
+    <p>HDF5 is a binary container format designed for massive datasets — think of it as a filesystem inside a single file. Four key properties make it suited to genomic data:</p>
     <ul>
-      <li>What is HDF5? Hierarchical, self-describing binary format</li>
-      <li>Why not just use CSV or a relational DB for SNP matrices?</li>
-      <li>HDF5 datasets, groups, and attributes</li>
-      <li>How SNP-Seek lays out variant data in HDF5 (samples × variants matrix)</li>
-      <li>Tooling: <code>h5py</code>, <code>h5ls</code>, <code>h5dump</code></li>
-      <li>Preview: the two-step VCF → HDF5 pipeline (covered in detail tomorrow)</li>
+      <li><strong>Binary Container</strong> — stores massive datasets in one file</li>
+      <li><strong>Fast Random Access</strong> — read any slice without loading the whole file into memory</li>
+      <li><strong>Chunked Storage</strong> — data divided into chunks for efficient compression and retrieval</li>
+      <li><strong>Self-Describing</strong> — contains metadata about dimensions, types, and structure</li>
     </ul>
+
+    <h3>HDF5 by the Numbers — RICE-RP Dataset</h3>
+    <div class="stat-grid">
+      <div class="stat-cell"><div class="num">5,231,433</div><div class="lbl">SNP positions</div></div>
+      <div class="stat-cell"><div class="num">4,591</div><div class="lbl">rice samples</div></div>
+      <div class="stat-cell"><div class="num">~24 Billion</div><div class="lbl">genotype data points</div></div>
+      <div class="stat-cell"><div class="num">&lt; 1 sec</div><div class="lbl">query response time</div></div>
+    </div>
+
+    <h3>Why HDF5 over Text Files?</h3>
+    <table class="compare-table">
+      <thead>
+        <tr><th></th><th>Text Matrix</th><th>HDF5</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>File Size</strong></td><td>Very large (uncompressed)</td><td class="good">Compressed (much smaller)</td></tr>
+        <tr><td><strong>Read Speed</strong></td><td>Must scan entire file</td><td class="good">Jump to any location</td></tr>
+        <tr><td><strong>Partial Query</strong></td><td class="bad">Not possible</td><td class="good">Read only what you need</td></tr>
+        <tr><td><strong>Human Readable</strong></td><td class="good">Yes (good for checking)</td><td>No (binary format)</td></tr>
+        <tr><td><strong>Web Portal Use</strong></td><td class="bad">Too slow for queries</td><td class="good">Powers SNP-Seek</td></tr>
+      </tbody>
+    </table>
+    <div class="insight-box">&#9889; <strong>Key Insight:</strong> The text matrix is the human-friendly checkpoint — you can open it and verify the data. HDF5 is the machine-optimized version that makes SNP-Seek fast enough for a web browser.</div>
+
+    <h3>How HDF5 Chunking Works</h3>
+    <p>Chunk shape determines query speed — HDF5 always reads whole chunks. A B-tree index maps each chunk to its byte position on disk, so no scanning is needed.</p>
+    <ul>
+      <li><strong>Small chunks</strong> (e.g. <code>-n 20</code>): 16 chunks touched, 230 chunk rows to stitch together</li>
+      <li><strong>Ideal chunks</strong> (e.g. <code>-n 4591</code>, all samples): 2 chunks touched, no stitching needed</li>
+    </ul>
+
+    <h3>The Loading Pipeline</h3>
+    <p>How raw genotype files become an HDF5 file for SNP-Seek:</p>
+    <div class="pipeline">
+      <div class="p-step">
+        <div class="p-num">1 · Input</div>
+        <div class="p-label">VCF or PLINK</div>
+        <div class="p-sub">Standard genotype formats from sequencing pipelines</div>
+      </div>
+      <div class="p-arrow">&#8594;</div>
+      <div class="p-step">
+        <div class="p-num">2 · Convert</div>
+        <div class="p-label">Text Matrix</div>
+        <div class="p-sub">Human-readable table: CHR | POS | REF | ALT | Samples</div>
+      </div>
+      <div class="p-arrow">&#8594;</div>
+      <div class="p-step">
+        <div class="p-num">3 · Output</div>
+        <div class="p-label">HDF5 File</div>
+        <div class="p-sub">Binary, indexed, compressed — optimized for fast queries</div>
+      </div>
+    </div>
+
+    <h3>Input Formats: VCF &amp; PLINK</h3>
+    <ul>
+      <li><strong>VCF</strong> — merged multisample file; SNPs only (no indels); contains genotype calls per sample; most common sequencing output</li>
+      <li><strong>PLINK</strong> — binary PED format (<code>.bed/.bim/.fam</code>); SNPs only (no structural variants); needs REF allele verification; common in GWAS studies</li>
+    </ul>
+    <div class="warning-box">&#9888; <strong>Important:</strong> Only SNP genotypes — indels must be processed separately.</div>
+
+    <h3>The Text Matrix — Intermediate Step</h3>
+    <p>Each row is one SNP position; each column after CHR/POS/REF/ALT is a sample's diploid genotype call (e.g. <code>CC</code>, <code>AG</code>, <code>TT</code>). Missing calls are encoded as <code>00</code> or <code>..</code>.</p>
+
+    <h3>Three Output Files</h3>
+    <p>The pipeline produces three files that must stay in the same order:</p>
+    <div class="out-grid">
+      <div class="out-cell">
+        <div class="oc-title">HDF5 File</div>
+        <div class="oc-sub">Genotype matrix in binary format — optimized for random access queries</div>
+        <code>e.g. ricerp.h5</code>
+      </div>
+      <div class="out-cell">
+        <div class="oc-title">Sample IDs</div>
+        <div class="oc-sub">Sample names in the same column order as the HDF5 file</div>
+        <code>e.g. sample_list.txt</code>
+      </div>
+      <div class="out-cell">
+        <div class="oc-title">SNP Positions</div>
+        <div class="oc-sub">CHR, POS, REF, ALT — same row order as HDF5</div>
+        <code>e.g. pos.txt</code>
+      </div>
+    </div>
+    <div class="warning-box">&#9888; <strong>Order matters</strong> — all three files must be in the same order (same SNP rows, same sample columns).</div>
+
+    <h3>How SNP-Seek Uses HDF5</h3>
+    <p>When a user queries SNPs on Chr 1 from 1000–5000 for 10 samples, SNP-Seek:</p>
+    <ol>
+      <li>Finds matching SNP rows in the position file and sample column indices</li>
+      <li>Reads <em>only</em> those rows and columns from the HDF5 file — not the whole file</li>
+      <li>Returns the genotype table in the browser in under a second</li>
+    </ol>
+
+    <h3>Key Takeaways</h3>
+    <ul>
+      <li>HDF5 is what makes SNP-Seek fast — random access to billions of data points</li>
+      <li>The text matrix is the human-readable checkpoint for verification</li>
+      <li>VCF/PLINK files are converted to a text matrix as an intermediate step</li>
+      <li>Three files work together: HDF5 + Sample IDs + SNP Positions</li>
+      <li>Order consistency across all three files is critical</li>
+    </ul>
+  </div>
+
+  <!-- 3. Slide Deck -->
+  <div class="slide-card">
+    <h2>&#128190; Slide Deck</h2>
+    <a class="slide-link" href="../day2/hdf5_training.pdf" target="_blank">&#128194; Open slides in new tab</a>
+    <iframe class="pdf-embed" src="../day2/hdf5_training.pdf" title="Understanding HDF5 in SNP-Seek"></iframe>
   </div>
 
 </main>
