@@ -163,7 +163,7 @@ export LD_RUN_PATH=$lib
 export LDFLAGS="-L$lib"
 export CPPFLAGS="-I$include"
 
-g++ -o loadmatrix_geno -I $header loadmatrix_SNP-annot.cpp -lhdf5 -L$lib</pre>
+g++ -Wno-narrowing -o loadmatrix_geno -I $header loadmatrix_SNP-annot.cpp -lhdf5 -L$lib</pre>
     </div>
     <div class="note-box">
       &#9432; Change the path assigned to the <code>lib</code> variable to match the directory where you installed the HDF5 library on your system.

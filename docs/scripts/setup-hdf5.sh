@@ -83,7 +83,7 @@ else
   export LDFLAGS="-L$LIB_DIR"
   export CPPFLAGS="-I$INCLUDE_DIR"
 
-  g++ -o "$OUTPUT_BIN" -I "$INCLUDE_DIR" "$CPP_SRC" -lhdf5 -L"$LIB_DIR"
+  g++ -Wno-narrowing -o "$OUTPUT_BIN" -I "$INCLUDE_DIR" "$CPP_SRC" -lhdf5 -L"$LIB_DIR"
   ok "Compiled $OUTPUT_BIN"
 fi
 
